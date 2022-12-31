@@ -7,12 +7,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
 
 // Factory for all kinds of match & groups
-public class RegexBuilder extends Group{
+public class RegexBuilder extends Group {
 
 	
 	
@@ -211,7 +212,10 @@ public class RegexBuilder extends Group{
 	}
 	
 	
-	
+	public RegexBuilder clone() {
+		RegexBuilder cloned = SerializationUtils.clone(this);
+		return cloned;
+	}
 
 	
 }

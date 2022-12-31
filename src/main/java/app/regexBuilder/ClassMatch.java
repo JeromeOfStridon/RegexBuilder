@@ -1,5 +1,6 @@
 package app.regexBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -191,7 +192,7 @@ public class ClassMatch extends Node {
 	}
 	
 	@AllArgsConstructor
-	private static class ClassRange{
+	private static class ClassRange implements Serializable{
 		Character from;
 		Character to;
 	}

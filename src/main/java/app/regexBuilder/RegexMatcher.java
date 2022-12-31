@@ -1,9 +1,13 @@
 package app.regexBuilder;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class RegexMatcher {
 	
 	final RegexBuilder regexBuilder;
@@ -45,6 +49,27 @@ public class RegexMatcher {
 			return null;
 		}
 		return Float.parseFloat(content);
+	}
+	
+	public RegexMatcher debug() {
+		Map<RegexBuilder, String> resultMap = new LinkedHashMap<>();
+		
+		for(int i = 0; i < regexBuilder.nodes.size(); i++) {
+			RegexBuilder regexClone = regexBuilder.clone();
+			for(int j = 0; j < i; j++) {
+				regexClone.nodes.remove(regexClone.nodes.size() - 1);
+			}
+			RegexMatcher cloneMatcher = new RegexMatcher(regexClone, content);
+			
+			if(cloneMatcher.find()) {
+				log.debug("Matching regex test : "+regexClone.compile());
+				return cloneMatcher;
+			}
+			log.debug("Unmatching regex test : "+regexClone.compile());
+		}
+		
+		return null;
+
 	}
 
 }

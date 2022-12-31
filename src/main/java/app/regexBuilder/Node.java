@@ -1,5 +1,6 @@
 package app.regexBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +9,7 @@ import app.regexBuilder.ClassMatch.CharacterClass;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public abstract class Node {
+public abstract class Node implements Serializable{
 	
 	protected Integer minSize = 1;
 	protected Integer maxSize = 1;
