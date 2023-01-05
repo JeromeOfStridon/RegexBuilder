@@ -145,8 +145,12 @@ public class RegexBuilder extends Group {
 //		return new Group(ChildrenType.Sequence, GroupType.NonCapturing);
 //	}
 
-	public static ClassMatch classMatch(CharacterClass charClass) {
-		return new ClassMatch().add(charClass);
+	public static ClassMatch classMatch(CharacterClass... charClass) {
+		ClassMatch classMatch = new ClassMatch();
+		for(CharacterClass characterClass : charClass) {
+			classMatch.add(characterClass);
+		}
+		return classMatch;
 	}
 	
 	public static ClassMatch classMatch(Character... character) {

@@ -1,18 +1,7 @@
 Levels of entities :
 
-- Node : base entity
-	- number of occurence
 
-- SequenceGroup : sequence of nodes
-	- children : group or match
 
-- OptionGroup : 
-	- children
-
-	
-- ClassMatch : 
-
-- StringMatch
 
 	
 	

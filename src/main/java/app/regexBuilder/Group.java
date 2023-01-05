@@ -17,6 +17,7 @@ public class Group extends Node {
 	@Getter @Setter
 	protected GroupType groupType;
 
+	@Getter
 	List<Node> nodes = new ArrayList<>();
 	
 	String capturingGroupName;

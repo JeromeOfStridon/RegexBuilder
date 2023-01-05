@@ -5,15 +5,19 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RegexMatcher {
 	
+	@Getter
 	final RegexBuilder regexBuilder;
 	final String content;
 	final Pattern pattern;
 	final Matcher matcher;
+	
+	private boolean currentFind = false;
 	
 	public RegexMatcher(RegexBuilder regexBuilder, String content, int flags) {
 		this.regexBuilder = regexBuilder;
@@ -27,7 +31,15 @@ public class RegexMatcher {
 	}
 	
 	public boolean find() {
-		return matcher.find();
+		currentFind = matcher.find();
+		return currentFind;
+	}
+	
+	public String group() {
+		if(!currentFind) {
+			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !");
+		}
+		return matcher.group();
 	}
 	
 	public String group(String groupName) {
@@ -51,6 +63,14 @@ public class RegexMatcher {
 		return Float.parseFloat(content);
 	}
 	
+	public Integer groupAsInteger(String groupName) {
+		String content = group(groupName);
+		if(content == null) {
+			return null;
+		}
+		return Integer.parseInt(content);
+	}
+	
 	public RegexMatcher debug() {
 		Map<RegexBuilder, String> resultMap = new LinkedHashMap<>();
 		
@@ -65,11 +85,19 @@ public class RegexMatcher {
 				log.debug("Matching regex test : "+regexClone.compile());
 				return cloneMatcher;
 			}
-			log.debug("Unmatching regex test : "+regexClone.compile());
 		}
 		
 		return null;
 
 	}
 
+	public String replace(String groupName, String schemeName) {
+		if(!currentFind) {
+			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !");
+		}
+		
+		Integer groupPosition = regexBuilder.findGroupPosition(groupName);
+		
+		return content.substring(0, matcher.start(groupPosition))+schemeName+content.substring(matcher.end(groupPosition));
+	}
 }

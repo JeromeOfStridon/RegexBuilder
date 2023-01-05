@@ -2,7 +2,10 @@ package app.regexBuilder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +14,7 @@ import lombok.Setter;
 
 public class ClassMatch extends Node {
 
-	List<Object> items = new ArrayList<>();
+	HashSet<Object> items = new HashSet<>();
 
 	@Setter
 	boolean negative = false;
@@ -51,6 +54,21 @@ public class ClassMatch extends Node {
 	
 	public ClassMatch add(char a, char b) {
 		items.add(new ClassRange(a, b));
+		return this;
+	}
+	
+	public ClassMatch factorize(CharacterClass... classes) {
+		
+		for(Object item : new TreeSet<>(items)) {
+			if(item instanceof Character) {
+				CharacterClass cc = List.of(classes).stream().filter(x -> ((Character) item).toString().matches("["+x.string+"]")).findFirst().orElse(null);
+				if(cc != null) {
+					items.remove(item);
+					items.add(cc);
+				}
+			}
+		}
+		
 		return this;
 	}
 	
@@ -136,7 +154,7 @@ public class ClassMatch extends Node {
 			if(CharacterClass.Any.equals(item)) {
 				finalClasses = List.of(".");
 				negative = false;
-				items = List.of(item);
+				items = new HashSet<>(Set.of(item));
 				break;
 			}
 			else if(item instanceof CharacterClass) {
@@ -161,13 +179,15 @@ public class ClassMatch extends Node {
 			
 		}
 		
+		
+			
 		// If only one character, turn it into a string match
-		if(finalClasses.size() == 1 && !negative && items.get(0) instanceof Character) {
+		if(finalClasses.size() == 1 && !negative && items.iterator().next() instanceof Character) {
 			StringMatch stringMatch = RegexBuilder.stringMatch(finalClasses.get(0));
 			return stringMatch.toString()+renderSize();
 		}
-		if(finalClasses.size() == 1 && !negative && items.get(0) instanceof CharacterClass && ((CharacterClass) items.get(0)).isSingleCharacter()) {
-			return ((CharacterClass) items.get(0)).string + renderSize();
+		if(finalClasses.size() == 1 && !negative && items.iterator().next() instanceof CharacterClass && ((CharacterClass) items.iterator().next()).isSingleCharacter()) {
+			return ((CharacterClass) items.iterator().next()).string + renderSize();
 		}
 		
 		return "["+(negative?"^":"")+finalClasses.stream().distinct().collect(Collectors.joining())+"]"+renderSize();
