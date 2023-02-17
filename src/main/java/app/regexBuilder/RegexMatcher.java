@@ -37,7 +37,7 @@ public class RegexMatcher {
 	
 	public String group() {
 		if(!currentFind) {
-			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !");
+			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
 		}
 		return matcher.group();
 	}

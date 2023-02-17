@@ -11,10 +11,10 @@ import lombok.Setter;
 
 public class Group extends Node {
 
-	@Getter @Setter
+	@Getter
 	protected ChildrenType childrenType;
 	
-	@Getter @Setter
+	@Getter
 	protected GroupType groupType;
 
 	@Getter
@@ -236,7 +236,7 @@ public class Group extends Node {
 		return this;
 	}
 
-	public Group set(GroupType groupType) {
+	public Group setGroupType(GroupType groupType) {
 		this.groupType = groupType;
 		return this;
 	}
