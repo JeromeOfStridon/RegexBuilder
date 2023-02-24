@@ -14,6 +14,8 @@ public abstract class Node implements Serializable{
 	protected Integer minSize = 1;
 	protected Integer maxSize = 1;
 	
+	protected boolean lazy = false;
+	
 	public String renderSize() {
 		if(minSize == null) {
 			minSize = 0;
@@ -23,19 +25,19 @@ public abstract class Node implements Serializable{
 			return "";
 		}
 		if(minSize == 0 && maxSize != null && maxSize == 1) {
-			return "?";
+			return "?"+(lazy?"?":"");
 		}
 		if(minSize == 1 && maxSize == null) {
-			return "+";
+			return "+"+(lazy?"?":"");
 		}
 		if(minSize == 0 && maxSize == null) {
-			return "*";
+			return "*"+(lazy?"?":"");
 		}
 		if(minSize.equals(maxSize)) {
-			return "{"+minSize+"}";
+			return "{"+minSize+"}"+(lazy?"?":"");
 		}
 		
-		return "{"+minSize+","+(maxSize == null ? "": maxSize)+"}";
+		return "{"+minSize+","+(maxSize == null ? "": maxSize)+"}"+(lazy?"?":"");
 		
 		
 	}
