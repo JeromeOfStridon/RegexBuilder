@@ -86,10 +86,18 @@ public class RegexMatcher {
 				return cloneMatcher;
 			}
 		}
-		
 		return null;
 
 	}
+	
+	public int start() {
+		return matcher.start();
+	}
+	public int end() {
+		return matcher.end();
+	}
+	
+	
 
 	public String replace(String groupName, String schemeName) {
 		if(!currentFind) {
