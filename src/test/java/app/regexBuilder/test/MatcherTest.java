@@ -4,24 +4,27 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import app.regexBuilder.RegexBuilder;
+import app.regexBuilder.RegexMatcher;
 import app.regexBuilder.ClassMatch.CharacterClass;
 
 
 
-public class RegexBuilderTest {
+public class MatcherTest {
 	
 	@Test
-	public void regexQuantityPattern() {
+	public void Pattern() {
 		
-		RegexBuilder quantityPattern = new RegexBuilder();
-		quantityPattern
-			.unique("{")
-			.optional(RegexBuilder.sequenceGroup().captureAs("minSize").some(CharacterClass.Numeric))
-			.unique(",")
-			.optional(RegexBuilder.sequenceGroup().captureAs("maxSize").some(CharacterClass.Numeric))
-			.unique("}");
+		RegexBuilder rb = new RegexBuilder();
 		
-		Assert.assertEquals("\\{([0-9]+)?,([0-9]+)?\\}", quantityPattern.toString());
+		rb
+			.unique(CharacterClass.Alphabetic)
+			.any(RegexBuilder.classMatch(CharacterClass.Alphanumeric).add('_').add('-'));
+		
+		RegexMatcher rm = new RegexMatcher(rb, "");
+		
+
+		
+		
 		
 	}
 	
@@ -53,11 +56,6 @@ public class RegexBuilderTest {
 		
 	}
 	
-	
-	@Test
-	public void firstTest() {
-		
-	}
 	
 	
 	

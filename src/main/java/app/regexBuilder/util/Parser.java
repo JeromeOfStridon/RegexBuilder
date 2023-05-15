@@ -34,6 +34,7 @@ public class Parser {
 	}
 
 	
+	@Deprecated
 	public static void main(String[] args) {
 		String str = "and (segmentact0_.username in ('ethan.hu')) and segmentact0_.created>'2022-12-12 11:58:34.55' and segmentact0_.created<'2022-12-20 11:58:34.55' and (segmentact0_.type in (2))) where segmentact0_.project_id=31 and (segmentact0_.macro_status in (2 , 4 , 8 , 5 , 3 , 6 , 7 , 9 , 11 , 1 , 0 , 10 , 10 , 10 , 10 , 10)) and (taskentity2_.status in (2 , 4 , 8 , 5 , 3 , 6 , 7 , 9 , 11 , 1 , 0 , 10 , 10 , 10 , 10 , 10))";
 		

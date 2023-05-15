@@ -10,7 +10,7 @@ import app.regexBuilder.library.Library;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class InclusionTest {
+public class LibraryTest {
 	
 	@Test
 	public void intInclusionBreak() {
@@ -18,17 +18,10 @@ public class InclusionTest {
 		RegexBuilder rb = new RegexBuilder();
 		
 		rb
-			.unique("a")
 			.unique(Library.intNumber())
-			.unique("b");
-		
-		System.out.println(rb.toString());
-		
-		
-		
-		System.out.println(Library.intNumber().toString());
-		
-		System.out.println(((Group) Library.intNumber()).toString());
+			.unique(Library.floatNumber());
+
+		Assert.assertEquals("([0-9]+)([0-9]+\\.[0-9]+)", rb.toString());
 		
 	}
 	
