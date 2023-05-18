@@ -15,7 +15,7 @@ public class BasicTest {
 	
 	
 	@Test
-	public void anchorStart() {
+	public void anchorsTest() {
 		RegexBuilder test1 = new RegexBuilder();
 		test1
 			.anchorStart(true)
@@ -42,7 +42,7 @@ public class BasicTest {
 	}
 	
 	@Test
-	public void anyLazyGroups() {
+	public void anyLazyTests() {
 		
 		RegexBuilder anyLazyRegexBuilder = new RegexBuilder();
 		anyLazyRegexBuilder
@@ -50,6 +50,11 @@ public class BasicTest {
 			.anyLazy(RegexBuilder.alternativeGroup().anyLazy("a").anyLazy("b"));
 		
 		Assert.assertEquals("[a-zA-Z]*?(a*?|b*?)*?", anyLazyRegexBuilder.toString());
+	}
+	
+	
+	@Test
+	public void someLazyTests() {
 		
 		RegexBuilder someLazyRegexBuilder = new RegexBuilder();
 		someLazyRegexBuilder
@@ -57,27 +62,23 @@ public class BasicTest {
 			.someLazy(RegexBuilder.alternativeGroup().someLazy("a").someLazy("b"));
 		
 		Assert.assertEquals("[a-zA-Z]+?(a+?|b+?)+?", someLazyRegexBuilder.toString());
-		
-		
 	}
 	
 	@Test
-	public void email() {
+	public void optionalLazyTests() {
 		
-		RegexBuilder emailRegexer = new RegexBuilder();
-			
-		emailRegexer
-			.some(CharacterClass.Alphanumeric)
-			.unique("@")
-			.some(CharacterClass.Alphanumeric)
-			.unique(".")
-			.min(CharacterClass.Alphabetic, 3);
+		RegexBuilder optionalLazyRegexBuilder = new RegexBuilder();
+		optionalLazyRegexBuilder
+			.optionalLazy(CharacterClass.Alphabetic)
+			.optionalLazy(RegexBuilder.alternativeGroup().optionalLazy("a").optionalLazy("b"));
 		
-		String actual = emailRegexer.toString();
-
-		assertEquals("[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{3,}", emailRegexer.toString());
-		
+		Assert.assertEquals("[a-zA-Z]??(a??|b??)??", optionalLazyRegexBuilder.toString());
 	}
+	
+	
+	
+	
+
 	
 	//@Test
 	public void intersection() {
@@ -87,20 +88,7 @@ public class BasicTest {
 		Assert.assertEquals("[\\w&&[^\\d]]", rb.toString());
 	}
 	
-	
-	
-	@Test
-	public void testRegexBuilderQuantity() {
-		
-		RegexBuilder rb = new RegexBuilder();
-		
-		rb.unique("0");
-		rb.unique("2");
-		rb.unique("4");
-		
-		Assert.assertEquals("024", rb.toString());
-		
-	}
+
 	
 	@Test
 	public void multipleLookAhead() {

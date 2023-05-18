@@ -10,17 +10,8 @@ public class JSONRegex {
 	
 	public static void main(String[] args) {
 		
-		RegexBuilder objectNode = new RegexBuilder();
-		objectNode
-			.unique("{")
-			.any(CharacterClass.Any)
-			.unique("}");
 		
-		RegexBuilder array = new RegexBuilder();
-		array
-			.unique("[")
-			.any(CharacterClass.Any)
-			.unique("]");
+		
 		
 		RegexBuilder attribute = new RegexBuilder();
 		attribute
@@ -40,9 +31,29 @@ public class JSONRegex {
 		
 	}
 	
-	public static class JsonNode{
-		String content;
+	public RegexBuilder jsonObject() {
+		RegexBuilder objectNode = new RegexBuilder();
+		objectNode
+			.unique("{")
+			.anyLazy(CharacterClass.Any)
+			.unique("}");
+		
+		return objectNode;
 	}
+	
+	public RegexBuilder jsonArray() {
+		RegexBuilder array = new RegexBuilder();
+		array
+			.unique("[")
+			.any(CharacterClass.Any)
+			.unique("]");
+
+		return array;
+	}
+	
+//	public static class JsonNode{
+//		String content;
+//	}
 	
 	
 	public static RegexBuilder contentWithDelimiters(Character delimiter) {

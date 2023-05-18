@@ -7,10 +7,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.Group;
 import app.regexBuilder.RegexBuilder;
-import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.library.Library;
+import app.regexBuilder.library.NumberLibrary;
+import app.regexBuilder.library.RegexerUtils;
 
 
 
@@ -45,7 +46,7 @@ public class RegexerTest {
 	@Test
 	public void regexNum() {
 		
-		RegexBuilder regex = Library.regexNum();
+		RegexBuilder regex = RegexerUtils.regexNum();
 		assertEquals("(\\*|\\+|\\?|\\{[0-9],[0-9]?\\}|\\{,[0-9]\\})", regex.toString());
 		
 	}
@@ -53,7 +54,7 @@ public class RegexerTest {
 	@Test
 	public void regexClass() {
 		
-		RegexBuilder regex = Library.regexClass();
+		RegexBuilder regex = RegexerUtils.regexClass();
 		
 		String result = regex.toString();
 		
