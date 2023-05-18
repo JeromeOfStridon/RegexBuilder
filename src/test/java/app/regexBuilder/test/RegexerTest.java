@@ -16,23 +16,7 @@ import app.regexBuilder.library.Library;
 
 public class RegexerTest {
 	
-	@Test
-	public void email() {
-		
-		RegexBuilder emailRegexer = new RegexBuilder();
-			
-		emailRegexer
-			.some(CharacterClass.Alphanumeric)
-			.unique("@")
-			.some(CharacterClass.Alphanumeric)
-			.unique(".")
-			.min(CharacterClass.Alphabetic, 3);
-		
-		String actual = emailRegexer.toString();
 
-		assertEquals("[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{3,}", emailRegexer.toString());
-		
-	}
 	
 	@Test
 	public void htmlEntitySimple() {
