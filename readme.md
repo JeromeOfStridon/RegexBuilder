@@ -90,6 +90,4 @@ Some options available at regexbuilder level only
 
 
 ### 5. License
-See [LICENSE] for Regex Builder license.
-
-[LICENSE]: https://github.com/projectlombok/lombok/blob/master/LICENSE
+The source code is licensed under the MIT license, which you can find in the MIT-LICENSE.txt file.
