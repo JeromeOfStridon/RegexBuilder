@@ -8,6 +8,7 @@ import org.junit.Test;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.library.DateTimeLibrary;
 import app.regexBuilder.library.NumberLibrary;
+import app.regexBuilder.library.WebContentLibrary;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,7 +30,7 @@ public class LibraryTest {
 	@Test
 	public void emailTest() {
 
-		RegexBuilder emailRegexer = NumberLibrary.email();
+		RegexBuilder emailRegexer = WebContentLibrary.email();
 		
 		assertEquals("[%a-zA-Z0-9+\\-_]+(\\.[%a-zA-Z0-9+\\-_]+)?@([%a-zA-Z0-9+\\-_]+\\.)+[a-zA-Z]{2,10}", emailRegexer.toString());
 

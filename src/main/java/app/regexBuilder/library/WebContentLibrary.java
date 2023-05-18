@@ -1,5 +1,8 @@
 package app.regexBuilder.library;
 
+import java.util.Arrays;
+import java.util.List;
+
 import app.regexBuilder.ClassMatch;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.ClassMatch.CharacterClass;
@@ -27,5 +30,6 @@ public class WebContentLibrary {
 		
 		return regex;
 	}
-
+	
+	
 }

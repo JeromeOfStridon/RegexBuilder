@@ -62,22 +62,7 @@ public class RegexerTest {
 		
 	}
 	
-	public void website() {
-		RegexBuilder regexer = new RegexBuilder();
-		
-		List<String> domains = Arrays.asList("com", "net", "org", "paris");
-		
-		regexer
-			.optional("https://")
-			.some(new RegexBuilder()
-					.some(CharacterClass.Alphanumeric)
-					.unique("."))
-			.unique(RegexBuilder.alternativeGroup(domains));
-			
-					
-					
-			
-	}
+	
 	
 	
 	public void tagWithAttributes() {

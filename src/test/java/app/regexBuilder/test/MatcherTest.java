@@ -28,21 +28,6 @@ public class MatcherTest {
 		
 	}
 	
-	//@Test
-	public void intersection() {
-		RegexBuilder rb = new RegexBuilder();
-		rb.unique(RegexBuilder.classMatch(CharacterClass.Word));
-		
-		Assert.assertEquals("[\\w&&[^\\d]]", rb.toString());
-	}
-	
-
-	
-
-	
-	
-	
-	
 	
 
 }

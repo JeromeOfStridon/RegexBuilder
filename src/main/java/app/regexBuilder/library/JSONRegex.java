@@ -51,10 +51,6 @@ public class JSONRegex {
 		return array;
 	}
 	
-//	public static class JsonNode{
-//		String content;
-//	}
-	
 	
 	public static RegexBuilder contentWithDelimiters(Character delimiter) {
 		RegexBuilder rb = new RegexBuilder();

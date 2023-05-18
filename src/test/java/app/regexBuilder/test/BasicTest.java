@@ -15,6 +15,12 @@ public class BasicTest {
 	
 	
 	@Test
+	public void emptyTest() {
+		RegexBuilder test = new RegexBuilder();
+		assertEquals("", test.toString());
+	}
+	
+	@Test
 	public void anchorsTest() {
 		RegexBuilder test1 = new RegexBuilder();
 		test1
@@ -41,38 +47,107 @@ public class BasicTest {
 		
 	}
 	
+	
 	@Test
-	public void anyLazyTests() {
+	public void anyTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.any(CharacterClass.Alphabetic)
+			.any(RegexBuilder.alternativeGroup().any("a").any("b"));
 		
-		RegexBuilder anyLazyRegexBuilder = new RegexBuilder();
-		anyLazyRegexBuilder
+		Assert.assertEquals("[a-zA-Z]*(a*|b*)*", regexBuilder.toString());
+	}
+	
+	
+	@Test
+	public void anyLazyTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
 			.anyLazy(CharacterClass.Alphabetic)
 			.anyLazy(RegexBuilder.alternativeGroup().anyLazy("a").anyLazy("b"));
 		
-		Assert.assertEquals("[a-zA-Z]*?(a*?|b*?)*?", anyLazyRegexBuilder.toString());
+		Assert.assertEquals("[a-zA-Z]*?(a*?|b*?)*?", regexBuilder.toString());
 	}
-	
+
+	@Test
+	public void someTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.some(CharacterClass.Alphabetic)
+			.some(RegexBuilder.alternativeGroup().some("a").some("b"));
+		
+		Assert.assertEquals("[a-zA-Z]+(a+|b+)+", regexBuilder.toString());
+	}
+
 	
 	@Test
-	public void someLazyTests() {
-		
-		RegexBuilder someLazyRegexBuilder = new RegexBuilder();
-		someLazyRegexBuilder
+	public void someLazyTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
 			.someLazy(CharacterClass.Alphabetic)
 			.someLazy(RegexBuilder.alternativeGroup().someLazy("a").someLazy("b"));
 		
-		Assert.assertEquals("[a-zA-Z]+?(a+?|b+?)+?", someLazyRegexBuilder.toString());
+		Assert.assertEquals("[a-zA-Z]+?(a+?|b+?)+?", regexBuilder.toString());
 	}
 	
 	@Test
-	public void optionalLazyTests() {
+	public void unique() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.unique(CharacterClass.Alphabetic)
+			.unique(RegexBuilder.alternativeGroup().unique("a").unique("b"));
 		
-		RegexBuilder optionalLazyRegexBuilder = new RegexBuilder();
-		optionalLazyRegexBuilder
+		Assert.assertEquals("[a-zA-Z](a|b)", regexBuilder.toString());
+	}
+	
+	@Test
+	public void optionalTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.optional(CharacterClass.Alphabetic)
+			.optional(RegexBuilder.alternativeGroup().optional("a").optional("b"));
+		
+		Assert.assertEquals("[a-zA-Z]?(a?|b?)?", regexBuilder.toString());
+	}
+	
+	@Test
+	public void optionalLazyTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
 			.optionalLazy(CharacterClass.Alphabetic)
 			.optionalLazy(RegexBuilder.alternativeGroup().optionalLazy("a").optionalLazy("b"));
 		
-		Assert.assertEquals("[a-zA-Z]??(a??|b??)??", optionalLazyRegexBuilder.toString());
+		Assert.assertEquals("[a-zA-Z]??(a??|b??)??", regexBuilder.toString());
+	}
+	
+	@Test
+	public void minTest() {
+		
+	}
+	
+	@Test
+	public void minLazyTest() {
+		
+	}
+	
+	@Test
+	public void maxTest() {
+		
+	}
+	
+	@Test
+	public void maxLazyTest() {
+		
+	}
+	
+	@Test
+	public void betweenTest() {
+		
+	}
+	
+	@Test
+	public void betweenLazyTest() {
+		
 	}
 	
 	
@@ -80,7 +155,7 @@ public class BasicTest {
 	
 
 	
-	//@Test
+	@Test
 	public void intersection() {
 		RegexBuilder rb = new RegexBuilder();
 		rb.unique(RegexBuilder.classMatch(CharacterClass.Word));

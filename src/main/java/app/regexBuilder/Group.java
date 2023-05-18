@@ -11,13 +11,10 @@ import lombok.Setter;
 
 public class Group extends Node {
 
-	@Getter
 	protected ChildrenType childrenType;
 	
-	@Getter
 	protected GroupType groupType;
 
-	@Getter
 	List<Node> nodes = new ArrayList<>();
 	
 	String capturingGroupName;
@@ -27,33 +24,7 @@ public class Group extends Node {
 		this.groupType = groupType;
 	}
 	
-	public Group between(CharacterClass content, Integer min, Integer max) {
-		ClassMatch match = new ClassMatch().add(content);
-		match.times(min, max);
-		nodes.add(match);
-		return this;
-	}
-	
-	public Group between(String content, Integer min, Integer max) {
-		StringMatch match = new StringMatch().add(content);
-		match.times(min, max);
-		nodes.add(match);
-		return this;
-	}
-	
-	public Group between(Node content, Integer min, Integer max) {
-		
-		content.times(min, max);
-		if(content instanceof RegexBuilder) {
-			nodes.add(((RegexBuilder) content).asGroup());
-		}
-		else {
-			nodes.add(content);
-		}
-		return this;
-	}
-	
-	private Group _between(Node content, Integer min, Integer max, boolean lazy) {
+	private Group _attachNode(Node content, Integer min, Integer max, boolean lazy) {
 		
 		content.times(min, max);
 		content.lazy = lazy;
@@ -70,51 +41,59 @@ public class Group extends Node {
 
 	
 	// Any : *
-	public Group any(CharacterClass content) 		{ return _between(new ClassMatch().add(content), 0, null, false); }
-	public Group any(String content) 				{ return _between(new StringMatch().add(content), 0, null, false); }
-	public Group any(Node content) 					{ return _between(content, 0, null, false);}
-	public Group anyLazy(CharacterClass content) 	{ return _between(new ClassMatch().add(content), 0, null, true); }
-	public Group anyLazy(String content) 			{ return _between(new StringMatch().add(content), 0, null, true); }	
-	public Group anyLazy(Node content) 				{ return _between(content, 0, null, true); }
+	public Group any(CharacterClass content) 		{ return _attachNode(new ClassMatch().add(content), 0, null, false); }
+	public Group any(String content) 				{ return _attachNode(new StringMatch().add(content), 0, null, false); }
+	public Group any(Node content) 					{ return _attachNode(content, 0, null, false);}
+	public Group anyLazy(CharacterClass content) 	{ return _attachNode(new ClassMatch().add(content), 0, null, true); }
+	public Group anyLazy(String content) 			{ return _attachNode(new StringMatch().add(content), 0, null, true); }	
+	public Group anyLazy(Node content) 				{ return _attachNode(content, 0, null, true); }
 	
 	// Some
-	public Group some(CharacterClass content) 		{ return _between(new ClassMatch().add(content), 1, null, false); }
-	public Group some(String content) 				{ return _between(new StringMatch().add(content), 1, null, false); }
-	public Group some(Node content) 				{ return _between(content, 1, null, false); }
-	public Group someLazy(CharacterClass content) 	{ return _between(new ClassMatch().add(content), 1, null, true); }
-	public Group someLazy(String content) 			{ return _between(new StringMatch().add(content), 1, null, true); }
-	public Group someLazy(Node content) 			{ return _between(content, 1, null, true); }
+	public Group some(CharacterClass content) 		{ return _attachNode(new ClassMatch().add(content), 1, null, false); }
+	public Group some(String content) 				{ return _attachNode(new StringMatch().add(content), 1, null, false); }
+	public Group some(Node content) 				{ return _attachNode(content, 1, null, false); }
+	public Group someLazy(CharacterClass content) 	{ return _attachNode(new ClassMatch().add(content), 1, null, true); }
+	public Group someLazy(String content) 			{ return _attachNode(new StringMatch().add(content), 1, null, true); }
+	public Group someLazy(Node content) 			{ return _attachNode(content, 1, null, true); }
 
 	// Unique
-	public Group unique(CharacterClass content) 	{ return _between(new ClassMatch().add(content), 1, 1, false); }
-	public Group unique(String content) 			{ return _between(new StringMatch().add(content), 1, 1, false); }
-	public Group unique(Node content) 				{ return _between(content, 1, 1, false); }
+	public Group unique(CharacterClass content) 	{ return _attachNode(new ClassMatch().add(content), 1, 1, false); }
+	public Group unique(String content) 			{ return _attachNode(new StringMatch().add(content), 1, 1, false); }
+	public Group unique(Node content) 				{ return _attachNode(content, 1, 1, false); }
 	
 	// Optional
-	public Group optional(CharacterClass content) 		{ return _between(new ClassMatch().add(content), 0, 1, false); }
-	public Group optional(String content) 				{ return _between(new StringMatch().add(content), 0, 1, false); }
-	public Group optional(Node content) 				{ return _between(content, 0, 1, false); }
-	public Group optionalLazy(CharacterClass content) 	{ return _between(new ClassMatch().add(content), 0, 1, true); }
-	public Group optionalLazy(String content) 			{ return _between(new StringMatch().add(content), 0, 1, true); }
-	public Group optionalLazy(Node content) 			{ return _between(content, 0, 1, true); }
-	
+	public Group optional(CharacterClass content) 		{ return _attachNode(new ClassMatch().add(content), 0, 1, false); }
+	public Group optional(String content) 				{ return _attachNode(new StringMatch().add(content), 0, 1, false); }
+	public Group optional(Node content) 				{ return _attachNode(content, 0, 1, false); }
+	public Group optionalLazy(CharacterClass content) 	{ return _attachNode(new ClassMatch().add(content), 0, 1, true); }
+	public Group optionalLazy(String content) 			{ return _attachNode(new StringMatch().add(content), 0, 1, true); }
+	public Group optionalLazy(Node content) 			{ return _attachNode(content, 0, 1, true); }
 	
 	// Min
-	public Group min(CharacterClass content, int min) 		{ return _between(new ClassMatch().add(content), min, null, false); }
-	public Group min(String content, int min) 				{ return _between(new StringMatch().add(content), min, null, false); }
-	public Group min(Node content, int min) 				{ return _between(content, min, null, false); }
-	public Group minLazy(CharacterClass content, int min) 	{ return _between(new ClassMatch().add(content), min, null, true); }
-	public Group minLazy(String content, int min) 			{ return _between(new StringMatch().add(content), min, null, true); }
-	public Group minLazy(Node content, int min) 			{ return _between(content, min, null, true); }
+	public Group min(CharacterClass content, int min) 		{ return _attachNode(new ClassMatch().add(content), min, null, false); }
+	public Group min(String content, int min) 				{ return _attachNode(new StringMatch().add(content), min, null, false); }
+	public Group min(Node content, int min) 				{ return _attachNode(content, min, null, false); }
+	public Group minLazy(CharacterClass content, int min) 	{ return _attachNode(new ClassMatch().add(content), min, null, true); }
+	public Group minLazy(String content, int min) 			{ return _attachNode(new StringMatch().add(content), min, null, true); }
+	public Group minLazy(Node content, int min) 			{ return _attachNode(content, min, null, true); }
 	
-
 	// Max
-	public Group max(CharacterClass content, int max) 		{ return _between(new ClassMatch().add(content), 0, max, false); }
-	public Group max(String content, int max) 				{ return _between(new StringMatch().add(content), 0, max, false); }
-	public Group max(Node content, int max) 				{ return _between(content, 0, max, false); }
-	public Group maxLazy(CharacterClass content, int max) 	{ return _between(new ClassMatch().add(content), 0, max, true); }
-	public Group maxLazy(String content, int max) 			{ return _between(new StringMatch().add(content), 0, max, true); }
-	public Group maxLazy(Node content, int max) 			{ return _between(content, 0, max, true); }
+	public Group max(CharacterClass content, int max) 		{ return _attachNode(new ClassMatch().add(content), 0, max, false); }
+	public Group max(String content, int max) 				{ return _attachNode(new StringMatch().add(content), 0, max, false); }
+	public Group max(Node content, int max) 				{ return _attachNode(content, 0, max, false); }
+	public Group maxLazy(CharacterClass content, int max) 	{ return _attachNode(new ClassMatch().add(content), 0, max, true); }
+	public Group maxLazy(String content, int max) 			{ return _attachNode(new StringMatch().add(content), 0, max, true); }
+	public Group maxLazy(Node content, int max) 			{ return _attachNode(content, 0, max, true); }
+	
+	// Between
+	public Group between(CharacterClass content, int min, int max) 		{ return _attachNode(new ClassMatch().add(content), min, max, false); }
+	public Group between(String content, int min, int max) 				{ return _attachNode(new StringMatch().add(content), min, max, false); }
+	public Group between(Node content, int min, int max) 				{ return _attachNode(content, min, max, false); }
+	public Group betweenLazy(CharacterClass content, int min, int max) 	{ return _attachNode(new ClassMatch().add(content), min, max, true); }
+	public Group betweenLazy(String content, int min, int max) 			{ return _attachNode(new StringMatch().add(content), min, max, true); }
+	public Group betweenLazy(Node content, int min, int max) 			{ return _attachNode(content, min, max, true); }
+		
+	
 
 
 	public static enum ChildrenType{
@@ -220,11 +199,5 @@ public class Group extends Node {
 		this.groupType = groupType;
 		return this;
 	}
-
-
-
-	
-	
-
 	
 }
