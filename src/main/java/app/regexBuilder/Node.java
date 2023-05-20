@@ -37,7 +37,7 @@ public abstract class Node implements Serializable{
 			return "{"+minSize+"}"+(lazy?"?":"");
 		}
 		
-		return "{"+minSize+","+(maxSize == null ? "": maxSize)+"}"+(lazy?"?":"");
+		return "{"+(minSize != 0 ? minSize : "")+","+(maxSize == null ? "": maxSize)+"}"+(lazy?"?":"");
 		
 		
 	}
