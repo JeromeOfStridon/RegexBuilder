@@ -91,3 +91,42 @@ Some options available at regexbuilder level only
 
 ### 5. License
 The source code is licensed under the MIT license, which you can find in the MIT-LICENSE.txt file.
+
+
+### 6. TO CLEAN
+- Regex as code :
+	you can comment your code to explain the way you created the regex rule by rule
+	readable methods enabling you to read instead of decode the regex
+- Guidance :
+	Every object are accessible through the factory, no need to look for other classes
+- Intuitive : 
+	beXXX sets the configuration of each object
+	any, unique, some, between, exactly, optional, none ?
+- Clean code :
+	Agent style code, so that you can pipe your different methods
+- Regex optimizer included :
+	Created to try to simplify your regex as much as possible
+- Parser : 
+	Alpha version parser included, so that you can transform your 
+- Re-use :
+	You can build parts of regex, and use them in different regex, or use the same part multiple times in one single regex
+
+	
+	
+Concepts not implemented yet:
+- Class intersections
+- 
+
+To do : 
+- Implement classic regex into library
+- Debug current regex
+
+
+
+- Use within instead of between
+- find a word for exactly
+- think about using beXXX => 
+	- beNegativeLookaheadGroup
+	- beSequential / beAlternative
+	- beCapturing(capturingGroupName)
+	
