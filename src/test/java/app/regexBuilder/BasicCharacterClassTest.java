@@ -1,4 +1,4 @@
-package app.regexBuilder.test;
+package app.regexBuilder;
 
 import org.junit.Assert;
 import org.junit.Test;

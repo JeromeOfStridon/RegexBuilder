@@ -10,11 +10,11 @@ public class DateTimeLibrary {
 	public static RegexBuilder fullWrittenDate() {
 		RegexBuilder regex = new RegexBuilder();
 
-		regex.unique(RegexBuilder.sequenceGroup().captureAs("Day").unique(RegexBuilder.classMatch('1', '9'))
+		regex.unique(RegexBuilder.sequenceGroup().captureAs("Day").unique(RegexBuilder.classMatchRange('1', '9'))
 				.optional(RegexBuilder.classMatch(CharacterClass.Numeric))).unique(CharacterClass.Space)
 
-				.unique(RegexBuilder.alternativeGroup(List.of("janvier", "février", "mars", "avril", "mai", "juin",
-						"juillet", "aout", "septembre", "octobre", "novembre", "décembre")))
+				.unique(RegexBuilder.alternativeGroup(List.of("janvier", "fï¿½vrier", "mars", "avril", "mai", "juin",
+						"juillet", "aout", "septembre", "octobre", "novembre", "dï¿½cembre")))
 				.optional(CharacterClass.Space).optional(humanYear());
 
 		return regex;

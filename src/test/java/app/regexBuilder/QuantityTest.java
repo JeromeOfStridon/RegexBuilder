@@ -1,4 +1,4 @@
-package app.regexBuilder.test;
+package app.regexBuilder;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,41 +11,7 @@ import app.regexBuilder.Group.GroupType;
 
 
 
-public class BasicTest {
-	
-	
-	@Test
-	public void emptyTest() {
-		RegexBuilder test = new RegexBuilder();
-		assertEquals("", test.toString());
-	}
-	
-	@Test
-	public void anchorsTest() {
-		RegexBuilder test1 = new RegexBuilder();
-		test1
-			.anchorStart(true)
-			.anchorEnd(true)
-			.any("a");
-		
-		Assert.assertEquals("^(a*)$", test1.toString());
-		
-	}
-	
-	@Test
-	public void regexQuantityPattern() {
-		
-		RegexBuilder quantityPattern = new RegexBuilder();
-		quantityPattern
-			.unique("{")
-			.optional(RegexBuilder.sequenceGroup().captureAs("minSize").some(CharacterClass.Numeric))
-			.unique(",")
-			.optional(RegexBuilder.sequenceGroup().captureAs("maxSize").some(CharacterClass.Numeric))
-			.unique("}");
-		
-		Assert.assertEquals("\\{([0-9]+)?,([0-9]+)?\\}", quantityPattern.toString());
-		
-	}
+public class QuantityTest {
 	
 	
 	@Test
@@ -122,63 +88,63 @@ public class BasicTest {
 	
 	@Test
 	public void minTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.min(CharacterClass.Alphabetic, 2)
+			.min(RegexBuilder.alternativeGroup().min("a", 3).min("b", 4), 5);
 		
+		Assert.assertEquals("[a-zA-Z]{2,}(a{3,}|b{4,}){5,}", regexBuilder.toString());
 	}
 	
 	@Test
 	public void minLazyTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.minLazy(CharacterClass.Alphabetic, 2)
+			.minLazy(RegexBuilder.alternativeGroup().minLazy("a", 3).minLazy("b", 4), 5);
 		
+		Assert.assertEquals("[a-zA-Z]{2,}?(a{3,}?|b{4,}?){5,}?", regexBuilder.toString());		
 	}
 	
 	@Test
 	public void maxTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.max(CharacterClass.Alphabetic, 2)
+			.max(RegexBuilder.alternativeGroup().max("a", 3).max("b", 4), 5);
 		
+		Assert.assertEquals("[a-zA-Z]{,2}(a{,3}|b{,4}){,5}", regexBuilder.toString());
 	}
 	
 	@Test
 	public void maxLazyTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.maxLazy(CharacterClass.Alphabetic, 2)
+			.maxLazy(RegexBuilder.alternativeGroup().maxLazy("a", 3).maxLazy("b", 4), 5);
 		
+		Assert.assertEquals("[a-zA-Z]{,2}?(a{,3}?|b{,4}?){,5}?", regexBuilder.toString());		
 	}
 	
 	@Test
 	public void betweenTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.between(CharacterClass.Alphabetic, 2, 3)
+			.between(RegexBuilder.alternativeGroup().between("a", 3, 4).between("b", 4, 5), 5, 6);
 		
+		Assert.assertEquals("[a-zA-Z]{2,3}(a{3,4}|b{4,5}){5,6}", regexBuilder.toString());
 	}
 	
 	@Test
 	public void betweenLazyTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder
+			.betweenLazy(CharacterClass.Alphabetic, 2, 3)
+			.betweenLazy(RegexBuilder.alternativeGroup().betweenLazy("a", 3, 4).betweenLazy("b", 4, 5), 5, 6);
 		
+		Assert.assertEquals("[a-zA-Z]{2,3}?(a{3,4}?|b{4,5}?){5,6}?", regexBuilder.toString());
 	}
-	
-	
-	
-	
-
-	
-	@Test
-	public void intersection() {
-		RegexBuilder rb = new RegexBuilder();
-		rb.unique(RegexBuilder.classMatch(CharacterClass.Word));
-		
-		Assert.assertEquals("[\\w&&[^\\d]]", rb.toString());
-	}
-	
-
-	
-	@Test
-	public void multipleLookAhead() {
-		RegexBuilder rb = new RegexBuilder();
-		rb
-			.unique(RegexBuilder.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
-			.some(CharacterClass.AlphabeticUpper);
-
-		Assert.assertEquals("(?=abc)[A-Z]+", rb.toString());
-		
-		
-	}
-	
-	
-	
 	
 	
 	

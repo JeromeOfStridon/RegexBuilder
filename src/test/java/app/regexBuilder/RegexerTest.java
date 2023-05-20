@@ -1,4 +1,4 @@
-package app.regexBuilder.test;
+package app.regexBuilder;
 
 import static org.junit.Assert.assertEquals;
 

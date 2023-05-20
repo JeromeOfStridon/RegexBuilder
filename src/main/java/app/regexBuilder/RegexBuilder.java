@@ -166,7 +166,7 @@ public class RegexBuilder extends Group {
 		return classMatch;
 	}
 	
-	public static ClassMatch classMatch(char from, char to) {
+	public static ClassMatch classMatchRange(char from, char to) {
 		ClassMatch classMatch = new ClassMatch();
 		classMatch.add(from, to);
 		return classMatch;

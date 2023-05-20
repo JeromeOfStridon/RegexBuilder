@@ -3,20 +3,18 @@ package app.regexBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 
 
 public class ClassMatch extends Node {
 
-	HashSet<Object> items = new HashSet<>();
+	LinkedHashSet<Object> items = new LinkedHashSet<>();
 
-	@Setter
 	boolean negative = false;
 	
 	
@@ -57,22 +55,6 @@ public class ClassMatch extends Node {
 		return this;
 	}
 	
-	public ClassMatch factorize(CharacterClass... classes) {
-		
-		for(Object item : new TreeSet<>(items)) {
-			if(item instanceof Character) {
-				CharacterClass cc = List.of(classes).stream().filter(x -> ((Character) item).toString().matches("["+x.string+"]")).findFirst().orElse(null);
-				if(cc != null) {
-					items.remove(item);
-					items.add(cc);
-				}
-			}
-		}
-		
-		return this;
-	}
-	
-	
 
 	public static enum CharacterClass{
 		
@@ -95,7 +77,6 @@ public class ClassMatch extends Node {
 		Linebreak("\\n");
 		
 		
-		
 		public final List<CharacterClass> children;
 		public final String string;
 		
@@ -107,35 +88,6 @@ public class ClassMatch extends Node {
 		private CharacterClass(String content) {
 			this.children = null;
 			this.string = content;
-		}
-		
-		
-		
-		public String getString() {
-			return string;
-		}
-		
-		public static CharacterClass fromString(String pattern) {
-			for(CharacterClass charClass : values()) {
-				if(charClass.string != null && charClass.equals(pattern)) {
-					return charClass;
-				}
-			}
-			return null;
-		}
-		
-		public static CharacterClass getFirstOf(String externalPattern) {
-			for(CharacterClass charClass : values()) {
-				if(charClass.string != null && externalPattern.startsWith(charClass.getString())) {
-					externalPattern = externalPattern.substring(charClass.string.length());
-					return charClass;
-				}
-			}
-			return null;
-		}
-		
-		public static List<CharacterClass> getSingleClasses(){
-			return List.of(CharacterClass.values()).stream().filter(x -> x.string != null && !x.string.contains("-")).collect(Collectors.toList());
 		}
 
 		boolean isSingleCharacter() {
@@ -154,7 +106,7 @@ public class ClassMatch extends Node {
 			if(CharacterClass.Any.equals(item)) {
 				finalClasses = List.of(".");
 				negative = false;
-				items = new HashSet<>(Set.of(item));
+				items = new LinkedHashSet<>(Set.of(item));
 				break;
 			}
 			else if(item instanceof CharacterClass) {

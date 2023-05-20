@@ -2,6 +2,7 @@ package app.regexBuilder;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,11 +44,7 @@ public class RegexMatcher {
 	}
 	
 	public String group(String groupName) {
-		
-		Map<Integer, String> positions = regexBuilder.getGroupPositions();
-		Integer ii = regexBuilder.findGroupPosition(groupName);
 		try {
-			
 			return matcher.group(regexBuilder.findGroupPosition(groupName));
 		}
 		catch(Exception e) {
@@ -97,15 +94,42 @@ public class RegexMatcher {
 		return matcher.end();
 	}
 	
+	public Integer start(String groupName) {
+		try {
+			return matcher.start(regexBuilder.findGroupPosition(groupName));
+		}
+		catch(Exception e) {
+			return null;
+		}
+	}
+	public Integer end(String groupName) {
+		try {
+			return matcher.end(regexBuilder.findGroupPosition(groupName));
+		}
+		catch(Exception e) {
+			return null;
+		}
+	}
 	
 
-	public String replace(String groupName, String schemeName) {
+	public String replace(String groupName, String replacementString) {
 		if(!currentFind) {
 			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !");
 		}
 		
 		Integer groupPosition = regexBuilder.findGroupPosition(groupName);
 		
-		return content.substring(0, matcher.start(groupPosition))+schemeName+content.substring(matcher.end(groupPosition));
+		return content.substring(0, matcher.start(groupPosition))+replacementString+content.substring(matcher.end(groupPosition));
+	}
+
+	public Map<String, String> groupsAsMap() {
+		Map<String, String> groupsAsMap = new LinkedHashMap<>();
+		for(Entry<Integer, String> entry : regexBuilder.getGroupPositions().entrySet()) {
+			if(matcher.group(entry.getKey()) != null) {
+				groupsAsMap.put(entry.getValue(), matcher.group(entry.getKey()));
+			}
+		}
+		
+		return groupsAsMap;
 	}
 }
