@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.Group.GroupType;
 
@@ -48,9 +47,15 @@ public class RegexBuilderTest {
 	}
 	
 	
+	@Test
+	public void alternativeGroupTest() {
+		RegexBuilder regexBuilder = new RegexBuilder();
+		regexBuilder.unique(RegexBuilder.alternativeGroup("abc", "def", "ghi"));
+		
+		assertEquals("(abc|def|ghi)", regexBuilder.toString());
+	}
 	
 	
-
 	
 	@Test
 	public void multipleLookAhead() {

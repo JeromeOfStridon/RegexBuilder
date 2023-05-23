@@ -1,6 +1,7 @@
 package app.regexBuilder;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -39,8 +40,13 @@ public class RegexMatcherTest {
 		
 		assertEquals(3, rm.groupsAsMap().size());
 		
-		assertNull(rm.groupAsInteger("separator"));
-		assertNull(rm.groupAsFloat("separator"));
+		assertNull(rm.groupAsInteger("wrong name"));
+		assertNull(rm.groupAsFloat("wrong name"));
+		
+		assertNull(rm.start("wrong name"));
+		assertNull(rm.end("wrong name"));
+		
+		assertEquals("test 13,37 regexer 1", rm.replace("separator", ","));
 				
 	}
 	
@@ -62,10 +68,31 @@ public class RegexMatcherTest {
 		
 		assertTrue(exceptionCatched);
 		
+		rm.find();
+		
+		assertNotNull(rm.group());
+		
+		
+		
 	}
 	
 	@Test
 	public void debugTest() {
+		
+		RegexBuilder rb = new RegexBuilder();
+		rb
+			.some("a")
+			.some("b")
+			.some("c");
+		
+		RegexMatcher rm1 = new RegexMatcher(rb, "aaabbbbbddd");
+		
+		RegexMatcher debugedRb = rm1.debug();
+		
+		assertEquals("a+b+", debugedRb.getRegexBuilder().toString());
+		
+		RegexMatcher rm2 = new RegexMatcher(rb, "eee");
+		assertNull(rm2.debug());
 		
 	}
 	

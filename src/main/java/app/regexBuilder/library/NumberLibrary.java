@@ -1,8 +1,5 @@
 package app.regexBuilder.library;
 
-import java.util.List;
-
-import app.regexBuilder.ClassMatch;
 import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.RegexBuilder;
 

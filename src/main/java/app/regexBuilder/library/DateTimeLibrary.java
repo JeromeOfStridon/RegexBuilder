@@ -7,15 +7,27 @@ import app.regexBuilder.RegexBuilder;
 
 public class DateTimeLibrary {
 
-	public static RegexBuilder fullWrittenDate() {
+	
+	public static RegexBuilder fullWrittenDate_en() {
+		RegexBuilder regex = new RegexBuilder();
+		
+		List<String> monthList = List.of("January", "February", "March", "April", "May", "June", "Jul", "August", "September", "October", "November", "December");
+		
+		return regex;
+	}
+	
+	public static RegexBuilder fullWrittenDate_fr() {
 		RegexBuilder regex = new RegexBuilder();
 
-		regex.unique(RegexBuilder.sequenceGroup().captureAs("Day").unique(RegexBuilder.classMatchRange('1', '9'))
-				.optional(RegexBuilder.classMatch(CharacterClass.Numeric))).unique(CharacterClass.Space)
-
-				.unique(RegexBuilder.alternativeGroup(List.of("janvier", "f�vrier", "mars", "avril", "mai", "juin",
-						"juillet", "aout", "septembre", "octobre", "novembre", "d�cembre")))
-				.optional(CharacterClass.Space).optional(humanYear());
+		regex
+			.unique(RegexBuilder.sequenceGroup()
+				.captureAs("Day")
+				.unique(RegexBuilder.classMatchRange('1', '9'))
+				.optional(RegexBuilder.classMatch(CharacterClass.Numeric)))
+			.unique(CharacterClass.Space)
+			.unique(RegexBuilder.alternativeGroup(List.of("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).captureAs("month"))
+			.some(CharacterClass.Space)
+			.optional(humanYear().captureAs("year"));
 
 		return regex;
 	}
@@ -64,22 +76,20 @@ public class DateTimeLibrary {
 
 		RegexBuilder rb = new RegexBuilder();
 			rb
-				.between(CharacterClass.Numeric, 4, 4) // Year
+				.unique(RegexBuilder.sequenceGroup().captureAs("year").between(CharacterClass.Numeric, 4, 4)) // Year
 				.unique("-")
-				.between(CharacterClass.Numeric, 2, 2) // Month
+				.unique(RegexBuilder.sequenceGroup().captureAs("month").between(CharacterClass.Numeric, 2, 2)) // Month
 				.unique("-")
-				.between(CharacterClass.Numeric, 2, 2) // Day
+				.unique(RegexBuilder.sequenceGroup().captureAs("day").between(CharacterClass.Numeric, 2, 2)) // Day
 				.unique("T")
-				.between(CharacterClass.Numeric, 2, 2) // Hour
+				.unique(RegexBuilder.sequenceGroup().captureAs("hour").between(CharacterClass.Numeric, 2, 2)) // Hour
 				.unique(":")
-				.between(CharacterClass.Numeric, 2, 2) // Minute
+				.unique(RegexBuilder.sequenceGroup().captureAs("minute").between(CharacterClass.Numeric, 2, 2)) // Minute
 				.unique(":")
-				.between(CharacterClass.Numeric, 2, 2) // Second
+				.unique(RegexBuilder.sequenceGroup().captureAs("second").between(CharacterClass.Numeric, 2, 2)) // Second
 				.unique(".")
-				.any(CharacterClass.Numeric) // Millisecond
+				.unique(RegexBuilder.sequenceGroup().captureAs("millisecond").any(CharacterClass.Numeric)) // Millisecond
 				.unique("Z");
-
-		// System.out.println(rb.toString());
 
 		return rb;
 
