@@ -3,18 +3,57 @@ package app.regexBuilder.library;
 import java.util.List;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
+import app.regexBuilder.Group;
+import app.regexBuilder.Group.ChildrenType;
 import app.regexBuilder.RegexBuilder;
 
 public class DateTimeLibrary {
 
 	
 	public static RegexBuilder fullWrittenDate_en() {
-		RegexBuilder regex = new RegexBuilder();
+		
+		Group monthGroup = RegexBuilder.alternativeGroup().captureAs("month");
 		
 		List<String> monthList = List.of("January", "February", "March", "April", "May", "June", "Jul", "August", "September", "October", "November", "December");
+		for(String month : monthList) {
+			monthGroup.unique(
+				RegexBuilder.sequenceGroup()
+					.unique(month.substring(0, 3))
+					.optional(RegexBuilder.alternativeGroup().unique(".").unique(month.substring(3)))
+			);
+		}
 		
-		return regex;
+		Group dayGroup = RegexBuilder.alternativeGroup().captureAs("day");
+		
+		dayGroup
+			.unique("1st")
+			.unique("2nd")
+			.unique("3rd")
+			.unique("21st")
+			.unique("22nd")
+			.unique("23rd");
+		
+		for(int i = 0; i <= 31; i++) {
+			if(i >= 21 && i <= 23) {
+				continue;
+			}
+			dayGroup.unique(i+"th");	
+		}
+		
+		
+		
+		RegexBuilder rb = new RegexBuilder();
+		rb.unique(monthGroup);
+		rb.unique(CharacterClass.Space);
+		rb.unique(dayGroup);
+		rb.unique(CharacterClass.Space);
+		rb.unique(year().captureAs("year"));
+		
+		
+		return rb;
 	}
+	
+
 	
 	public static RegexBuilder fullWrittenDate_fr() {
 		RegexBuilder regex = new RegexBuilder();
@@ -27,15 +66,15 @@ public class DateTimeLibrary {
 			.unique(CharacterClass.Space)
 			.unique(RegexBuilder.alternativeGroup(List.of("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).captureAs("month"))
 			.some(CharacterClass.Space)
-			.optional(humanYear().captureAs("year"));
+			.optional(year().captureAs("year"));
 
 		return regex;
 	}
 
-	public static RegexBuilder humanYear() {
+	public static RegexBuilder year() {
 		RegexBuilder regex = new RegexBuilder();
 
-		regex.unique(RegexBuilder.alternativeGroup(List.of("19", "20"))).between(CharacterClass.Numeric, 2, 2);
+		regex.unique(RegexBuilder.alternativeGroup(List.of("1", "2"))).between(CharacterClass.Numeric, 3, 3);
 
 		return regex;
 
