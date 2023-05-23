@@ -81,8 +81,18 @@ public class DateTimeLibrary {
 	}
 
 	public static RegexBuilder clockHHMM() {
-
-		return null;
+		RegexBuilder rb = new RegexBuilder();
+		rb
+			.unique(
+				RegexBuilder.alternativeGroup()
+					.unique(RegexBuilder.sequenceGroup().unique(RegexBuilder.classMatch('0','1')).unique(CharacterClass.Numeric))
+					.unique(RegexBuilder.sequenceGroup().unique("2").unique(RegexBuilder.classMatchRange('0', '3')))
+				)
+			.unique(":")
+			.unique(RegexBuilder.classMatchRange('0', '5'))
+			.unique(CharacterClass.Numeric);
+			
+		return rb;
 	}
 
 	public static RegexBuilder regularDate() {

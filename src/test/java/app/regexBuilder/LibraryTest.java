@@ -64,6 +64,14 @@ public class LibraryTest {
 	}
 	
 	@Test
+	public void fullWrittenDate_enTest() {
+		RegexMatcher rm = new RegexMatcher(DateTimeLibrary.fullWrittenDate_en(), "Mar. 31st 2022");
+		assertEquals("2022", rm.group("year"));
+		assertEquals("Mar.", rm.group("month"));
+		assertEquals("31st", rm.group("day"));
+	}
+	
+	@Test
 	public void timestampTest() {
 		RegexMatcher rm = new RegexMatcher(DateTimeLibrary.timestampRegex(), "2022-12-03T12:22:03.009Z");
 		
@@ -79,6 +87,12 @@ public class LibraryTest {
 	
 	}
 	
+	
+	@Test
+	public void htmlEntityTest() {
+		
+		assertEquals("&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});", WebContentLibrary.htmlEntity().toString());
+	}
 
 	
 	
