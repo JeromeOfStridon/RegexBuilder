@@ -59,6 +59,7 @@ public class LibraryTest {
 		RegexBuilder rb = DateTimeLibrary.fullWrittenDate_fr();
 		
 		RegexMatcher rm = new RegexMatcher(rb, "1er Janvier 2021");
+		rm.find();
 		assertEquals("2021", rm.group("year"));
 		assertEquals("Janvier", rm.group("month"));
 		
@@ -66,10 +67,11 @@ public class LibraryTest {
 	
 	@Test
 	public void fullWrittenDate_enTest() {
-		RegexMatcher rm = new RegexMatcher(DateTimeLibrary.fullWrittenDate_en(), "Mar. 31st 2022");
+		RegexMatcher rm = new RegexMatcher(DateTimeLibrary.fullWrittenDate_en(), "Mar. 31th 2022");
+		rm.find();
 		assertEquals("2022", rm.group("year"));
 		assertEquals("Mar.", rm.group("month"));
-		assertEquals("31st", rm.group("day"));
+		assertEquals("31th", rm.group("day"));
 	}
 	
 	@Test

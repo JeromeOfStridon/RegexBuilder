@@ -18,7 +18,7 @@ public class RegexMatcher {
 	final Pattern pattern;
 	final Matcher matcher;
 	
-	private boolean currentFind = false;
+	private Boolean currentFind;
 	
 	public RegexMatcher(RegexBuilder regexBuilder, String content, int flags) {
 		this.regexBuilder = regexBuilder;
@@ -73,7 +73,6 @@ public class RegexMatcher {
 	}
 	
 	public RegexMatcher debug() {
-		Map<RegexBuilder, String> resultMap = new LinkedHashMap<>();
 		
 		for(int i = 0; i < regexBuilder.nodes.size(); i++) {
 			RegexBuilder regexClone = regexBuilder.clone();
@@ -87,6 +86,7 @@ public class RegexMatcher {
 				return cloneMatcher;
 			}
 		}
+		
 		return null;
 
 	}
@@ -106,6 +106,7 @@ public class RegexMatcher {
 			return null;
 		}
 	}
+	
 	public Integer end(String groupName) {
 		try {
 			return matcher.end(regexBuilder.findGroupPosition(groupName));
