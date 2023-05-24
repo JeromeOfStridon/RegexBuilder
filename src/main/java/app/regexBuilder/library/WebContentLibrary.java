@@ -8,7 +8,7 @@ import app.regexBuilder.RegexFactory;
 public class WebContentLibrary {
 	
 	public static RegexBuilder email() {
-		RegexBuilder regex = new RegexBuilder();
+		RegexBuilder regex = RegexFactory.regexBuilder();
 		
 
 		ClassMatch acceptedChars = new ClassMatch()
@@ -32,7 +32,7 @@ public class WebContentLibrary {
 	
 	public static RegexBuilder htmlEntity() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		
 		rb
 			.unique("&")

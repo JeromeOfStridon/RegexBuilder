@@ -13,7 +13,7 @@ public class BasicCharacterClassTest {
 	@Test
 	public void testLineBreak() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		
 		rb.unique(CharacterClass.Linebreak);
 		
@@ -26,7 +26,7 @@ public class BasicCharacterClassTest {
 	@Test
 	public void testAny() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		
 		rb.some(CharacterClass.Any);
 		

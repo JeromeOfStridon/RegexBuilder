@@ -44,6 +44,10 @@ public class RegexMatcher {
 	}
 	
 	public String group(String groupName) {
+		
+		if(!currentFind) {
+			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+		}
 		try {
 			return matcher.group(regexBuilder.findGroupPosition(groupName));
 		}
@@ -113,12 +117,7 @@ public class RegexMatcher {
 	
 
 	public String replace(String groupName, String replacementString) {
-		if(!currentFind) {
-			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !");
-		}
-		
 		Integer groupPosition = regexBuilder.findGroupPosition(groupName);
-		
 		return content.substring(0, matcher.start(groupPosition))+replacementString+content.substring(matcher.end(groupPosition));
 	}
 

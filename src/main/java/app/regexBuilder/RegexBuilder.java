@@ -21,20 +21,9 @@ public class RegexBuilder extends Group {
 
 	
 	// CONSTRUCTORS
-	public RegexBuilder(ChildrenType childrenType, GroupType groupType) {
+	protected RegexBuilder(ChildrenType childrenType, GroupType groupType) {
 		super(childrenType, groupType);
 	}
-	
-	
-	public RegexBuilder() {
-		this(ChildrenType.Sequence, GroupType.None);
-	}
-	
-	public RegexBuilder(ChildrenType childrenType) {
-		this(childrenType, GroupType.None);
-	}
-
-
 	
 	// ANCHORS
 	public RegexBuilder anchorStart(boolean b) {

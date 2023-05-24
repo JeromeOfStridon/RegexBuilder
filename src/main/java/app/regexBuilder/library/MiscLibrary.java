@@ -1,12 +1,13 @@
 package app.regexBuilder.library;
 
-import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.ClassMatch.CharacterClass;
+import app.regexBuilder.RegexBuilder;
+import app.regexBuilder.RegexFactory;
 
 public class MiscLibrary {
 	
 	public static RegexBuilder colorHexCode() {
-		RegexBuilder regex = new RegexBuilder();
+		RegexBuilder regex = RegexFactory.regexBuilder();
 			
 			regex
 			.unique("#")

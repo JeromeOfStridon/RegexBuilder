@@ -18,7 +18,7 @@ public class RegexMatcherTest {
 	@Test
 	public void startEndTest() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 
 		rb
 			.unique(RegexFactory.sequenceGroup().some(CharacterClass.Numeric).setName("integer"))
@@ -54,7 +54,7 @@ public class RegexMatcherTest {
 	@Test
 	public void exceptionTest() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		
 		RegexMatcher rm = new RegexMatcher(rb, "");
 		
@@ -79,7 +79,7 @@ public class RegexMatcherTest {
 	@Test
 	public void debugTest() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		rb
 			.some("a")
 			.some("b")

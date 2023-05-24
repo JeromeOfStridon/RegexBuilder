@@ -16,7 +16,7 @@ public class QuantityTest {
 	
 	@Test
 	public void anyTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.any(CharacterClass.Alphabetic)
 			.any(RegexFactory.alternativeGroup().any("a").any("b"));
@@ -27,7 +27,7 @@ public class QuantityTest {
 	
 	@Test
 	public void anyLazyTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.anyLazy(CharacterClass.Alphabetic)
 			.anyLazy(RegexFactory.alternativeGroup().anyLazy("a").anyLazy("b"));
@@ -37,7 +37,7 @@ public class QuantityTest {
 
 	@Test
 	public void someTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.some(CharacterClass.Alphabetic)
 			.some(RegexFactory.alternativeGroup().some("a").some("b"));
@@ -48,7 +48,7 @@ public class QuantityTest {
 	
 	@Test
 	public void someLazyTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.someLazy(CharacterClass.Alphabetic)
 			.someLazy(RegexFactory.alternativeGroup().someLazy("a").someLazy("b"));
@@ -58,7 +58,7 @@ public class QuantityTest {
 	
 	@Test
 	public void unique() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.unique(CharacterClass.Alphabetic)
 			.unique(RegexFactory.alternativeGroup().unique("a").unique("b"));
@@ -68,7 +68,7 @@ public class QuantityTest {
 	
 	@Test
 	public void optionalTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.optional(CharacterClass.Alphabetic)
 			.optional(RegexFactory.alternativeGroup().optional("a").optional("b"));
@@ -78,7 +78,7 @@ public class QuantityTest {
 	
 	@Test
 	public void optionalLazyTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.optionalLazy(CharacterClass.Alphabetic)
 			.optionalLazy(RegexFactory.alternativeGroup().optionalLazy("a").optionalLazy("b"));
@@ -88,7 +88,7 @@ public class QuantityTest {
 	
 	@Test
 	public void minTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.min(CharacterClass.Alphabetic, 2)
 			.min(RegexFactory.alternativeGroup().min("a", 3).min("b", 4), 5);
@@ -98,7 +98,7 @@ public class QuantityTest {
 	
 	@Test
 	public void minLazyTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.minLazy(CharacterClass.Alphabetic, 2)
 			.minLazy(RegexFactory.alternativeGroup().minLazy("a", 3).minLazy("b", 4), 5);
@@ -108,7 +108,7 @@ public class QuantityTest {
 	
 	@Test
 	public void maxTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.max(CharacterClass.Alphabetic, 2)
 			.max(RegexFactory.alternativeGroup().max("a", 3).max("b", 4), 5);
@@ -118,7 +118,7 @@ public class QuantityTest {
 	
 	@Test
 	public void maxLazyTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.maxLazy(CharacterClass.Alphabetic, 2)
 			.maxLazy(RegexFactory.alternativeGroup().maxLazy("a", 3).maxLazy("b", 4), 5);
@@ -128,7 +128,7 @@ public class QuantityTest {
 	
 	@Test
 	public void betweenTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.between(CharacterClass.Alphabetic, 2, 3)
 			.between(RegexFactory.alternativeGroup().between("a", 3, 4).between("b", 4, 5), 5, 6);
@@ -138,7 +138,7 @@ public class QuantityTest {
 	
 	@Test
 	public void betweenLazyTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
 			.betweenLazy(CharacterClass.Alphabetic, 2, 3)
 			.betweenLazy(RegexFactory.alternativeGroup().betweenLazy("a", 3, 4).betweenLazy("b", 4, 5), 5, 6);

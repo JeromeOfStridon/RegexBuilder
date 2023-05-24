@@ -15,13 +15,13 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void emptyTest() {
-		RegexBuilder test = new RegexBuilder();
+		RegexBuilder test = RegexFactory.regexBuilder();
 		assertEquals("", test.toString());
 	}
 	
 	@Test
 	public void anchorsTest() {
-		RegexBuilder test1 = new RegexBuilder();
+		RegexBuilder test1 = RegexFactory.regexBuilder();
 		test1
 			.anchorStart(true)
 			.anchorEnd(true)
@@ -34,7 +34,7 @@ public class RegexBuilderTest {
 	@Test
 	public void regexQuantityPattern() {
 		
-		RegexBuilder quantityPattern = new RegexBuilder();
+		RegexBuilder quantityPattern = RegexFactory.regexBuilder();
 		quantityPattern
 			.unique("{")
 			.optional(RegexFactory.sequenceGroup().setName("minSize").some(CharacterClass.Numeric))
@@ -49,7 +49,7 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void alternativeGroupTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder.unique(RegexFactory.alternativeGroup("abc", "def", "ghi"));
 		
 		assertEquals("(abc|def|ghi)", regexBuilder.toString());
@@ -59,7 +59,7 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void multipleLookAhead() {
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		rb
 			.unique(RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
 			.some(CharacterClass.AlphabeticUpper);

@@ -42,7 +42,7 @@ public class DateTimeLibrary {
 		
 		
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		rb.unique(monthGroup);
 		rb.unique(CharacterClass.Space);
 		rb.unique(dayGroup);
@@ -56,7 +56,7 @@ public class DateTimeLibrary {
 
 	
 	public static RegexBuilder fullWrittenDate_fr() {
-		RegexBuilder regex = new RegexBuilder();
+		RegexBuilder regex = RegexFactory.regexBuilder();
 
 		regex
 			.unique(RegexFactory.sequenceGroup()
@@ -72,7 +72,7 @@ public class DateTimeLibrary {
 	}
 
 	public static RegexBuilder year() {
-		RegexBuilder regex = new RegexBuilder();
+		RegexBuilder regex = RegexFactory.regexBuilder();
 
 		regex.unique(RegexFactory.alternativeGroup(List.of("1", "2"))).between(CharacterClass.Numeric, 3, 3);
 
@@ -81,7 +81,7 @@ public class DateTimeLibrary {
 	}
 
 	public static RegexBuilder clockHHMM() {
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		rb
 			.unique(
 					RegexFactory.alternativeGroup()
@@ -96,7 +96,7 @@ public class DateTimeLibrary {
 	}
 
 	public static RegexBuilder regularDate() {
-		RegexBuilder regex = new RegexBuilder();
+		RegexBuilder regex = RegexFactory.regexBuilder();
 
 		regex.unique(RegexFactory.alternativeGroup()
 				// from 01 to 09
@@ -123,7 +123,7 @@ public class DateTimeLibrary {
 
 	public static RegexBuilder timestampRegex() {
 
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 			rb
 				.unique(RegexFactory.sequenceGroup().setName("year").between(CharacterClass.Numeric, 4, 4)) // Year
 				.unique("-")

@@ -17,7 +17,7 @@ public class LibraryTest {
 	@Test
 	public void intInclusionBreak() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		
 		rb
 			.unique(NumberLibrary.intNumber())

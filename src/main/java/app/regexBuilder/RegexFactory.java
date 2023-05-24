@@ -33,5 +33,9 @@ public class RegexFactory {
 		return group;
 	}
 	
+	public static RegexBuilder regexBuilder() {
+		return new RegexBuilder(ChildrenType.Sequence, GroupType.None);
+	}
+	
 	
 }
