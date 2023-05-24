@@ -21,9 +21,9 @@ public class RegexMatcherTest {
 		RegexBuilder rb = new RegexBuilder();
 
 		rb
-			.unique(RegexBuilder.sequenceGroup().some(CharacterClass.Numeric).captureAs("integer"))
-			.unique(RegexBuilder.alternativeGroup().unique(".").unique(",").captureAs("separator"))
-			.unique(RegexBuilder.sequenceGroup().some(CharacterClass.Numeric).captureAs("decimal"));
+			.unique(RegexFactory.sequenceGroup().some(CharacterClass.Numeric).setName("integer"))
+			.unique(RegexFactory.alternativeGroup().unique(".").unique(",").setName("separator"))
+			.unique(RegexFactory.sequenceGroup().some(CharacterClass.Numeric).setName("decimal"));
 				
 		RegexMatcher rm = new RegexMatcher(rb, "test 13.37 regexer 1");
 		

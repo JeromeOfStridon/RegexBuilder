@@ -1,6 +1,5 @@
 package app.regexBuilder;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,30 +78,7 @@ public class RegexBuilder extends Group {
 
 
 	
-	// FACTORY 
-	public static Group sequenceGroup() {
-		return new Group(ChildrenType.Sequence, GroupType.None);
-	}
-	
-	public static Group alternativeGroup() {
-		return new Group(ChildrenType.Alternative, GroupType.None);
-	}
-	
-	public static Group alternativeGroup(Collection<String> alternatives) {
-		Group group = alternativeGroup();
-		for(String alternative : alternatives) {
-			group.nodes.add(new StringMatch().add(alternative));
-		}
-		return group;
-	}
-	
-	public static Group alternativeGroup(String... alternatives) {
-		Group group = alternativeGroup();
-		for(String alternative : alternatives) {
-			group.nodes.add(new StringMatch().add(alternative));
-		}
-		return group;
-	}
+
 	
 	
 //	public static Group positiveLookAhead() {
@@ -194,9 +170,9 @@ public class RegexBuilder extends Group {
 			if(groups.get(i) == null) {
 				continue;
 			}
-			if(groups.get(i).capturingGroupName != null) {
+			if(groups.get(i).groupName != null) {
 				// Offset of 1 because group(0) is the general one
-				result.put(i + 1, groups.get(i).capturingGroupName);
+				result.put(i + 1, groups.get(i).groupName);
 			}
 		}
 		return result;
@@ -205,7 +181,7 @@ public class RegexBuilder extends Group {
 	public Group asGroup() {
 		Group group = new Group(this.childrenType, this.groupType);
 		group.nodes = this.nodes;
-		group.capturingGroupName = this.capturingGroupName;
+		group.groupName = this.groupName;
 		
 		return group;
 	}

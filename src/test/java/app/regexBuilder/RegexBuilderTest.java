@@ -37,9 +37,9 @@ public class RegexBuilderTest {
 		RegexBuilder quantityPattern = new RegexBuilder();
 		quantityPattern
 			.unique("{")
-			.optional(RegexBuilder.sequenceGroup().captureAs("minSize").some(CharacterClass.Numeric))
+			.optional(RegexFactory.sequenceGroup().setName("minSize").some(CharacterClass.Numeric))
 			.unique(",")
-			.optional(RegexBuilder.sequenceGroup().captureAs("maxSize").some(CharacterClass.Numeric))
+			.optional(RegexFactory.sequenceGroup().setName("maxSize").some(CharacterClass.Numeric))
 			.unique("}");
 		
 		Assert.assertEquals("\\{([0-9]+)?,([0-9]+)?\\}", quantityPattern.toString());
@@ -50,7 +50,7 @@ public class RegexBuilderTest {
 	@Test
 	public void alternativeGroupTest() {
 		RegexBuilder regexBuilder = new RegexBuilder();
-		regexBuilder.unique(RegexBuilder.alternativeGroup("abc", "def", "ghi"));
+		regexBuilder.unique(RegexFactory.alternativeGroup("abc", "def", "ghi"));
 		
 		assertEquals("(abc|def|ghi)", regexBuilder.toString());
 	}
@@ -61,7 +61,7 @@ public class RegexBuilderTest {
 	public void multipleLookAhead() {
 		RegexBuilder rb = new RegexBuilder();
 		rb
-			.unique(RegexBuilder.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
+			.unique(RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
 			.some(CharacterClass.AlphabeticUpper);
 
 		Assert.assertEquals("(?=abc)[A-Z]+", rb.toString());

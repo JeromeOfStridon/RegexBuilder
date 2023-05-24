@@ -4,26 +4,26 @@ import java.util.List;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.Group;
-import app.regexBuilder.Group.ChildrenType;
 import app.regexBuilder.RegexBuilder;
+import app.regexBuilder.RegexFactory;
 
 public class DateTimeLibrary {
 
 	
 	public static RegexBuilder fullWrittenDate_en() {
 		
-		Group monthGroup = RegexBuilder.alternativeGroup().captureAs("month");
+		Group monthGroup = RegexFactory.alternativeGroup().setName("month");
 		
 		List<String> monthList = List.of("January", "February", "March", "April", "May", "June", "Jul", "August", "September", "October", "November", "December");
 		for(String month : monthList) {
 			monthGroup.unique(
-				RegexBuilder.sequenceGroup()
+				RegexFactory.sequenceGroup()
 					.unique(month.substring(0, 3))
-					.optional(RegexBuilder.alternativeGroup().unique(".").unique(month.substring(3)))
+					.optional(RegexFactory.alternativeGroup().unique(".").unique(month.substring(3)))
 			);
 		}
 		
-		Group dayGroup = RegexBuilder.alternativeGroup().captureAs("day");
+		Group dayGroup = RegexFactory.alternativeGroup().setName("day");
 		
 		dayGroup
 			.unique("1st")
@@ -47,7 +47,7 @@ public class DateTimeLibrary {
 		rb.unique(CharacterClass.Space);
 		rb.unique(dayGroup);
 		rb.unique(CharacterClass.Space);
-		rb.unique(year().captureAs("year"));
+		rb.unique(year().setName("year"));
 		
 		
 		return rb;
@@ -59,14 +59,14 @@ public class DateTimeLibrary {
 		RegexBuilder regex = new RegexBuilder();
 
 		regex
-			.unique(RegexBuilder.sequenceGroup()
-				.captureAs("Day")
+			.unique(RegexFactory.sequenceGroup()
+				.setName("Day")
 				.unique(RegexBuilder.classMatchRange('1', '9'))
 				.optional(RegexBuilder.classMatch(CharacterClass.Numeric)))
 			.unique(CharacterClass.Space)
-			.unique(RegexBuilder.alternativeGroup(List.of("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).captureAs("month"))
+			.unique(RegexFactory.alternativeGroup(List.of("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).setName("month"))
 			.some(CharacterClass.Space)
-			.optional(year().captureAs("year"));
+			.optional(year().setName("year"));
 
 		return regex;
 	}
@@ -74,7 +74,7 @@ public class DateTimeLibrary {
 	public static RegexBuilder year() {
 		RegexBuilder regex = new RegexBuilder();
 
-		regex.unique(RegexBuilder.alternativeGroup(List.of("1", "2"))).between(CharacterClass.Numeric, 3, 3);
+		regex.unique(RegexFactory.alternativeGroup(List.of("1", "2"))).between(CharacterClass.Numeric, 3, 3);
 
 		return regex;
 
@@ -84,9 +84,9 @@ public class DateTimeLibrary {
 		RegexBuilder rb = new RegexBuilder();
 		rb
 			.unique(
-				RegexBuilder.alternativeGroup()
-					.unique(RegexBuilder.sequenceGroup().unique(RegexBuilder.classMatch('0','1')).unique(CharacterClass.Numeric))
-					.unique(RegexBuilder.sequenceGroup().unique("2").unique(RegexBuilder.classMatchRange('0', '3')))
+					RegexFactory.alternativeGroup()
+					.unique(RegexFactory.sequenceGroup().unique(RegexBuilder.classMatch('0','1')).unique(CharacterClass.Numeric))
+					.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexBuilder.classMatchRange('0', '3')))
 				)
 			.unique(":")
 			.unique(RegexBuilder.classMatchRange('0', '5'))
@@ -98,23 +98,23 @@ public class DateTimeLibrary {
 	public static RegexBuilder regularDate() {
 		RegexBuilder regex = new RegexBuilder();
 
-		regex.unique(RegexBuilder.alternativeGroup()
+		regex.unique(RegexFactory.alternativeGroup()
 				// from 01 to 09
-				.unique(RegexBuilder.sequenceGroup().unique("0")
+				.unique(RegexFactory.sequenceGroup().unique("0")
 						.unique(RegexBuilder.classMatch(CharacterClass.Numeric)))
 				// from 10 to 29
-				.unique(RegexBuilder.sequenceGroup().unique(RegexBuilder.classMatch(List.of('1', '2')))
+				.unique(RegexFactory.sequenceGroup().unique(RegexBuilder.classMatch(List.of('1', '2')))
 						.unique(RegexBuilder.classMatch(CharacterClass.Numeric)))
 				// 30 & 31
-				.unique(RegexBuilder.sequenceGroup().unique("3").unique(RegexBuilder.classMatch(List.of('0', '1')))))
-				.unique("/").unique(RegexBuilder.alternativeGroup()
+				.unique(RegexFactory.sequenceGroup().unique("3").unique(RegexBuilder.classMatch(List.of('0', '1')))))
+				.unique("/").unique(RegexFactory.alternativeGroup()
 						// from 01 to 09
-						.unique(RegexBuilder.sequenceGroup().unique("0")
+						.unique(RegexFactory.sequenceGroup().unique("0")
 								.unique(RegexBuilder.classMatch(CharacterClass.Numeric)))
 						// 10, 11, 12
-						.unique(RegexBuilder.sequenceGroup().unique("1")
+						.unique(RegexFactory.sequenceGroup().unique("1")
 								.unique(RegexBuilder.classMatch(List.of('0', '1', '2')))))
-				.unique("/").unique(RegexBuilder.sequenceGroup().unique(RegexBuilder.classMatch(List.of('1', '2')))
+				.unique("/").unique(RegexFactory.sequenceGroup().unique(RegexBuilder.classMatch(List.of('1', '2')))
 						.between(RegexBuilder.classMatch(CharacterClass.Numeric), 3, 3));
 
 		return regex;
@@ -125,19 +125,19 @@ public class DateTimeLibrary {
 
 		RegexBuilder rb = new RegexBuilder();
 			rb
-				.unique(RegexBuilder.sequenceGroup().captureAs("year").between(CharacterClass.Numeric, 4, 4)) // Year
+				.unique(RegexFactory.sequenceGroup().setName("year").between(CharacterClass.Numeric, 4, 4)) // Year
 				.unique("-")
-				.unique(RegexBuilder.sequenceGroup().captureAs("month").between(CharacterClass.Numeric, 2, 2)) // Month
+				.unique(RegexFactory.sequenceGroup().setName("month").between(CharacterClass.Numeric, 2, 2)) // Month
 				.unique("-")
-				.unique(RegexBuilder.sequenceGroup().captureAs("day").between(CharacterClass.Numeric, 2, 2)) // Day
+				.unique(RegexFactory.sequenceGroup().setName("day").between(CharacterClass.Numeric, 2, 2)) // Day
 				.unique("T")
-				.unique(RegexBuilder.sequenceGroup().captureAs("hour").between(CharacterClass.Numeric, 2, 2)) // Hour
+				.unique(RegexFactory.sequenceGroup().setName("hour").between(CharacterClass.Numeric, 2, 2)) // Hour
 				.unique(":")
-				.unique(RegexBuilder.sequenceGroup().captureAs("minute").between(CharacterClass.Numeric, 2, 2)) // Minute
+				.unique(RegexFactory.sequenceGroup().setName("minute").between(CharacterClass.Numeric, 2, 2)) // Minute
 				.unique(":")
-				.unique(RegexBuilder.sequenceGroup().captureAs("second").between(CharacterClass.Numeric, 2, 2)) // Second
+				.unique(RegexFactory.sequenceGroup().setName("second").between(CharacterClass.Numeric, 2, 2)) // Second
 				.unique(".")
-				.unique(RegexBuilder.sequenceGroup().captureAs("millisecond").any(CharacterClass.Numeric)) // Millisecond
+				.unique(RegexFactory.sequenceGroup().setName("millisecond").any(CharacterClass.Numeric)) // Millisecond
 				.unique("Z");
 
 		return rb;

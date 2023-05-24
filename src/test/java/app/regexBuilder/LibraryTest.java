@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import app.regexBuilder.library.DateTimeLibrary;
+import app.regexBuilder.library.MiscLibrary;
 import app.regexBuilder.library.NumberLibrary;
 import app.regexBuilder.library.WebContentLibrary;
 import lombok.extern.slf4j.Slf4j;
@@ -94,6 +95,11 @@ public class LibraryTest {
 		assertEquals("&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});", WebContentLibrary.htmlEntity().toString());
 	}
 
+	
+	@Test
+	public void colorHexCodeTest() {
+		assertEquals("#[0-9a-fA-F]{6}", MiscLibrary.colorHexCode().toString());
+	}
 	
 	
 

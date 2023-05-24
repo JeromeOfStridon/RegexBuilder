@@ -1,14 +1,9 @@
 package app.regexBuilder.library;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
-
 import app.regexBuilder.ClassMatch;
-import app.regexBuilder.Group;
-import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.ClassMatch.CharacterClass;
+import app.regexBuilder.RegexBuilder;
+import app.regexBuilder.RegexFactory;
 
 public class WebContentLibrary {
 	
@@ -22,11 +17,11 @@ public class WebContentLibrary {
 		
 		regex
 			.some(acceptedChars)
-			.optional(RegexBuilder.sequenceGroup()
+			.optional(RegexFactory.sequenceGroup()
 					.unique(".")
 					.some(acceptedChars))
 			.unique("@")
-			.some(RegexBuilder.sequenceGroup()
+			.some(RegexFactory.sequenceGroup()
 					.some(acceptedChars)
 					.unique("."))
 			.between(CharacterClass.Alphabetic, 2, 10);
@@ -42,12 +37,12 @@ public class WebContentLibrary {
 		rb
 			.unique("&")
 			.any("amp;")
-			.unique(RegexBuilder.alternativeGroup()
+			.unique(RegexFactory.alternativeGroup()
 					.some(CharacterClass.Alphanumeric)
-					.unique(RegexBuilder.sequenceGroup()
+					.unique(RegexFactory.sequenceGroup()
 							.unique("#")
 							.between(CharacterClass.Numeric, 1, 6))
-					.unique(RegexBuilder.sequenceGroup()
+					.unique(RegexFactory.sequenceGroup()
 							.unique("#x")
 							.between(CharacterClass.Alphanumeric_Hexa, 1, 6))
 					)

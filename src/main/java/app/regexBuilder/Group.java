@@ -17,7 +17,7 @@ public class Group extends Node {
 
 	List<Node> nodes = new ArrayList<>();
 	
-	String capturingGroupName;
+	String groupName;
 	
 	protected Group(ChildrenType childrenType, GroupType groupType) {
 		this.childrenType = childrenType;
@@ -40,34 +40,40 @@ public class Group extends Node {
 	
 
 	
+	// Optional
+	public Group optional(CharacterClass content) 			{ return _attachNode(new ClassMatch().add(content), 0, 1, false); }
+	public Group optional(String content) 					{ return _attachNode(new StringMatch().add(content), 0, 1, false); }
+	public Group optional(Node content) 					{ return _attachNode(content, 0, 1, false); }
+	public Group optionalLazy(CharacterClass content) 		{ return _attachNode(new ClassMatch().add(content), 0, 1, true); }
+	public Group optionalLazy(String content) 				{ return _attachNode(new StringMatch().add(content), 0, 1, true); }
+	public Group optionalLazy(Node content) 				{ return _attachNode(content, 0, 1, true); }
+	
 	// Any : *
-	public Group any(CharacterClass content) 		{ return _attachNode(new ClassMatch().add(content), 0, null, false); }
-	public Group any(String content) 				{ return _attachNode(new StringMatch().add(content), 0, null, false); }
-	public Group any(Node content) 					{ return _attachNode(content, 0, null, false);}
-	public Group anyLazy(CharacterClass content) 	{ return _attachNode(new ClassMatch().add(content), 0, null, true); }
-	public Group anyLazy(String content) 			{ return _attachNode(new StringMatch().add(content), 0, null, true); }	
-	public Group anyLazy(Node content) 				{ return _attachNode(content, 0, null, true); }
+	public Group any(CharacterClass content) 				{ return _attachNode(new ClassMatch().add(content), 0, null, false); }
+	public Group any(String content) 						{ return _attachNode(new StringMatch().add(content), 0, null, false); }
+	public Group any(Node content) 							{ return _attachNode(content, 0, null, false);}
+	public Group anyLazy(CharacterClass content) 			{ return _attachNode(new ClassMatch().add(content), 0, null, true); }
+	public Group anyLazy(String content) 					{ return _attachNode(new StringMatch().add(content), 0, null, true); }	
+	public Group anyLazy(Node content) 						{ return _attachNode(content, 0, null, true); }
+	
+	// Unique
+	public Group unique(CharacterClass content) 			{ return _attachNode(new ClassMatch().add(content), 1, 1, false); }
+	public Group unique(String content) 					{ return _attachNode(new StringMatch().add(content), 1, 1, false); }
+	public Group unique(Node content) 						{ return _attachNode(content, 1, 1, false); }
+
+	// Exactly
+	public Group exactly(CharacterClass content, int card)	{ return _attachNode(new ClassMatch().add(content), card, card, false); }
+	public Group exactly(String content, int card) 			{ return _attachNode(new StringMatch().add(content), card, card, false); }
+	public Group exactly(Node content, int card) 			{ return _attachNode(content, card, card, false); }
 	
 	// Some
-	public Group some(CharacterClass content) 		{ return _attachNode(new ClassMatch().add(content), 1, null, false); }
-	public Group some(String content) 				{ return _attachNode(new StringMatch().add(content), 1, null, false); }
-	public Group some(Node content) 				{ return _attachNode(content, 1, null, false); }
-	public Group someLazy(CharacterClass content) 	{ return _attachNode(new ClassMatch().add(content), 1, null, true); }
-	public Group someLazy(String content) 			{ return _attachNode(new StringMatch().add(content), 1, null, true); }
-	public Group someLazy(Node content) 			{ return _attachNode(content, 1, null, true); }
-
-	// Unique
-	public Group unique(CharacterClass content) 	{ return _attachNode(new ClassMatch().add(content), 1, 1, false); }
-	public Group unique(String content) 			{ return _attachNode(new StringMatch().add(content), 1, 1, false); }
-	public Group unique(Node content) 				{ return _attachNode(content, 1, 1, false); }
+	public Group some(CharacterClass content) 				{ return _attachNode(new ClassMatch().add(content), 1, null, false); }
+	public Group some(String content) 						{ return _attachNode(new StringMatch().add(content), 1, null, false); }
+	public Group some(Node content) 						{ return _attachNode(content, 1, null, false); }
+	public Group someLazy(CharacterClass content) 			{ return _attachNode(new ClassMatch().add(content), 1, null, true); }
+	public Group someLazy(String content) 					{ return _attachNode(new StringMatch().add(content), 1, null, true); }
+	public Group someLazy(Node content) 					{ return _attachNode(content, 1, null, true); }
 	
-	// Optional
-	public Group optional(CharacterClass content) 		{ return _attachNode(new ClassMatch().add(content), 0, 1, false); }
-	public Group optional(String content) 				{ return _attachNode(new StringMatch().add(content), 0, 1, false); }
-	public Group optional(Node content) 				{ return _attachNode(content, 0, 1, false); }
-	public Group optionalLazy(CharacterClass content) 	{ return _attachNode(new ClassMatch().add(content), 0, 1, true); }
-	public Group optionalLazy(String content) 			{ return _attachNode(new StringMatch().add(content), 0, 1, true); }
-	public Group optionalLazy(Node content) 			{ return _attachNode(content, 0, 1, true); }
 	
 	// Min
 	public Group min(CharacterClass content, int min) 		{ return _attachNode(new ClassMatch().add(content), min, null, false); }
@@ -189,9 +195,9 @@ public class Group extends Node {
 		
 	}
 
-	public Group captureAs(String capturingGroupName) {
+	public Group setName(String groupName) {
 		this.groupType = GroupType.Capturing;
-		this.capturingGroupName = capturingGroupName;
+		this.groupName = groupName;
 		return this;
 	}
 

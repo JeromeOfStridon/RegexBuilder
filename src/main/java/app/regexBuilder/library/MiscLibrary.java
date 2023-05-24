@@ -10,7 +10,7 @@ public class MiscLibrary {
 			
 			regex
 			.unique("#")
-			.between(CharacterClass.Alphanumeric_Hexa, 1, 6);
+			.between(CharacterClass.Alphanumeric_Hexa, 6, 6);
 		
 		return regex;
 	}
