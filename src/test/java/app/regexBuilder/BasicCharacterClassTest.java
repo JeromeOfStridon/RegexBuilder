@@ -3,7 +3,6 @@ package app.regexBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.ClassMatch.CharacterClass;
 import lombok.extern.slf4j.Slf4j;
 

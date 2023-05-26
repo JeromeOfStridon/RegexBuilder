@@ -61,8 +61,8 @@ public class DateTimeLibrary {
 		regex
 			.unique(RegexFactory.sequenceGroup()
 				.setName("Day")
-				.unique(RegexBuilder.classMatchRange('1', '9'))
-				.optional(RegexBuilder.classMatch(CharacterClass.Numeric)))
+				.unique(RegexFactory.classMatchRange('1', '9'))
+				.optional(RegexFactory.classMatch(CharacterClass.Numeric)))
 			.unique(CharacterClass.Space)
 			.unique(RegexFactory.alternativeGroup(List.of("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).setName("month"))
 			.some(CharacterClass.Space)
@@ -85,11 +85,11 @@ public class DateTimeLibrary {
 		rb
 			.unique(
 					RegexFactory.alternativeGroup()
-					.unique(RegexFactory.sequenceGroup().unique(RegexBuilder.classMatch('0','1')).unique(CharacterClass.Numeric))
-					.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexBuilder.classMatchRange('0', '3')))
+					.unique(RegexFactory.sequenceGroup().unique(RegexFactory.classMatch('0','1')).unique(CharacterClass.Numeric))
+					.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '3')))
 				)
 			.unique(":")
-			.unique(RegexBuilder.classMatchRange('0', '5'))
+			.unique(RegexFactory.classMatchRange('0', '5'))
 			.unique(CharacterClass.Numeric);
 			
 		return rb;
@@ -101,21 +101,21 @@ public class DateTimeLibrary {
 		regex.unique(RegexFactory.alternativeGroup()
 				// from 01 to 09
 				.unique(RegexFactory.sequenceGroup().unique("0")
-						.unique(RegexBuilder.classMatch(CharacterClass.Numeric)))
+						.unique(RegexFactory.classMatch(CharacterClass.Numeric)))
 				// from 10 to 29
-				.unique(RegexFactory.sequenceGroup().unique(RegexBuilder.classMatch(List.of('1', '2')))
-						.unique(RegexBuilder.classMatch(CharacterClass.Numeric)))
+				.unique(RegexFactory.sequenceGroup().unique(RegexFactory.classMatch(List.of('1', '2')))
+						.unique(RegexFactory.classMatch(CharacterClass.Numeric)))
 				// 30 & 31
-				.unique(RegexFactory.sequenceGroup().unique("3").unique(RegexBuilder.classMatch(List.of('0', '1')))))
+				.unique(RegexFactory.sequenceGroup().unique("3").unique(RegexFactory.classMatch(List.of('0', '1')))))
 				.unique("/").unique(RegexFactory.alternativeGroup()
 						// from 01 to 09
 						.unique(RegexFactory.sequenceGroup().unique("0")
-								.unique(RegexBuilder.classMatch(CharacterClass.Numeric)))
+								.unique(RegexFactory.classMatch(CharacterClass.Numeric)))
 						// 10, 11, 12
 						.unique(RegexFactory.sequenceGroup().unique("1")
-								.unique(RegexBuilder.classMatch(List.of('0', '1', '2')))))
-				.unique("/").unique(RegexFactory.sequenceGroup().unique(RegexBuilder.classMatch(List.of('1', '2')))
-						.between(RegexBuilder.classMatch(CharacterClass.Numeric), 3, 3));
+								.unique(RegexFactory.classMatch(List.of('0', '1', '2')))))
+				.unique("/").unique(RegexFactory.sequenceGroup().unique(RegexFactory.classMatch(List.of('1', '2')))
+						.between(RegexFactory.classMatch(CharacterClass.Numeric), 3, 3));
 
 		return regex;
 

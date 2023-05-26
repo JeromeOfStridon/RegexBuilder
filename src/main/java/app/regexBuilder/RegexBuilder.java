@@ -9,8 +9,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import app.regexBuilder.ClassMatch.CharacterClass;
-
 // Factory for all kinds of match & groups
 public class RegexBuilder extends Group {
 
@@ -110,36 +108,7 @@ public class RegexBuilder extends Group {
 //		return new Group(ChildrenType.Sequence, GroupType.NonCapturing);
 //	}
 
-	public static ClassMatch classMatch(CharacterClass... charClass) {
-		ClassMatch classMatch = new ClassMatch();
-		for(CharacterClass characterClass : charClass) {
-			classMatch.add(characterClass);
-		}
-		return classMatch;
-	}
 	
-	public static ClassMatch classMatch(Character... character) {
-		ClassMatch classMatch = new ClassMatch();
-		classMatch.add(character);
-		return classMatch;
-	}
-	public static ClassMatch classMatch(List<Character> characters) {
-		ClassMatch classMatch = new ClassMatch();
-		for(Character character : characters) {
-			classMatch.add(character);
-		}
-		return classMatch;
-	}
-	
-	public static ClassMatch classMatchRange(char from, char to) {
-		ClassMatch classMatch = new ClassMatch();
-		classMatch.add(from, to);
-		return classMatch;
-	}
-	
-	public static StringMatch stringMatch(String string) {
-		return new StringMatch().add(string);
-	}
 
 
 	public Integer findGroupPosition(String groupName) {

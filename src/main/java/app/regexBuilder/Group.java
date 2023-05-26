@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
-import lombok.Getter;
-import lombok.Setter;
 
 
 public class Group extends Node {

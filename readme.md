@@ -32,6 +32,34 @@ Common regex are a nightmare to write, but a hell to read. Regular regex doesn't
 Fortunately, with Regex Builder, as you write your regex with code, you can add comments, please do so.
 
 
+### 1. RegexBuilder
+
+RegexBuilder
+
+
+### 2. Groups
+
+
+** Quantities
+
+
+** Sequential / Alternative **
+
+** Capturing / Non Capturing **
+
+
+### 3. ClassMatch
+
+### 4. RegexMatcher
+
+### 5. Advanced options
+
+** Anchors **
+
+** Looks **
+
+
+
 
 
 ### 1. Matching parts

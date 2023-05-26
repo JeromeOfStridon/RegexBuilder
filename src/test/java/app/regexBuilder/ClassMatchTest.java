@@ -15,7 +15,7 @@ public class ClassMatchTest {
 	
 	@Test
 	public void genericTest() {
-		ClassMatch cm = RegexBuilder
+		ClassMatch cm = RegexFactory
 				.classMatch(CharacterClass.AlphabeticUpper)
 				.add('$')
 				.add('€');
@@ -39,7 +39,7 @@ public class ClassMatchTest {
 	@Test
 	public void singleClassMatchTest() {
 		
-		ClassMatch cm = RegexBuilder.classMatch('a');
+		ClassMatch cm = RegexFactory.classMatch('a');
 		
 		assertEquals("a", cm.toString());
 		

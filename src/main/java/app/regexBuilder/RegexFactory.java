@@ -1,7 +1,9 @@
 package app.regexBuilder;
 
 import java.util.Collection;
+import java.util.List;
 
+import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.Group.ChildrenType;
 import app.regexBuilder.Group.GroupType;
 
@@ -37,5 +39,35 @@ public class RegexFactory {
 		return new RegexBuilder(ChildrenType.Sequence, GroupType.None);
 	}
 	
+	public static ClassMatch classMatch(CharacterClass... charClass) {
+		ClassMatch classMatch = new ClassMatch();
+		for(CharacterClass characterClass : charClass) {
+			classMatch.add(characterClass);
+		}
+		return classMatch;
+	}
+	
+	public static ClassMatch classMatch(Character... character) {
+		ClassMatch classMatch = new ClassMatch();
+		classMatch.add(character);
+		return classMatch;
+	}
+	public static ClassMatch classMatch(List<Character> characters) {
+		ClassMatch classMatch = new ClassMatch();
+		for(Character character : characters) {
+			classMatch.add(character);
+		}
+		return classMatch;
+	}
+	
+	public static ClassMatch classMatchRange(char from, char to) {
+		ClassMatch classMatch = new ClassMatch();
+		classMatch.add(from, to);
+		return classMatch;
+	}
+	
+	public static StringMatch stringMatch(String string) {
+		return new StringMatch().add(string);
+	}
 	
 }

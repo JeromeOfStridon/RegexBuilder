@@ -1,13 +1,9 @@
 package app.regexBuilder;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.Group.GroupType;
 
 
 
