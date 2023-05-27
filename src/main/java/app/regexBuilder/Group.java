@@ -204,4 +204,9 @@ public class Group extends Node {
 		return this;
 	}
 	
+	public Group setChildrenType(ChildrenType childrenType) {
+		this.childrenType = childrenType;
+		return this;
+	}
+	
 }
