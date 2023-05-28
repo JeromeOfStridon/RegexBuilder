@@ -1,6 +1,5 @@
 package app.regexBuilder;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +8,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import app.regexBuilder.ClassMatch.CharacterClass;
 
 // Factory for all kinds of match & groups
 public class RegexBuilder extends Group {
@@ -22,20 +19,9 @@ public class RegexBuilder extends Group {
 
 	
 	// CONSTRUCTORS
-	public RegexBuilder(ChildrenType childrenType, GroupType groupType) {
+	protected RegexBuilder(ChildrenType childrenType, GroupType groupType) {
 		super(childrenType, groupType);
 	}
-	
-	
-	public RegexBuilder() {
-		this(ChildrenType.Sequence, GroupType.None);
-	}
-	
-	public RegexBuilder(ChildrenType childrenType) {
-		this(childrenType, GroupType.None);
-	}
-
-
 	
 	// ANCHORS
 	public RegexBuilder anchorStart(boolean b) {
@@ -79,30 +65,7 @@ public class RegexBuilder extends Group {
 
 
 	
-	// FACTORY 
-	public static Group sequenceGroup() {
-		return new Group(ChildrenType.Sequence, GroupType.None);
-	}
-	
-	public static Group alternativeGroup() {
-		return new Group(ChildrenType.Alternative, GroupType.None);
-	}
-	
-	public static Group alternativeGroup(Collection<String> alternatives) {
-		Group group = alternativeGroup();
-		for(String alternative : alternatives) {
-			group.nodes.add(new StringMatch().add(alternative));
-		}
-		return group;
-	}
-	
-	public static Group alternativeGroup(String... alternatives) {
-		Group group = alternativeGroup();
-		for(String alternative : alternatives) {
-			group.nodes.add(new StringMatch().add(alternative));
-		}
-		return group;
-	}
+
 	
 	
 //	public static Group positiveLookAhead() {
@@ -145,36 +108,7 @@ public class RegexBuilder extends Group {
 //		return new Group(ChildrenType.Sequence, GroupType.NonCapturing);
 //	}
 
-	public static ClassMatch classMatch(CharacterClass... charClass) {
-		ClassMatch classMatch = new ClassMatch();
-		for(CharacterClass characterClass : charClass) {
-			classMatch.add(characterClass);
-		}
-		return classMatch;
-	}
 	
-	public static ClassMatch classMatch(Character... character) {
-		ClassMatch classMatch = new ClassMatch();
-		classMatch.add(character);
-		return classMatch;
-	}
-	public static ClassMatch classMatch(List<Character> characters) {
-		ClassMatch classMatch = new ClassMatch();
-		for(Character character : characters) {
-			classMatch.add(character);
-		}
-		return classMatch;
-	}
-	
-	public static ClassMatch classMatchRange(char from, char to) {
-		ClassMatch classMatch = new ClassMatch();
-		classMatch.add(from, to);
-		return classMatch;
-	}
-	
-	public static StringMatch stringMatch(String string) {
-		return new StringMatch().add(string);
-	}
 
 
 	public Integer findGroupPosition(String groupName) {
@@ -194,9 +128,9 @@ public class RegexBuilder extends Group {
 			if(groups.get(i) == null) {
 				continue;
 			}
-			if(groups.get(i).capturingGroupName != null) {
+			if(groups.get(i).groupName != null) {
 				// Offset of 1 because group(0) is the general one
-				result.put(i + 1, groups.get(i).capturingGroupName);
+				result.put(i + 1, groups.get(i).groupName);
 			}
 		}
 		return result;
@@ -205,7 +139,7 @@ public class RegexBuilder extends Group {
 	public Group asGroup() {
 		Group group = new Group(this.childrenType, this.groupType);
 		group.nodes = this.nodes;
-		group.capturingGroupName = this.capturingGroupName;
+		group.groupName = this.groupName;
 		
 		return group;
 	}

@@ -15,13 +15,13 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void emptyTest() {
-		RegexBuilder test = new RegexBuilder();
+		RegexBuilder test = RegexFactory.regexBuilder();
 		assertEquals("", test.toString());
 	}
 	
 	@Test
 	public void anchorsTest() {
-		RegexBuilder test1 = new RegexBuilder();
+		RegexBuilder test1 = RegexFactory.regexBuilder();
 		test1
 			.anchorStart(true)
 			.anchorEnd(true)
@@ -34,12 +34,12 @@ public class RegexBuilderTest {
 	@Test
 	public void regexQuantityPattern() {
 		
-		RegexBuilder quantityPattern = new RegexBuilder();
+		RegexBuilder quantityPattern = RegexFactory.regexBuilder();
 		quantityPattern
 			.unique("{")
-			.optional(RegexBuilder.sequenceGroup().captureAs("minSize").some(CharacterClass.Numeric))
+			.optional(RegexFactory.sequenceGroup().setName("minSize").some(CharacterClass.Numeric))
 			.unique(",")
-			.optional(RegexBuilder.sequenceGroup().captureAs("maxSize").some(CharacterClass.Numeric))
+			.optional(RegexFactory.sequenceGroup().setName("maxSize").some(CharacterClass.Numeric))
 			.unique("}");
 		
 		Assert.assertEquals("\\{([0-9]+)?,([0-9]+)?\\}", quantityPattern.toString());
@@ -49,8 +49,8 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void alternativeGroupTest() {
-		RegexBuilder regexBuilder = new RegexBuilder();
-		regexBuilder.unique(RegexBuilder.alternativeGroup("abc", "def", "ghi"));
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+		regexBuilder.unique(RegexFactory.alternativeGroup("abc", "def", "ghi"));
 		
 		assertEquals("(abc|def|ghi)", regexBuilder.toString());
 	}
@@ -59,9 +59,9 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void multipleLookAhead() {
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		rb
-			.unique(RegexBuilder.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
+			.unique(RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
 			.some(CharacterClass.AlphabeticUpper);
 
 		Assert.assertEquals("(?=abc)[A-Z]+", rb.toString());

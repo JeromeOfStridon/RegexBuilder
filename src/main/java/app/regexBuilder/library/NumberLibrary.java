@@ -2,12 +2,13 @@ package app.regexBuilder.library;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.RegexBuilder;
+import app.regexBuilder.RegexFactory;
 
 public class NumberLibrary {
 	
 	public static RegexBuilder floatNumber() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		rb
 			.some(CharacterClass.Numeric)
 			.unique(".")
@@ -18,7 +19,7 @@ public class NumberLibrary {
 	
 	public static RegexBuilder intNumber() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		rb.some(CharacterClass.Numeric);
 		return rb;
 		

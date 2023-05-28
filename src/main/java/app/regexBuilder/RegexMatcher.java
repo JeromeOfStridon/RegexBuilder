@@ -18,7 +18,7 @@ public class RegexMatcher {
 	final Pattern pattern;
 	final Matcher matcher;
 	
-	private boolean currentFind = false;
+	private Boolean currentFind;
 	
 	public RegexMatcher(RegexBuilder regexBuilder, String content, int flags) {
 		this.regexBuilder = regexBuilder;
@@ -44,6 +44,10 @@ public class RegexMatcher {
 	}
 	
 	public String group(String groupName) {
+		
+		if(!currentFind) {
+			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+		}
 		try {
 			return matcher.group(regexBuilder.findGroupPosition(groupName));
 		}
@@ -69,7 +73,6 @@ public class RegexMatcher {
 	}
 	
 	public RegexMatcher debug() {
-		Map<RegexBuilder, String> resultMap = new LinkedHashMap<>();
 		
 		for(int i = 0; i < regexBuilder.nodes.size(); i++) {
 			RegexBuilder regexClone = regexBuilder.clone();
@@ -83,6 +86,7 @@ public class RegexMatcher {
 				return cloneMatcher;
 			}
 		}
+		
 		return null;
 
 	}
@@ -102,6 +106,7 @@ public class RegexMatcher {
 			return null;
 		}
 	}
+	
 	public Integer end(String groupName) {
 		try {
 			return matcher.end(regexBuilder.findGroupPosition(groupName));
@@ -113,12 +118,7 @@ public class RegexMatcher {
 	
 
 	public String replace(String groupName, String replacementString) {
-		if(!currentFind) {
-			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !");
-		}
-		
 		Integer groupPosition = regexBuilder.findGroupPosition(groupName);
-		
 		return content.substring(0, matcher.start(groupPosition))+replacementString+content.substring(matcher.end(groupPosition));
 	}
 

@@ -2,12 +2,11 @@ package app.regexBuilder;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Assert;
+import java.util.List;
+
 import org.junit.Test;
 
-import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.Group.GroupType;
 
 
 
@@ -15,8 +14,8 @@ public class ClassMatchTest {
 	
 	
 	@Test
-	public void test1() {
-		ClassMatch cm = RegexBuilder
+	public void genericTest() {
+		ClassMatch cm = RegexFactory
 				.classMatch(CharacterClass.AlphabeticUpper)
 				.add('$')
 				.add('€');
@@ -30,6 +29,19 @@ public class ClassMatchTest {
 		cm.bePositive();
 		
 		assertEquals("[A-Z$€]", cm.toString());
+		
+		cm.addAll(List.of('0','1','2','3'));
+		
+		assertEquals("[A-Z$€0123]", cm.toString());
+		
+	}
+	
+	@Test
+	public void singleClassMatchTest() {
+		
+		ClassMatch cm = RegexFactory.classMatch('a');
+		
+		assertEquals("a", cm.toString());
 		
 	}
 	

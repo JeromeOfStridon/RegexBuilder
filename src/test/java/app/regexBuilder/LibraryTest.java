@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import app.regexBuilder.library.DateTimeLibrary;
+import app.regexBuilder.library.MiscLibrary;
 import app.regexBuilder.library.NumberLibrary;
 import app.regexBuilder.library.WebContentLibrary;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ public class LibraryTest {
 	@Test
 	public void intInclusionBreak() {
 		
-		RegexBuilder rb = new RegexBuilder();
+		RegexBuilder rb = RegexFactory.regexBuilder();
 		
 		rb
 			.unique(NumberLibrary.intNumber())
@@ -58,6 +59,7 @@ public class LibraryTest {
 		RegexBuilder rb = DateTimeLibrary.fullWrittenDate_fr();
 		
 		RegexMatcher rm = new RegexMatcher(rb, "1er Janvier 2021");
+		rm.find();
 		assertEquals("2021", rm.group("year"));
 		assertEquals("Janvier", rm.group("month"));
 		
@@ -65,10 +67,11 @@ public class LibraryTest {
 	
 	@Test
 	public void fullWrittenDate_enTest() {
-		RegexMatcher rm = new RegexMatcher(DateTimeLibrary.fullWrittenDate_en(), "Mar. 31st 2022");
+		RegexMatcher rm = new RegexMatcher(DateTimeLibrary.fullWrittenDate_en(), "Mar. 31th 2022");
+		rm.find();
 		assertEquals("2022", rm.group("year"));
 		assertEquals("Mar.", rm.group("month"));
-		assertEquals("31st", rm.group("day"));
+		assertEquals("31th", rm.group("day"));
 	}
 	
 	@Test
@@ -94,6 +97,11 @@ public class LibraryTest {
 		assertEquals("&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});", WebContentLibrary.htmlEntity().toString());
 	}
 
+	
+	@Test
+	public void colorHexCodeTest() {
+		assertEquals("#[0-9a-fA-F]{6}", MiscLibrary.colorHexCode().toString());
+	}
 	
 	
 
