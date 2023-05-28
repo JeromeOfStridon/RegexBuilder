@@ -5,20 +5,13 @@ import app.regexBuilder.RegexBuilder;
 
 public class NumberLibrary {
 	
-
-	
-	
-	
 	public static RegexBuilder floatNumber() {
 		
 		RegexBuilder rb = new RegexBuilder();
-		
 		rb
 			.some(CharacterClass.Numeric)
 			.unique(".")
 			.some(CharacterClass.Numeric);
-		
-		
 		return rb;
 		
 	}
@@ -26,10 +19,7 @@ public class NumberLibrary {
 	public static RegexBuilder intNumber() {
 		
 		RegexBuilder rb = new RegexBuilder();
-		
 		rb.some(CharacterClass.Numeric);
-		
-		
 		return rb;
 		
 	}
