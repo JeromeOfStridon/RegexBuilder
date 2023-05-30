@@ -4,6 +4,7 @@ import java.util.List;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.Group;
+import app.regexBuilder.Group.ChildrenType;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.RegexFactory;
 
@@ -70,11 +71,53 @@ public class DateTimeLibrary {
 
 		return regex;
 	}
+	
+	public static RegexBuilder dayNumber() {
+		
+		RegexBuilder regex = RegexFactory.regexBuilder(ChildrenType.Alternative);
+
+		regex
+		
+			// case 1 to 9 or 01 to 09
+			.unique(RegexFactory.sequenceGroup()
+					.optional("0")
+					.unique(RegexFactory.classMatchRange('1', '9'))
+					)
+			// case 10 to 29
+			.unique(RegexFactory.sequenceGroup()
+					.unique(RegexFactory.classMatchRange('1', '2'))
+					.unique(RegexFactory.classMatch(CharacterClass.Numeric))
+					)
+			// case 30
+			.unique("30")
+			// case 31
+			.unique("31");
+		
+		return regex;
+		
+	}
+	
+	public static RegexBuilder monthNumber() {
+		
+		RegexBuilder regex = RegexFactory.regexBuilder(ChildrenType.Alternative);
+		
+		regex
+			// case 1 to 9, 01 to 09
+			.unique(RegexFactory.sequenceGroup()
+				.optional("0")
+				.unique(RegexFactory.classMatchRange('1', '9'))
+				)
+			.unique("10")
+			.unique("11")
+			.unique("12");
+		
+		return regex;
+	}
 
 	public static RegexBuilder year() {
 		RegexBuilder regex = RegexFactory.regexBuilder();
 
-		regex.unique(RegexFactory.alternativeGroup(List.of("1", "2"))).between(CharacterClass.Numeric, 3, 3);
+		regex.unique(RegexFactory.alternativeGroup(List.of("1", "2"))).exactly(CharacterClass.Numeric, 3);
 
 		return regex;
 

@@ -1,6 +1,8 @@
 package app.regexBuilder;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -57,11 +59,11 @@ public class RegexMatcher {
 	}
 	
 	public Float groupAsFloat(String groupName) {
-		String content = group(groupName);
-		if(content == null) {
+		String groupContent = group(groupName);
+		if(groupContent == null) {
 			return null;
 		}
-		return Float.parseFloat(content);
+		return Float.parseFloat(groupContent);
 	}
 	
 	public Integer groupAsInteger(String groupName) {
@@ -132,4 +134,31 @@ public class RegexMatcher {
 		
 		return groupsAsMap;
 	}
+	
+	public RegexMatch getMatch() {
+		
+		RegexMatch match = new RegexMatch();
+		match.regexMatcher = this;
+		Map<Integer, String> groupPositions = regexBuilder.getGroupPositions();
+		
+		for(int i = 0; i < matcher.groupCount(); i++) {
+			match.start.add(matcher.start(i));
+			match.end.add(matcher.end(i));
+			match.groupName.add(groupPositions.get(i));
+		}
+		
+		return match;
+	}
+	
+	
+	@Getter
+	public static class RegexMatch{
+		
+		RegexMatcher regexMatcher;
+		List<Integer> start = new ArrayList<>();
+		List<Integer> end = new ArrayList<>();
+		List<String> groupName = new ArrayList<>();
+		
+	}
+	
 }

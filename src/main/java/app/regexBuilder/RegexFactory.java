@@ -35,8 +35,22 @@ public class RegexFactory {
 		return group;
 	}
 	
+	
+	
 	public static RegexBuilder regexBuilder() {
 		return new RegexBuilder(ChildrenType.Sequence, GroupType.None);
+	}
+	
+	public static RegexBuilder regexBuilder(ChildrenType childrenType) {
+		return new RegexBuilder(childrenType, GroupType.None);
+	}
+	
+	public static RegexBuilder regexBuilder(GroupType groupType) {
+		return new RegexBuilder(ChildrenType.Sequence, groupType);
+	}
+	
+	public static RegexBuilder regexBuilder(ChildrenType childrenType, GroupType groupType) {
+		return new RegexBuilder(childrenType, groupType);
 	}
 	
 	public static ClassMatch classMatch(CharacterClass... charClass) {

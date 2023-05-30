@@ -13,7 +13,7 @@ public class Group extends Node {
 	
 	protected GroupType groupType;
 
-	List<Node> nodes = new ArrayList<>();
+	protected List<Node> nodes = new ArrayList<>();
 	
 	String groupName;
 	
