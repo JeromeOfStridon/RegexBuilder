@@ -2,7 +2,7 @@ package app.regexBuilder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,23 +17,35 @@ public class ClassMatch extends Node {
 
 	boolean negative = false;
 	
-	
+	/**
+	 * Sets the ClassMatch to be negative (excluding specified classes or characters), opposite to {@link #bePositive()}
+	 */
 	public ClassMatch beNegative() {
 		negative = true;
 		return this;
 	}
+	
+	/**
+	 * Sets the ClassMatch to be positive (including specified classes or characters), opposite to {@link #beNegative()}
+	 */
 	public ClassMatch bePositive() {
 		negative = false;
 		return this;
 	}
 	
+	
+	/**
+	 * Add CharacterClass to current ClassMatch
+	 */
 	public ClassMatch add(CharacterClass cc) {
 		items.add(cc);
 		return this;
 	}
 	
 
-	
+	/**
+	 * Add Characters to current ClassMatch
+	 */
 	public ClassMatch add(Character... charArray) {
 		for(Character c : charArray) {
 			items.add(c);
@@ -41,7 +53,10 @@ public class ClassMatch extends Node {
 		return this;
 	}
 	
-	public ClassMatch addAll(List<Character> characterList) {
+	/**
+	 * Add Character collection to current ClassMatch
+	 */
+	public ClassMatch addAll(Collection<Character> characterList) {
 		for(Character c : characterList) {
 			items.add(c);
 		}
@@ -49,14 +64,18 @@ public class ClassMatch extends Node {
 	}
 	
 	
-	
-	public ClassMatch add(char a, char b) {
-		items.add(new ClassRange(a, b));
+	/**
+	 * Add ClassRange to current ClassMatch
+	 * @param from character specifying range start
+	 * @param to character specifying range end
+	 */
+	public ClassMatch addRange(char from, char to) {
+		items.add(new ClassRange(from, to));
 		return this;
 	}
 	
 
-	public static enum CharacterClass{
+	public enum CharacterClass{
 		
 		Any("."),
 		
@@ -95,10 +114,11 @@ public class ClassMatch extends Node {
 		}
 		
 	}
-	
-	public String toString() {
 
-		
+	/**
+	 * Compiling current ClassMatch into regex string
+	 */
+	public String toString() {
 		
 		List<String> finalClasses = new ArrayList<>();
 		for(Object item : items) {
@@ -130,8 +150,6 @@ public class ClassMatch extends Node {
 			
 			
 		}
-		
-		
 			
 		// If only one character, turn it into a string match
 		if(finalClasses.size() == 1 && !negative && items.iterator().next() instanceof Character) {
