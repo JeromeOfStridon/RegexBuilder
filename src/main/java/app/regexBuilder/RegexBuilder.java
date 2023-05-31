@@ -1,5 +1,6 @@
 package app.regexBuilder;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,6 +135,16 @@ public class RegexBuilder extends Group {
 			}
 		}
 		return result;
+	}
+	
+	@Override
+	List<Group> getCapturingGroups(){
+		List<Group> groups = new ArrayList<>();
+		if(anchorStart||anchorEnd) {
+			groups.add(this);
+		}
+		groups.addAll(super.getCapturingGroups());
+		return groups;
 	}
 	
 	public Group asGroup() {

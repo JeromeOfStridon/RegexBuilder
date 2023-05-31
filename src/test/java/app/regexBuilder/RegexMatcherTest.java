@@ -96,6 +96,22 @@ public class RegexMatcherTest {
 		
 	}
 	
+	@Test
+	public void anchorSequenceTest() {
+		RegexBuilder rb = RegexFactory.regexBuilder().anchorStart(true);
+		rb
+			.unique(RegexFactory.sequenceGroup().setName("A").some(CharacterClass.Alphabetic))
+			.unique(RegexFactory.sequenceGroup().setName("1").some(CharacterClass.Numeric));
+		
+		RegexMatcher matcher = new RegexMatcher(rb, "A1");
+		matcher.find();
+		
+		assertEquals("A", matcher.group("A"));
+		assertEquals("1", matcher.group("1"));
+		
+		
+	}
+	
 	
 
 }

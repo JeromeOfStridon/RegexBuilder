@@ -8,6 +8,11 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.builder.ToStringExclude;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -135,30 +140,27 @@ public class RegexMatcher {
 		return groupsAsMap;
 	}
 	
-	public RegexMatch getMatch() {
-		
-		RegexMatch match = new RegexMatch();
-		match.regexMatcher = this;
-		Map<Integer, String> groupPositions = regexBuilder.getGroupPositions();
-		
-		for(int i = 0; i < matcher.groupCount(); i++) {
-			match.start.add(matcher.start(i));
-			match.end.add(matcher.end(i));
-			match.groupName.add(groupPositions.get(i));
-		}
-		
-		return match;
-	}
-	
-	
+	@Data
 	@Getter
+	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class RegexMatch{
 		
-		RegexMatcher regexMatcher;
-		List<Integer> start = new ArrayList<>();
-		List<Integer> end = new ArrayList<>();
-		List<String> groupName = new ArrayList<>();
+		@ToStringExclude final public RegexMatcher regexMatcher;
+		public final int start;
+		public final int end;
+		public final String group;
+		public final String name;
 		
+	}
+
+
+	public List<RegexMatch> getMatchs() {
+		Map<Integer, String> map = regexBuilder.getGroupPositions();
+		List<RegexMatch> matchs = new ArrayList<>();
+		for(int i = 0; i <= matcher.groupCount(); i++) {
+			matchs.add(new RegexMatch(this, matcher.start(i), matcher.end(i), matcher.group(i), map.get(i)));
+		}
+		return matchs;
 	}
 	
 }
