@@ -27,7 +27,12 @@ public class RegexMatcherTest {
 				
 		RegexMatcher rm = new RegexMatcher(rb, "test 13.37 regexer 1");
 		
+		assertNull(rm.group());
+		assertNull(rm.group("integer"));
+		
 		rm.find();
+		
+		assertEquals("13.37", rm.group());
 		
 		assertEquals(5, rm.start());
 		assertEquals(10, rm.end());
@@ -47,6 +52,11 @@ public class RegexMatcherTest {
 		assertNull(rm.end("wrong name"));
 		
 		assertEquals("test 13,37 regexer 1", rm.replace("separator", ","));
+		
+		assertEquals("13.37", rm.getMatchs().get(0).group);
+		assertEquals(0, rm.getMatchs().get(1).start);
+		assertEquals(3, rm.getMatchs().get(2).end);
+		
 				
 	}
 	

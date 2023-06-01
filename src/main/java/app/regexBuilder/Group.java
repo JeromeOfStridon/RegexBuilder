@@ -175,29 +175,126 @@ public class Group extends Node {
 	public Group someLazy(Node node) 					{ return _attachNode(node, 1, null, true); }
 	
 	
-	// Min
-	public Group min(CharacterClass content, int min) 		{ return _attachNode(new ClassMatch().add(content), min, null, false); }
-	public Group min(String content, int min) 				{ return _attachNode(new StringMatch().add(content), min, null, false); }
-	public Group min(Node content, int min) 				{ return _attachNode(content, min, null, false); }
-	public Group minLazy(CharacterClass content, int min) 	{ return _attachNode(new ClassMatch().add(content), min, null, true); }
-	public Group minLazy(String content, int min) 			{ return _attachNode(new StringMatch().add(content), min, null, true); }
-	public Group minLazy(Node content, int min) 			{ return _attachNode(content, min, null, true); }
+	/**
+	 * Adding CharacterClass to current group with minimum quantity as specified in min parameter
+	 * @param characterClass CharacterClass to be added
+	 * @param min minimum quantity
+	 */
+	public Group min(CharacterClass characterClass, int min) 		{ return _attachNode(new ClassMatch().add(characterClass), min, null, false); }
+	/**
+	 * Adding String to current group with minimum quantity as specified in min parameter
+	 * @param string String to be added
+	 * @param min minimum quantity
+	 */
+	public Group min(String string, int min) 				{ return _attachNode(new StringMatch().add(string), min, null, false); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with minimum quantity as specified in min parameter
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 * @param min minimum quantity
+	 */
+	public Group min(Node node, int min) 				{ return _attachNode(node, min, null, false); }
+	/**
+	 * Adding CharacterClass to current group with minimum quantity as specified in min parameter (lazy)
+	 * @param characterClass CharacterClass to be added
+	 * @param min minimum quantity
+	 */
+	public Group minLazy(CharacterClass characterClass, int min) 	{ return _attachNode(new ClassMatch().add(characterClass), min, null, true); }
+	/**
+	 * Adding String to current group with minimum quantity as specified in min parameter (lazy)
+	 * @param string String to be added
+	 * @param min minimum quantity
+	 */
+	public Group minLazy(String string, int min) 			{ return _attachNode(new StringMatch().add(string), min, null, true); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with minimum quantity as specified in min parameter (lazy)
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 * @param min minimum quantity
+	 */
+	public Group minLazy(Node node, int min) 			{ return _attachNode(node, min, null, true); }
+
 	
-	// Max
-	public Group max(CharacterClass content, int max) 		{ return _attachNode(new ClassMatch().add(content), 0, max, false); }
-	public Group max(String content, int max) 				{ return _attachNode(new StringMatch().add(content), 0, max, false); }
-	public Group max(Node content, int max) 				{ return _attachNode(content, 0, max, false); }
-	public Group maxLazy(CharacterClass content, int max) 	{ return _attachNode(new ClassMatch().add(content), 0, max, true); }
-	public Group maxLazy(String content, int max) 			{ return _attachNode(new StringMatch().add(content), 0, max, true); }
-	public Group maxLazy(Node content, int max) 			{ return _attachNode(content, 0, max, true); }
+	
+	
+	/**
+	 * Adding CharacterClass to current group with maximum quantity as specified in max parameter
+	 * @param characterClass CharacterClass to be added
+	 * @param max maximum quantity
+	 */
+	public Group max(CharacterClass characterClass, int max) 		{ return _attachNode(new ClassMatch().add(characterClass), 0, max, false); }
+	/**
+	 * Adding String to current group with maximum quantity as specified in max parameter
+	 * @param string String to be added
+	 * @param max maximum quantity
+	 */
+	public Group max(String string, int max) 				{ return _attachNode(new StringMatch().add(string), 0, max, false); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with maximum quantity as specified in max parameter
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 * @param max maximum quantity
+	 */
+	public Group max(Node node, int max) 				{ return _attachNode(node, 0, max, false); }
+	/**
+	 * Adding CharacterClass to current group with maximum quantity as specified in max parameter (lazy)
+	 * @param characterClass CharacterClass to be added
+	 * @param max maximum quantity
+	 */
+	public Group maxLazy(CharacterClass characterClass, int max) 	{ return _attachNode(new ClassMatch().add(characterClass), 0, max, true); }
+	/**
+	 * Adding String to current group with maximum quantity as specified in max parameter (lazy)
+	 * @param string String to be added
+	 * @param max maximum quantity
+	 */
+	public Group maxLazy(String string, int max) 			{ return _attachNode(new StringMatch().add(string), 0, max, true); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with maximum quantity as specified in max parameter (lazy)
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 * @param max maximum quantity
+	 */
+	public Group maxLazy(Node node, int max) 			{ return _attachNode(node, 0, max, true); }
 	
 	// Between
-	public Group between(CharacterClass content, int min, int max) 		{ return _attachNode(new ClassMatch().add(content), min, max, false); }
-	public Group between(String content, int min, int max) 				{ return _attachNode(new StringMatch().add(content), min, max, false); }
-	public Group between(Node content, int min, int max) 				{ return _attachNode(content, min, max, false); }
-	public Group betweenLazy(CharacterClass content, int min, int max) 	{ return _attachNode(new ClassMatch().add(content), min, max, true); }
-	public Group betweenLazy(String content, int min, int max) 			{ return _attachNode(new StringMatch().add(content), min, max, true); }
-	public Group betweenLazy(Node content, int min, int max) 			{ return _attachNode(content, min, max, true); }
+	/**
+	 * Adding CharacterClass to current group with quantity between specified values in min & max parameters
+	 * @param characterClass CharacterClass to be added
+	 * @param min minimum quantity
+	 * @param max maximum quantity
+	 */
+	public Group between(CharacterClass characterClass, int min, int max) 		{ return _attachNode(new ClassMatch().add(characterClass), min, max, false); }
+	/**
+	 * Adding String to current group with quantity between specified values in min & max parameters
+	 * @param string String to be added
+	 * @param min minimum quantity
+	 * @param max maximum quantity
+	 */
+	public Group between(String string, int min, int max) 				{ return _attachNode(new StringMatch().add(string), min, max, false); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with quantity between specified values in min & max parameters
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 * @param min minimum quantity
+	 * @param max maximum quantity
+	 */
+	public Group between(Node node, int min, int max) 				{ return _attachNode(node, min, max, false); }
+	/**
+	 * Adding CharacterClass to current group with quantity between specified values in min & max parameters (lazy)
+	 * @param characterClass CharacterClass to be added
+	 * @param min minimum quantity
+	 * @param max maximum quantity
+	 */
+	public Group betweenLazy(CharacterClass characterClass, int min, int max) 	{ return _attachNode(new ClassMatch().add(characterClass), min, max, true); }
+	/**
+	 * Adding String to current group with quantity between specified values in min & max parameters (lazy)
+	 * @param string String to be added
+	 * @param min minimum quantity
+	 * @param max maximum quantity
+	 */
+	public Group betweenLazy(String string, int min, int max) 			{ return _attachNode(new StringMatch().add(string), min, max, true); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with quantity between specified values in min & max parameters (lazy)
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 * @param min minimum quantity
+	 * @param max maximum quantity
+	 */
+	public Group betweenLazy(Node node, int min, int max) 			{ return _attachNode(node, min, max, true); }
 		
 	
 
@@ -224,6 +321,9 @@ public class Group extends Node {
 		
 	}
 	
+	/**
+	 * Compiling current Group into regex string
+	 */
 	public String toString() {
 		if(nodes == null || nodes.isEmpty()) {
 			return "";

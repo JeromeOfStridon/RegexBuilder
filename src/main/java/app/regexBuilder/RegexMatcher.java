@@ -142,8 +142,7 @@ public class RegexMatcher {
 		return groupsAsMap;
 	}
 	
-	@Data
-	@Getter
+
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class RegexMatch{
 		

@@ -36,7 +36,10 @@ public class RegexBuilder extends Group {
 	}
 
 
-	// LOGIC
+	/**
+	 * Compiling current RegexBuilder into regex string
+	 */
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		if(anchorStart) {
@@ -64,52 +67,6 @@ public class RegexBuilder extends Group {
 		return sb.toString();
 	}
 
-
-	
-
-	
-	
-//	public static Group positiveLookAhead() {
-//		return new Group(ChildrenType.Sequence, GroupType.PositiveLookAhead);
-//	}
-//	public static Group negativeLookAhead() {
-//		return new Group(ChildrenType.Sequence, GroupType.NegativeLookAhead);
-//	}
-//	public static Group positiveLookBehind() {
-//		return new Group(ChildrenType.Sequence, GroupType.PositiveLookBehind);
-//	}
-//	public static Group negativeLookBehind() {
-//		return new Group(ChildrenType.Sequence, GroupType.NegativeLookBehind);
-//	}
-//	
-//	
-//	public static Group capturingSequenceGroup(String name) {
-//		Group group = new Group(ChildrenType.Sequence, GroupType.Capturing);
-//		group.capturingGroupName = name;
-//		return group;
-//	}
-//	public static Group capturingAlternativeGroup(String name) {
-//		Group group = new Group(ChildrenType.Alternative, GroupType.Capturing);
-//		group.capturingGroupName = name;
-//		return group;
-//	}
-//	
-//	public static Group capturingAlternativeGroup(Collection<String> alternatives, String capturingGroupName) {
-//		Group group = new Group(ChildrenType.Alternative, GroupType.Capturing);
-//		group.capturingGroupName = capturingGroupName;
-//		
-//		for(String alternative : alternatives) {
-//			group.nodes.add(new StringMatch().add(alternative));
-//		}
-//		return group;
-//	}
-//	
-//	
-//	public static Group nonCapturingGroup() {
-//		return new Group(ChildrenType.Sequence, GroupType.NonCapturing);
-//	}
-
-	
 
 
 	public Integer findGroupPosition(String groupName) {

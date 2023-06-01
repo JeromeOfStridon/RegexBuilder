@@ -46,6 +46,15 @@ public class ClassMatchTest {
 	}
 	
 	
+	@Test
+	public void rangeClassMatchTest() {
+		ClassMatch cm = RegexFactory.classMatch(CharacterClass.Numeric).addRange('A', 'F');
+		
+		assertEquals("[0-9A-F]", cm.toString());
+		
+	}
+	
+	
 	
 
 }

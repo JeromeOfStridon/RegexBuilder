@@ -154,10 +154,7 @@ The source code is licensed under the MIT license, which you can find in the MIT
 - Regex optimizer included :
 	Created to try to simplify your regex as much as possible
 
-	
 
-
-- Use within instead of between
 - think about using beXXX => 
 	- beNegativeLookaheadGroup
 	- beSequential / beAlternative
