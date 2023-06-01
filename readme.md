@@ -12,109 +12,131 @@ Example :
 
 Creating this framework we tried to follow simple directions: 
 
-** DRY (Don't repeat yourself) **
+** Intuitive ** 
 
-You can build your regex with one single object, or as a composition of different objects you can reuse.
-You may reuse the same object several times in your regex, or build your own library of regex parts.
+Don't waist your time looking for all framework capacities, one single entry point : RegexFactory static class.
+RegexFactory.sequenceGroup() RegexBuilder.classMatch() etc.
+If it's not here, it just doesn't exist at all !
+
+`RegexBuilder regexBuilder = RegexFactory.regexBuilder();`
+
+** Fluent **
+
+Concepts of regex are sometimes hard to get as they are using symbols (*, ?, +, |) you don't want to remember, let's use words instead !
+
+`regexBuilder.unique("Hello");`
 
 
-** Easy to use ** 
+** Easy coding **
 
-When building your regex, you may need different tools that are splitted in different classes. 
-In order to avoid too much discovery efforts, every tool you may want to use to build your regex are available statically in RegexBuilder class ! 
-RegexBuilder.sequenceGroup() RegexBuilder.classMatch() etc
-Don't waste your time ! If it's not here, it just doesn't exist at all !
+The whole framework has been thought as a builder, start adding parts and just keep adding other parts to it !
+
+`regexBuilder.unique(CharacterClass.Space).unique("World ").some("!");`
+
 
 
 ** Collaborative **
 
-Common regex are a nightmare to write, but a hell to read. Regular regex doesn't allow comments, and that's for the worst.
-Fortunately, with Regex Builder, as you write your regex with code, you can add comments, please do so.
+Common regex are a nightmare to write, and a hell to read. Regular regex doesn't allow comments, and that's for the worst.
+Fortunately, Regex Builder is made for you to code it, and code comes with comments right ? 
+Please be gentle, code your regex, comment your regex, if not for you for your readers, that's the least you can do !
+`regexBuilder.unique(".") // expecting phrase to end with dot`
+
+
+** DRY (Don't repeat yourself) **
+
+Create regex using object oriented programming, using composition of objects that can be used in several regex, or objects called multiple times in the same regex !
+
+RegexBuilder sentence
 
 
 ### 1. RegexBuilder
 
-RegexBuilder
+RegexBuilder is the root and delivery of your work, it will embed all parts of your regex such as groups, string match, class match etc
 
 
 ### 2. Groups
 
+#### 2.1. Definition
 
-** Quantities
+A group is a piece of your regex, it can just be a simple character, a 
+
+##### 2.1.1. Quantities
+
+For each group you should define how much you want of it in your final expression, should it be 
+- optional : 0 or 1
+- unique : just one
+- some : 1 or as many as you want
+- any : 0 or as many as you want
+- between : choose your limits
+- exactly : you should have get it this far right ?
 
 
-** Sequential / Alternative **
+##### 2.1.2. Sequential / Alternative
 
-** Capturing / Non Capturing **
+Groups can have two different directions to be seen : as pieces to be followed one by one (sequence), or as pieces to be seen as options compared to other (alternative)
+
+##### 2.1.3. Capturing / Non Capturing
+
+Regex offers you to extract pieces of content to be matched, also called as captures, define if your group is a capturing one or not.
+If you are to create capturing groups, please consider giving it a name ! you will then be able to call the matched content by its name instead of calculating its position within your whole regex !
+
+##### 2.1.4. Look Ahead / Look Behind
+
+These groups will enable your regex to check content before of after the match you want to get.
 
 
-### 3. ClassMatch
 
-### 4. RegexMatcher
+** Groups can have different shapes such as following : **
+
+#### 2.2. ClassMatch Group
+Kind of group enabling you to match a range of characters defined in generic way (numeric, uppercase letters, lowercase letters, mixed, or specific character range)
+
+##### 2.2. StringMatch Group
+Simple way of saying "I want to match that sequence of characters"
+
+### 3. RegexMatcher
+RegexBuilder has a buddy helping you to match your content once using it : RegexMatcher !
+
+##### 3.1. Group names
+
+##### 3.2. Replace
+
+##### 3.3. RegexMatch
+
+
+
+### 4. Library
+Framework is shipped with RegexBuilder templates you can already use in your regex, as such, or as parts. Make good use of it !
+
+Example : 
+
+```
+RegexBuilder hhMMClock = RegexFactory.regexBuilder();
+hhMMClock
+	// Hours
+	.unique(
+			RegexFactory.alternativeGroup()
+			.unique(RegexFactory.sequenceGroup()
+				.unique(RegexFactory.classMatch('0','1'))
+				.unique(CharacterClass.Numeric))
+			.unique(RegexFactory.sequenceGroup()
+				.unique("2")
+				.unique(RegexFactory.classMatchRange('0', '3'))
+				)
+		)
+	// Separator
+	.unique(":")
+	// Minutes
+	.unique(RegexFactory.classMatchRange('0', '5'))
+	.unique(CharacterClass.Numeric);
+```
 
 ### 5. Advanced options
 
 ** Anchors **
 
-** Looks **
 
-
-
-
-
-### 1. Matching parts
-A regex is built out of little pieces that will match parts of the string you apply your regex to, and a structure that assemble them.
-Two tools are at your disposal to build these pieces : StringMatch & ClassMatch
-
-** StringMatch **
-
-Use this tool if you want to match specific strings, this is the simplest tool you 
-
-`RegexBuilder regexBuilder = new RegexBuilder();`
-`regexBuilder.unique(RegexBuilder.stringMatch("I like"));`
-
-
-** ClassMatch **
-
-Use this tool to declare characters that can be matched
-You can declare a range of characters directly from predefined CharacterClass enum
-You can also declare specific characters
-
-### 2. Parts assembly 
-** Groups **
-Once you have the pieces of your regex, you need a structure to assamble them.
-- Sequence Group to explain how pieces are supposed to follow each other.
-- Alternative Group to open different parallel options
-
-** Quantities **
-All of the pieces created before can be specified to be matched
-
-- any : zero or more
-- some : one or more
-- unique : one and only one
-- between : 
-
-
-** Sequence Group & Alternative Group **
-
-### 3. Group Options
-
-** Capturing **
-
-** Lookahead / Lookbehind / etc **
-
-### 4. RegexBuilder options
-
-Some options available at regexbuilder level only
-- anchorStart
-- anchorEnd
-
-### 4. RegexMatcher
-
-** group() **
-
-
-** replace() **
 
 
 ### 5. License
@@ -125,34 +147,17 @@ The source code is licensed under the MIT license, which you can find in the MIT
 - Regex as code :
 	you can comment your code to explain the way you created the regex rule by rule
 	readable methods enabling you to read instead of decode the regex
-- Guidance :
-	Every object are accessible through the factory, no need to look for other classes
+
 - Intuitive : 
 	beXXX sets the configuration of each object
 	any, unique, some, between, exactly, optional, none ?
-- Clean code :
-	Agent style code, so that you can pipe your different methods
 - Regex optimizer included :
 	Created to try to simplify your regex as much as possible
-- Parser : 
-	Alpha version parser included, so that you can transform your 
-- Re-use :
-	You can build parts of regex, and use them in different regex, or use the same part multiple times in one single regex
 
 	
-	
-Concepts not implemented yet:
-- Class intersections
-- 
-
-To do : 
-- Implement classic regex into library
-- Debug current regex
-
 
 
 - Use within instead of between
-- find a word for exactly
 - think about using beXXX => 
 	- beNegativeLookaheadGroup
 	- beSequential / beAlternative

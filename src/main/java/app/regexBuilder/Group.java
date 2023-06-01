@@ -38,39 +38,141 @@ public class Group extends Node {
 	
 
 	
-	// Optional
-	public Group optional(CharacterClass content) 			{ return _attachNode(new ClassMatch().add(content), 0, 1, false); }
-	public Group optional(String content) 					{ return _attachNode(new StringMatch().add(content), 0, 1, false); }
-	public Group optional(Node content) 					{ return _attachNode(content, 0, 1, false); }
-	public Group optionalLazy(CharacterClass content) 		{ return _attachNode(new ClassMatch().add(content), 0, 1, true); }
-	public Group optionalLazy(String content) 				{ return _attachNode(new StringMatch().add(content), 0, 1, true); }
-	public Group optionalLazy(Node content) 				{ return _attachNode(content, 0, 1, true); }
+	/**
+	 * Adding CharacterClass to current group with quantity between 0 and 1
+	 * @param characterClass CharacterClass to be added
+	 */
+	public Group optional(CharacterClass characterClass) 		{ return _attachNode(new ClassMatch().add(characterClass), 0, 1, false); }
+	/**
+	 * Adding String to current group with quantity between 0 and 1
+	 * @param string String to be added
+	 */
+	public Group optional(String string) 						{ return _attachNode(new StringMatch().add(string), 0, 1, false); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with quantity between 0 and 1
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 */
+	public Group optional(Node node) 							{ return _attachNode(node, 0, 1, false); }
+	/**
+	 * Adding CharacterClass to current group with quantity between 0 and 1 (lazy)
+	 * @param characterClass CharacterClass to be added
+	 */
+	public Group optionalLazy(CharacterClass characterClass) 	{ return _attachNode(new ClassMatch().add(characterClass), 0, 1, true); }
+	/**
+	 * Adding String to current group with quantity between 0 and 1 (lazy)
+	 * @param string String to be added
+	 */
+	public Group optionalLazy(String string) 					{ return _attachNode(new StringMatch().add(string), 0, 1, true); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with quantity between 0 and 1 (lazy)
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 */
+	public Group optionalLazy(Node node) 						{ return _attachNode(node, 0, 1, true); }
 	
-	// Any : *
-	public Group any(CharacterClass content) 				{ return _attachNode(new ClassMatch().add(content), 0, null, false); }
-	public Group any(String content) 						{ return _attachNode(new StringMatch().add(content), 0, null, false); }
-	public Group any(Node content) 							{ return _attachNode(content, 0, null, false);}
-	public Group anyLazy(CharacterClass content) 			{ return _attachNode(new ClassMatch().add(content), 0, null, true); }
-	public Group anyLazy(String content) 					{ return _attachNode(new StringMatch().add(content), 0, null, true); }	
-	public Group anyLazy(Node content) 						{ return _attachNode(content, 0, null, true); }
 	
-	// Unique
-	public Group unique(CharacterClass content) 			{ return _attachNode(new ClassMatch().add(content), 1, 1, false); }
-	public Group unique(String content) 					{ return _attachNode(new StringMatch().add(content), 1, 1, false); }
-	public Group unique(Node content) 						{ return _attachNode(content, 1, 1, false); }
+	/**
+	 * Adding CharacterClass to current group with any quantity 
+	 * @param characterClass CharacterClass to be added
+	 */
+	public Group any(CharacterClass characterClass) 			{ return _attachNode(new ClassMatch().add(characterClass), 0, null, false); }
+	/**
+	 * Adding String to current group with any quantity
+	 * @param string String to be added
+	 */
+	public Group any(String string) 							{ return _attachNode(new StringMatch().add(string), 0, null, false); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with any quantity
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 */
+	public Group any(Node node) 								{ return _attachNode(node, 0, null, false);}
+	/**
+	 * Adding CharacterClass to current group with any quantity (lazy)
+	 * @param characterClass CharacterClass to be added
+	 */
+	public Group anyLazy(CharacterClass characterClass) 		{ return _attachNode(new ClassMatch().add(characterClass), 0, null, true); }
+	/**
+	 * Adding String to current group with any quantity (lazy)
+	 * @param string String to be added
+	 */
+	public Group anyLazy(String string) 						{ return _attachNode(new StringMatch().add(string), 0, null, true); }	
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with any quantity (lazy)
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 */
+	public Group anyLazy(Node node) 							{ return _attachNode(node, 0, null, true); }
+	
+	
+	/**
+	 * Adding CharacterClass to current group with quantity of 1
+	 * @param characterClass CharacterClass to be added
+	 */
+	public Group unique(CharacterClass characterClass) 			{ return _attachNode(new ClassMatch().add(characterClass), 1, 1, false); }
+	/**
+	 * Adding String to current group with quantity of 1
+	 * @param string String to be added
+	 */
+	public Group unique(String string) 							{ return _attachNode(new StringMatch().add(string), 1, 1, false); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with quantity of 1
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 */
+	public Group unique(Node node) 								{ return _attachNode(node, 1, 1, false); }
 
-	// Exactly
-	public Group exactly(CharacterClass content, int card)	{ return _attachNode(new ClassMatch().add(content), card, card, false); }
-	public Group exactly(String content, int card) 			{ return _attachNode(new StringMatch().add(content), card, card, false); }
-	public Group exactly(Node content, int card) 			{ return _attachNode(content, card, card, false); }
 	
-	// Some
-	public Group some(CharacterClass content) 				{ return _attachNode(new ClassMatch().add(content), 1, null, false); }
-	public Group some(String content) 						{ return _attachNode(new StringMatch().add(content), 1, null, false); }
-	public Group some(Node content) 						{ return _attachNode(content, 1, null, false); }
-	public Group someLazy(CharacterClass content) 			{ return _attachNode(new ClassMatch().add(content), 1, null, true); }
-	public Group someLazy(String content) 					{ return _attachNode(new StringMatch().add(content), 1, null, true); }
-	public Group someLazy(Node content) 					{ return _attachNode(content, 1, null, true); }
+	/**
+	 * Adding CharacterClass to current group with specified quantity in card parameter
+	 * @param characterClass CharacterClass to be added
+	 * @param card specified quantity 
+	 */
+	public Group exactly(CharacterClass characterClass, int card)	{ return _attachNode(new ClassMatch().add(characterClass), card, card, false); }
+	/**
+	 * Adding String to current group with specified quantity in card parameter
+	 * @param string String to be added
+	 * @param card specified quantity
+	 */
+	public Group exactly(String string, int card) 			{ return _attachNode(new StringMatch().add(string), card, card, false); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with specified quantity in card parameter
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 * @param card specified quantity
+	 */
+	public Group exactly(Node node, int card) 			{ return _attachNode(node, card, card, false); }
+	
+
+	
+	
+	
+	
+	/**
+	 * Adding CharacterClass to current group with quantity of at least 1
+	 * @param characterClass CharacterClass to be added
+	 */
+	public Group some(CharacterClass characterClass) 				{ return _attachNode(new ClassMatch().add(characterClass), 1, null, false); }
+	/**
+	 * Adding String to current group with quantity of at least 1 
+	 * @param string String to be added
+	 */
+	public Group some(String string) 						{ return _attachNode(new StringMatch().add(string), 1, null, false); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with quantity of at least 1
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 */
+	public Group some(Node node) 						{ return _attachNode(node, 1, null, false); }
+	/**
+	 * Adding CharacterClass to current group with quantity of at least 1 (lazy)
+	 * @param characterClass CharacterClass to be added
+	 */
+	public Group someLazy(CharacterClass characterClass) 			{ return _attachNode(new ClassMatch().add(characterClass), 1, null, true); }
+	/**
+	 * Adding String to current group with quantity of at least 1 (lazy)
+	 * @param string String to be added
+	 */
+	public Group someLazy(String string) 					{ return _attachNode(new StringMatch().add(string), 1, null, true); }
+	/**
+	 * Adding Node (ClassMatch, Group or StringMatch) to current group with quantity of at least 1 (lazy)
+	 * @param node Node (ClassMatch, Group or StringMatch) to be added
+	 */
+	public Group someLazy(Node node) 					{ return _attachNode(node, 1, null, true); }
 	
 	
 	// Min
@@ -100,12 +202,12 @@ public class Group extends Node {
 	
 
 
-	public static enum ChildrenType{
+	public enum ChildrenType{
 		Sequence,
 		Alternative
 	}
 	
-	public static enum GroupType{
+	public enum GroupType{
 		None(""),
 		Capturing(""),
 		NonCapturing("?:"),
@@ -193,12 +295,19 @@ public class Group extends Node {
 		
 	}
 
+	/**
+	 * Set capturing group name, using this method will automatically make the group a capturing group (equivalent to {@code setGroupType(GroupType.Capturing)})
+	 */
 	public Group setName(String groupName) {
 		this.groupType = GroupType.Capturing;
 		this.groupName = groupName;
 		return this;
 	}
 
+	/**
+	 * Set current group type
+	 * @see GroupType 
+	 */
 	public Group setGroupType(GroupType groupType) {
 		this.groupType = groupType;
 		return this;

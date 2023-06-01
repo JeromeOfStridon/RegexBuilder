@@ -44,16 +44,18 @@ public class RegexMatcher {
 	}
 	
 	public String group() {
-		if(!currentFind) {
-			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find anything yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
 		}
 		return matcher.group();
 	}
 	
 	public String group(String groupName) {
 		
-		if(!currentFind) {
-			throw new RuntimeException("Cannot get groups when matcher didn't find anything yet or anymore, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
 		}
 		try {
 			return matcher.group(regexBuilder.findGroupPosition(groupName));
@@ -72,11 +74,11 @@ public class RegexMatcher {
 	}
 	
 	public Integer groupAsInteger(String groupName) {
-		String content = group(groupName);
-		if(content == null) {
+		String groupContent = group(groupName);
+		if(groupContent == null) {
 			return null;
 		}
-		return Integer.parseInt(content);
+		return Integer.parseInt(groupContent);
 	}
 	
 	public RegexMatcher debug() {

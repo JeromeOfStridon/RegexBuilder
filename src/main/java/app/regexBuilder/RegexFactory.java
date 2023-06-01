@@ -10,15 +10,25 @@ import app.regexBuilder.Group.GroupType;
 public class RegexFactory {
 
 	
-	// FACTORY 
+	/**
+	 * Generates group with sequencial behavior (constraints to be respected following each other)
+	 */
 	public static Group sequenceGroup() {
 		return new Group(ChildrenType.Sequence, GroupType.None);
 	}
 	
+	/**
+	 * Generates group with alternative behavior (options all to be evaluated)
+	 */
 	public static Group alternativeGroup() {
 		return new Group(ChildrenType.Alternative, GroupType.None);
 	}
 	
+	/**
+	 * Generates group with alternative behavior (options all to be evaluated)
+	 * Shortcut for creating group with multiple strings to be considered as options
+	 * @param alternatives list of string to be considered as alternatives
+	 */
 	public static Group alternativeGroup(Collection<String> alternatives) {
 		Group group = alternativeGroup();
 		for(String alternative : alternatives) {
@@ -27,6 +37,11 @@ public class RegexFactory {
 		return group;
 	}
 	
+	/**
+	 * Generates group with alternative behavior (options all to be evaluated)
+	 * Shortcut for creating group with multiple strings to be considered as options
+	 * @param alternatives strings to be considered as alternatives
+	 */
 	public static Group alternativeGroup(String... alternatives) {
 		Group group = alternativeGroup();
 		for(String alternative : alternatives) {
@@ -37,14 +52,23 @@ public class RegexFactory {
 	
 	
 	
+	/**
+	 * Creates regexBuilder with standard behavior (sequential, undefined group type)
+	 */
 	public static RegexBuilder regexBuilder() {
 		return new RegexBuilder(ChildrenType.Sequence, GroupType.None);
 	}
 	
+	/**
+	 * Creates regexBuilder with specific sequence or alternative behavior (undefined group type)
+	 */
 	public static RegexBuilder regexBuilder(ChildrenType childrenType) {
 		return new RegexBuilder(childrenType, GroupType.None);
 	}
 	
+	/**
+	 * Creates regexBuilder with generic sequential behavior and specific group type (capturing, non capturing, look ahead, look behind etc)
+	 */
 	public static RegexBuilder regexBuilder(GroupType groupType) {
 		return new RegexBuilder(ChildrenType.Sequence, groupType);
 	}
