@@ -57,9 +57,10 @@ RegexBuilder is the root and delivery of your work, it will embed all parts of y
 
 ### 2. Groups
 
-#### 2.1. Definition
+#### 2.1. Generic
 
-A group is a piece of your regex, it can just be a simple character, a 
+A group is a piece of your regex, it can just be a simple character, a string, a class of characters, or a composition of groups.
+
 
 ##### 2.1.1. Quantities
 
@@ -96,11 +97,23 @@ Kind of group enabling you to match a range of characters defined in generic way
 Simple way of saying "I want to match that sequence of characters"
 
 ### 3. RegexMatcher
-RegexBuilder has a buddy helping you to match your content once using it : RegexMatcher !
+
+RegexBuilder is made for you to create regex, RegexMatcher is made for you to match content 
+
+`RegexMatcher regexMatcher = new RegexMatcher(regexBuilder, "Hello world !");`
+
 
 ##### 3.1. Group names
 
+Groups declared with names in RegexBuilder can be called directly in RegexMatcher
+`regexMatcher.group("Greeting");`
+
+You can also use `start` and `end` methods that would give you the same result as classic Matcher.
+
 ##### 3.2. Replace
+
+Looks for group and replace it with specified content
+
 
 ##### 3.3. RegexMatch
 

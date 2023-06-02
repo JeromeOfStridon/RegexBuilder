@@ -103,8 +103,19 @@ public class RegexMatcher {
 	public int start() {
 		return matcher.start();
 	}
+	public int start(int i) {
+		return matcher.start(i);
+	}
+	
 	public int end() {
 		return matcher.end();
+	}
+	public int end(int i) {
+		return matcher.end(i);
+	}
+	
+	public int groupCount() {
+		return matcher.groupCount();
 	}
 	
 	public Integer start(String groupName) {
