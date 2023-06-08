@@ -4,7 +4,7 @@ import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.RegexFactory;
 
-public class NumberLibrary {
+public class RegexNumberLibrary {
 	
 	public static RegexBuilder floatNumber() {
 		

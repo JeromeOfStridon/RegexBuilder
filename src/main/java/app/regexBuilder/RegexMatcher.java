@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -153,7 +154,7 @@ public class RegexMatcher {
 		return groupsAsMap;
 	}
 	
-
+	@ToString
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class RegexMatch{
 		

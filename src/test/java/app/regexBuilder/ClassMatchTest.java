@@ -54,6 +54,18 @@ public class ClassMatchTest {
 		
 	}
 	
+	@Test
+	public void arrayClassMatchTest() {
+		ClassMatch cm = RegexFactory.classMatch('a', 'b', 'c');
+		assertEquals("[abc]", cm.toString());
+	}
+	
+	@Test
+	public void collectionClassMatchTest() {
+		ClassMatch cm = RegexFactory.classMatch(List.of('a', 'b', 'c'));
+		assertEquals("[abc]", cm.toString());		
+	}
+	
 	
 	
 

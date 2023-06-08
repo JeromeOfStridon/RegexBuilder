@@ -5,10 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import app.regexBuilder.library.DateTimeLibrary;
-import app.regexBuilder.library.MiscLibrary;
-import app.regexBuilder.library.NumberLibrary;
-import app.regexBuilder.library.WebContentLibrary;
+import app.regexBuilder.library.RegexDateTimeLibrary;
+import app.regexBuilder.library.RegexMiscLibrary;
+import app.regexBuilder.library.RegexNumberLibrary;
+import app.regexBuilder.library.RegexWebContentLibrary;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,8 +20,8 @@ public class LibraryTest {
 		RegexBuilder rb = RegexFactory.regexBuilder();
 		
 		rb
-			.unique(NumberLibrary.intNumber())
-			.unique(NumberLibrary.floatNumber());
+			.unique(RegexNumberLibrary.intNumber())
+			.unique(RegexNumberLibrary.floatNumber());
 
 		Assert.assertEquals("([0-9]+)([0-9]+\\.[0-9]+)", rb.toString());
 		
@@ -30,7 +30,7 @@ public class LibraryTest {
 	@Test
 	public void emailTest() {
 
-		RegexBuilder emailRegexer = WebContentLibrary.email();
+		RegexBuilder emailRegexer = RegexWebContentLibrary.email();
 		
 		assertEquals("[%a-zA-Z0-9+\\-_]+(\\.[%a-zA-Z0-9+\\-_]+)?@([%a-zA-Z0-9+\\-_]+\\.)+[a-zA-Z]{2,10}", emailRegexer.toString());
 
@@ -39,16 +39,21 @@ public class LibraryTest {
 	@Test
 	public void regularDate() {
 
-		RegexBuilder regularDateRegexer = DateTimeLibrary.regularDate();
+		String g1 = "(0[0-9]|[12][0-9]|3[01])/(0[0-9]|1[012])/[12][0-9]{3})";
+		String g2 = "(0?[1-9]|[1-2][0-9]|30|31)/(0?[1-9]|10|11|12)/(1|2)[0-9]{3}";
+
+
+
+		RegexBuilder regularDateRegexer = RegexDateTimeLibrary.regularDate();
 		
-		assertEquals("((0[0-9])|([12][0-9])|(3[01]))/((0[0-9])|(1[012]))/([12][0-9]{3})", regularDateRegexer);
+		assertEquals("(0?[0-9]|[12][0-9]|3[01])/(0[0-9]|1[012])/[12][0-9]{3})", regularDateRegexer);
 		
 	}
 	
 	@Test
 	public void clockHHMMTest() {
 		
-		RegexBuilder clockRegexer = DateTimeLibrary.clockHHMM();
+		RegexBuilder clockRegexer = RegexDateTimeLibrary.clockHHMM();
 		
 		assertEquals("(?([0-1])[0-1][0-9]|2[0-3])\\:[0-5][0-9]", clockRegexer.toString());
 		
@@ -56,7 +61,7 @@ public class LibraryTest {
 	
 	@Test
 	public void fullWrittenDate_frTest() {
-		RegexBuilder rb = DateTimeLibrary.fullWrittenDate_fr();
+		RegexBuilder rb = RegexDateTimeLibrary.fullWrittenDate_fr();
 		
 		RegexMatcher rm = new RegexMatcher(rb, "1er Janvier 2021");
 		rm.find();
@@ -67,7 +72,7 @@ public class LibraryTest {
 	
 	@Test
 	public void fullWrittenDate_enTest() {
-		RegexMatcher rm = new RegexMatcher(DateTimeLibrary.fullWrittenDate_en(), "Mar. 31th 2022");
+		RegexMatcher rm = new RegexMatcher(RegexDateTimeLibrary.fullWrittenDate_en(), "Mar. 31th 2022");
 		rm.find();
 		assertEquals("2022", rm.group("year"));
 		assertEquals("Mar.", rm.group("month"));
@@ -76,7 +81,7 @@ public class LibraryTest {
 	
 	@Test
 	public void timestampTest() {
-		RegexMatcher rm = new RegexMatcher(DateTimeLibrary.timestampRegex(), "2022-12-03T12:22:03.009Z");
+		RegexMatcher rm = new RegexMatcher(RegexDateTimeLibrary.timestampRegex(), "2022-12-03T12:22:03.009Z");
 		
 		rm.find();
 		
@@ -94,13 +99,15 @@ public class LibraryTest {
 	@Test
 	public void htmlEntityTest() {
 		
-		assertEquals("&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});", WebContentLibrary.htmlEntity().toString());
+		assertEquals("&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});", RegexWebContentLibrary.htmlEntity().toString());
+		String actul="&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});";
+	
 	}
 
 	
 	@Test
 	public void colorHexCodeTest() {
-		assertEquals("#[0-9a-fA-F]{6}", MiscLibrary.colorHexCode().toString());
+		assertEquals("#[0-9a-fA-F]{6}", RegexMiscLibrary.colorHexCode().toString());
 	}
 	
 	

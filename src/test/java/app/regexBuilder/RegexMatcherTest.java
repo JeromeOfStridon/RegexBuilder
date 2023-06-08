@@ -54,8 +54,8 @@ public class RegexMatcherTest {
 		assertEquals("test 13,37 regexer 1", rm.replace("separator", ","));
 		
 		assertEquals("13.37", rm.getMatchs().get(0).group);
-		assertEquals(0, rm.getMatchs().get(1).start);
-		assertEquals(3, rm.getMatchs().get(2).end);
+		assertEquals(5, rm.getMatchs().get(1).start);
+		assertEquals(8, rm.getMatchs().get(2).end);
 		
 				
 	}
@@ -68,21 +68,9 @@ public class RegexMatcherTest {
 		
 		RegexMatcher rm = new RegexMatcher(rb, "");
 		
-		boolean exceptionCatched = false;
-		try {
-			rm.group();
-		}
-		catch(Exception e) {
-			exceptionCatched = true;
-		}
-		
-		assertTrue(exceptionCatched);
-		
+		assertNull(rm.group());
 		rm.find();
-		
 		assertNotNull(rm.group());
-		
-		
 		
 	}
 	

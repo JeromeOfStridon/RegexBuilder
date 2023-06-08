@@ -5,7 +5,7 @@ import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.RegexFactory;
 
-public class WebContentLibrary {
+public class RegexWebContentLibrary {
 	
 	public static RegexBuilder email() {
 		RegexBuilder regex = RegexFactory.regexBuilder();

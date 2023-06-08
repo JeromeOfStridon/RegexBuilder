@@ -6,11 +6,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
+import app.regexBuilder.Group.ChildrenType;
 import app.regexBuilder.Group.GroupType;
 
 
 
-public class RegexBuilderTest {
+public class RegexFactoryTest {
 	
 	
 	@Test
@@ -67,6 +68,20 @@ public class RegexBuilderTest {
 		Assert.assertEquals("(?=abc)[A-Z]+", rb.toString());
 		
 		
+	}
+	
+	
+	@Test
+	public void manualAlternativeGroup() {
+		Group alternative = RegexFactory.sequenceGroup();
+
+		alternative.unique("A");
+		alternative.unique("B");
+		
+		alternative.setChildrenType(ChildrenType.Alternative);
+		
+		assertEquals("(A|B)", alternative.toString());
+
 	}
 	
 	

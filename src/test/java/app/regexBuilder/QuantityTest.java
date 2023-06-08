@@ -63,6 +63,16 @@ public class QuantityTest {
 	}
 	
 	@Test
+	public void exactly() {
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+		regexBuilder
+			.exactly(CharacterClass.Alphabetic, 3)
+			.exactly(RegexFactory.alternativeGroup().exactly("a", 5).exactly("b", 6), 4);
+		
+		Assert.assertEquals("[a-zA-Z]{3}(a{5}|b{6}){4}", regexBuilder.toString());
+	}
+	
+	@Test
 	public void optionalTest() {
 		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder

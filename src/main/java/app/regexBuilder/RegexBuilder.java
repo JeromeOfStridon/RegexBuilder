@@ -51,7 +51,7 @@ public class RegexBuilder extends Group {
 		}
 		
 		String groupString = super.toString();
-		if(groupString.startsWith("(") && groupString.endsWith(")")) {
+		if(groupString.startsWith("(") && groupString.endsWith(")") && super.markedAsGroup()) {
 			groupString = groupString.substring(1, groupString.length()-1);
 		}
 		

@@ -8,7 +8,7 @@ import app.regexBuilder.Group.ChildrenType;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.RegexFactory;
 
-public class DateTimeLibrary {
+public class RegexDateTimeLibrary {
 
 	
 	public static RegexBuilder fullWrittenDate_en() {
@@ -48,7 +48,7 @@ public class DateTimeLibrary {
 		rb.unique(CharacterClass.Space);
 		rb.unique(dayGroup);
 		rb.unique(CharacterClass.Space);
-		rb.unique(year().setName("year"));
+		rb.unique(numericYear().setName("year"));
 		
 		
 		return rb;
@@ -60,19 +60,16 @@ public class DateTimeLibrary {
 		RegexBuilder regex = RegexFactory.regexBuilder();
 
 		regex
-			.unique(RegexFactory.sequenceGroup()
-				.setName("Day")
-				.unique(RegexFactory.classMatchRange('1', '9'))
-				.optional(RegexFactory.classMatch(CharacterClass.Numeric)))
+			.unique(numericDay().setName("Day"))
 			.unique(CharacterClass.Space)
 			.unique(RegexFactory.alternativeGroup(List.of("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).setName("month"))
 			.some(CharacterClass.Space)
-			.optional(year().setName("year"));
+			.optional(numericYear().setName("year"));
 
 		return regex;
 	}
 	
-	public static RegexBuilder dayNumber() {
+	public static RegexBuilder numericDay() {
 		
 		RegexBuilder regex = RegexFactory.regexBuilder(ChildrenType.Alternative);
 
@@ -85,7 +82,7 @@ public class DateTimeLibrary {
 					)
 			// case 10 to 29
 			.unique(RegexFactory.sequenceGroup()
-					.unique(RegexFactory.classMatchRange('1', '2'))
+					.unique(RegexFactory.classMatch('1', '2'))
 					.unique(RegexFactory.classMatch(CharacterClass.Numeric))
 					)
 			// case 30
@@ -97,7 +94,7 @@ public class DateTimeLibrary {
 		
 	}
 	
-	public static RegexBuilder monthNumber() {
+	public static RegexBuilder numericMonth() {
 		
 		RegexBuilder regex = RegexFactory.regexBuilder(ChildrenType.Alternative);
 		
@@ -114,7 +111,7 @@ public class DateTimeLibrary {
 		return regex;
 	}
 
-	public static RegexBuilder year() {
+	public static RegexBuilder numericYear() {
 		RegexBuilder regex = RegexFactory.regexBuilder();
 
 		regex.unique(RegexFactory.alternativeGroup(List.of("1", "2"))).exactly(CharacterClass.Numeric, 3);
@@ -141,24 +138,12 @@ public class DateTimeLibrary {
 	public static RegexBuilder regularDate() {
 		RegexBuilder regex = RegexFactory.regexBuilder();
 
-		regex.unique(RegexFactory.alternativeGroup()
-				// from 01 to 09
-				.unique(RegexFactory.sequenceGroup().unique("0")
-						.unique(RegexFactory.classMatch(CharacterClass.Numeric)))
-				// from 10 to 29
-				.unique(RegexFactory.sequenceGroup().unique(RegexFactory.classMatch(List.of('1', '2')))
-						.unique(RegexFactory.classMatch(CharacterClass.Numeric)))
-				// 30 & 31
-				.unique(RegexFactory.sequenceGroup().unique("3").unique(RegexFactory.classMatch(List.of('0', '1')))))
-				.unique("/").unique(RegexFactory.alternativeGroup()
-						// from 01 to 09
-						.unique(RegexFactory.sequenceGroup().unique("0")
-								.unique(RegexFactory.classMatch(CharacterClass.Numeric)))
-						// 10, 11, 12
-						.unique(RegexFactory.sequenceGroup().unique("1")
-								.unique(RegexFactory.classMatch(List.of('0', '1', '2')))))
-				.unique("/").unique(RegexFactory.sequenceGroup().unique(RegexFactory.classMatch(List.of('1', '2')))
-						.between(RegexFactory.classMatch(CharacterClass.Numeric), 3, 3));
+		regex
+			.unique(numericDay())
+			.unique("/")
+			.unique(numericMonth())
+			.unique("/")
+			.unique(numericYear());
 
 		return regex;
 

@@ -4,7 +4,7 @@ import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.RegexFactory;
 
-public class MiscLibrary {
+public class RegexMiscLibrary {
 	
 	public static RegexBuilder colorHexCode() {
 		RegexBuilder regex = RegexFactory.regexBuilder();

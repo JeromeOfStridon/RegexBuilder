@@ -100,7 +100,7 @@ public class RegexFactory {
 	
 	public static ClassMatch classMatchRange(char from, char to) {
 		ClassMatch classMatch = new ClassMatch();
-		classMatch.add(from, to);
+		classMatch.addRange(from, to);
 		return classMatch;
 	}
 	

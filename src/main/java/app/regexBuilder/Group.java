@@ -355,19 +355,42 @@ public class Group extends Node {
 	}
 
 	
-	private boolean markedAsGroup() {
+	protected boolean markedAsGroup() {
 		
-		// Mark as group for all types that are not default
+		if(nodes.isEmpty()) {
+			return false;
+		}
+		
+		//  all groups that needs to be identified
 		if(groupType != GroupType.None) {
 			return true;
 		}
 		
-		// Mark as group to apply size on all elements
-		if(nodes.size() >= 1 || !renderSize().isBlank()) {
+		// If none type group, and size is 
+		if(nodes.size() <= 1) {
+			return false;
+		}
+		if(childrenType == ChildrenType.Alternative) {
 			return true;
 		}
+		
+		if(renderSize().isBlank()) {
+			return false;
+		}
+		
+		return true;
 
-		return false;
+//		// Mark as group for all types that are not default
+//		if(groupType != GroupType.None) {
+//			return true;
+//		}
+//		
+//		// Mark as group to apply size on all elements
+//		if(nodes.size() >= 1 && !renderSize().isBlank()) {
+//			return true;
+//		}
+//
+//		return false;
 		
 	}
 	
