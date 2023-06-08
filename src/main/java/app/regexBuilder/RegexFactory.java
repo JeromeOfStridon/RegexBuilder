@@ -73,10 +73,16 @@ public class RegexFactory {
 		return new RegexBuilder(ChildrenType.Sequence, groupType);
 	}
 	
+	/**
+	 * Creates regexBuilder with generic sequential behavior and specific group type (capturing, non capturing, look ahead, look behind etc) and children type (sequential or alternative)
+	 */
 	public static RegexBuilder regexBuilder(ChildrenType childrenType, GroupType groupType) {
 		return new RegexBuilder(childrenType, groupType);
 	}
 	
+	/**
+	 * Creates a new ClassMatch containing specific CharacterClass instances
+	 */
 	public static ClassMatch classMatch(CharacterClass... charClass) {
 		ClassMatch classMatch = new ClassMatch();
 		for(CharacterClass characterClass : charClass) {
@@ -85,11 +91,19 @@ public class RegexFactory {
 		return classMatch;
 	}
 	
+	/**
+	 * Creates a new ClassMatch containing specific characters
+	 */
 	public static ClassMatch classMatch(Character... character) {
 		ClassMatch classMatch = new ClassMatch();
 		classMatch.add(character);
 		return classMatch;
 	}
+
+	
+	/**
+	 * Creates a new ClassMatch containing specific characters (as a collection)
+	 */
 	public static ClassMatch classMatch(List<Character> characters) {
 		ClassMatch classMatch = new ClassMatch();
 		for(Character character : characters) {
@@ -98,12 +112,18 @@ public class RegexFactory {
 		return classMatch;
 	}
 	
+	/**
+	 * Creates a new ClassMatch with character range
+	 */
 	public static ClassMatch classMatchRange(char from, char to) {
 		ClassMatch classMatch = new ClassMatch();
 		classMatch.add(from, to);
 		return classMatch;
 	}
 	
+	/**
+	 * Creates a new StringMatch with specific string
+	 */
 	public static StringMatch stringMatch(String string) {
 		return new StringMatch().add(string);
 	}

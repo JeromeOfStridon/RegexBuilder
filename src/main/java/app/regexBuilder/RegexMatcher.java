@@ -38,11 +38,18 @@ public class RegexMatcher {
 		this(regexBuilder, content, 0);
 	}
 	
+	/**
+	 * Finds the next match between regex & content
+	 * @return boolean true if next match has been found, false if not
+	 */
 	public boolean find() {
 		currentFind = matcher.find();
 		return currentFind;
 	}
 	
+	/**
+	 * Returns matched content for whole regex
+	 */
 	public String group() {
 		if(currentFind == null) {
 			log.error("Cannot get groups when matcher didn't find anything yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
@@ -51,6 +58,9 @@ public class RegexMatcher {
 		return matcher.group();
 	}
 	
+	/**
+	 * Returns matched content for specific group
+	 */
 	public String group(String groupName) {
 		
 		if(currentFind == null) {
