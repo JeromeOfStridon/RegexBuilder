@@ -3,7 +3,6 @@ package app.regexBuilder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -107,6 +106,18 @@ public class RegexMatcherTest {
 		assertEquals("A", matcher.group("A"));
 		assertEquals("1", matcher.group("1"));
 		
+		
+	}
+	
+	@Test
+	public void rawBuilderMatcherTest() {
+		
+		RegexBuilder rb = RegexFactory.regexBuilder();
+		
+		rb.unique("AAA");
+		rb.setName("group");
+		
+		assertEquals("(AAA)", rb.toString());
 		
 	}
 	

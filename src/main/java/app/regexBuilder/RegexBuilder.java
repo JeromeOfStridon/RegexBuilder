@@ -97,7 +97,7 @@ public class RegexBuilder extends Group {
 	@Override
 	List<Group> getCapturingGroups(){
 		List<Group> groups = new ArrayList<>();
-		if(anchorStart||anchorEnd) {
+		if(groupType == GroupType.None && markedAsGroup()) {
 			groups.add(this);
 		}
 		groups.addAll(super.getCapturingGroups());

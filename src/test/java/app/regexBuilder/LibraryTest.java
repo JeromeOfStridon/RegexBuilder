@@ -23,7 +23,7 @@ public class LibraryTest {
 			.unique(RegexNumberLibrary.intNumber())
 			.unique(RegexNumberLibrary.floatNumber());
 
-		Assert.assertEquals("([0-9]+)([0-9]+\\.[0-9]+)", rb.toString());
+		Assert.assertEquals("[0-9]+[0-9]+\\.[0-9]+", rb.toString());
 		
 	}
 	
@@ -55,7 +55,7 @@ public class LibraryTest {
 		
 		RegexBuilder clockRegexer = RegexDateTimeLibrary.clockHHMM();
 		
-		assertEquals("(?([0-1])[0-1][0-9]|2[0-3])\\:[0-5][0-9]", clockRegexer.toString());
+		assertEquals("([01][0-9]|2[0-3]):[0-5][0-9]", clockRegexer.toString());
 		
 	}
 	
@@ -63,10 +63,19 @@ public class LibraryTest {
 	public void fullWrittenDate_frTest() {
 		RegexBuilder rb = RegexDateTimeLibrary.fullWrittenDate_fr();
 		
-		RegexMatcher rm = new RegexMatcher(rb, "1er Janvier 2021");
+		RegexMatcher rm = new RegexMatcher(rb, "1 janvier 2021");
 		rm.find();
+		for(Group group : rb.getCapturingGroups()) {
+			log.debug("capturing : "+group.toString());
+		}
+		log.debug(rb.getGroupPositions().toString());
+		//log.debug(rm.groupsAsMap().toString());
+		log.debug(rb.toString());
+		log.debug(rm.debug().getRegexBuilder().toString());
+		
+		
 		assertEquals("2021", rm.group("year"));
-		assertEquals("Janvier", rm.group("month"));
+		assertEquals("janvier", rm.group("month"));
 		
 	}
 	

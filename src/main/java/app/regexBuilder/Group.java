@@ -401,7 +401,7 @@ public class Group extends Node {
 		for(Node node : nodes) {
 			if(node instanceof Group) {
 				Group group = (Group) node;
-				if(group.groupType == GroupType.Capturing || (group.groupType == GroupType.None && markedAsGroup())) {
+				if(group.groupType == GroupType.Capturing || (group.groupType == GroupType.None && group.markedAsGroup())) {
 					groups.add(group);
 				}
 				groups.addAll(group.getCapturingGroups());
