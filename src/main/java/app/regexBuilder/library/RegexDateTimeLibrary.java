@@ -4,7 +4,7 @@ import java.util.List;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.Group;
-import app.regexBuilder.Group.ChildrenType;
+import app.regexBuilder.Group.TreeType;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.RegexFactory;
 
@@ -71,7 +71,7 @@ public class RegexDateTimeLibrary {
 	
 	public static RegexBuilder numericDay() {
 		
-		RegexBuilder regex = RegexFactory.regexBuilder(ChildrenType.Alternative);
+		RegexBuilder regex = RegexFactory.regexBuilder(TreeType.Alternative);
 
 		regex
 		
@@ -96,7 +96,7 @@ public class RegexDateTimeLibrary {
 	
 	public static RegexBuilder numericMonth() {
 		
-		RegexBuilder regex = RegexFactory.regexBuilder(ChildrenType.Alternative);
+		RegexBuilder regex = RegexFactory.regexBuilder(TreeType.Alternative);
 		
 		regex
 			// case 1 to 9, 01 to 09

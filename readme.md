@@ -57,6 +57,7 @@ RegexBuilder is the root and delivery of your work, it will embed all parts of y
 
 ### 2. Groups
 
+
 #### 2.1. Generic
 
 A group is a piece of your regex, it can just be a simple character, a string, a class of characters, or a composition of groups.

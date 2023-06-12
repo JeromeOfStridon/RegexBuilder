@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.Group.ChildrenType;
+import app.regexBuilder.Group.TreeType;
 import app.regexBuilder.Group.GroupType;
 
 
@@ -78,7 +78,7 @@ public class RegexFactoryTest {
 		alternative.unique("A");
 		alternative.unique("B");
 		
-		alternative.setChildrenType(ChildrenType.Alternative);
+		alternative.setChildrenType(TreeType.Alternative);
 		
 		assertEquals("(A|B)", alternative.toString());
 

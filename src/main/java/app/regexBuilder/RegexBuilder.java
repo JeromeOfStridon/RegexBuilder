@@ -20,7 +20,7 @@ public class RegexBuilder extends Group {
 
 	
 	// CONSTRUCTORS
-	protected RegexBuilder(ChildrenType childrenType, GroupType groupType) {
+	protected RegexBuilder(TreeType childrenType, GroupType groupType) {
 		super(childrenType, groupType);
 	}
 	
@@ -105,7 +105,7 @@ public class RegexBuilder extends Group {
 	}
 	
 	public Group asGroup() {
-		Group group = new Group(this.childrenType, this.groupType);
+		Group group = new Group(this.treeType, this.groupType);
 		group.nodes = this.nodes;
 		group.groupName = this.groupName;
 		

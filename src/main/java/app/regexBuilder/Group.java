@@ -9,7 +9,7 @@ import app.regexBuilder.ClassMatch.CharacterClass;
 
 public class Group extends Node {
 
-	protected ChildrenType childrenType;
+	protected TreeType treeType;
 	
 	protected GroupType groupType;
 
@@ -17,8 +17,8 @@ public class Group extends Node {
 	
 	String groupName;
 	
-	protected Group(ChildrenType childrenType, GroupType groupType) {
-		this.childrenType = childrenType;
+	protected Group(TreeType childrenType, GroupType groupType) {
+		this.treeType = childrenType;
 		this.groupType = groupType;
 	}
 	
@@ -299,7 +299,7 @@ public class Group extends Node {
 	
 
 
-	public enum ChildrenType{
+	public enum TreeType{
 		Sequence,
 		Alternative
 	}
@@ -338,10 +338,10 @@ public class Group extends Node {
 		
 		
 		
-		if(childrenType == ChildrenType.Alternative) {
+		if(treeType == TreeType.Alternative) {
 			result.append(nodes.stream().map(x -> x.toString()).collect(Collectors.joining("|")));
 		}
-		else if(childrenType == ChildrenType.Sequence) {
+		else if(treeType == TreeType.Sequence) {
 			result.append(nodes.stream().map(x -> x.toString()).collect(Collectors.joining()));
 		}
 		
@@ -370,7 +370,7 @@ public class Group extends Node {
 		if(nodes.size() <= 1) {
 			return false;
 		}
-		if(childrenType == ChildrenType.Alternative) {
+		if(treeType == TreeType.Alternative) {
 			return true;
 		}
 		
@@ -429,15 +429,21 @@ public class Group extends Node {
 
 	/**
 	 * Set current group type
-	 * @see GroupType 
+	 * @param groupType GroupType to set for this group
+	 * @return self
 	 */
 	public Group setGroupType(GroupType groupType) {
 		this.groupType = groupType;
 		return this;
 	}
 	
-	public Group setChildrenType(ChildrenType childrenType) {
-		this.childrenType = childrenType;
+	/**
+	 * 
+	 * @param treeType ChildrenTYpe to set for this group
+	 * @return self
+	 */
+	public Group setChildrenType(TreeType treeType) {
+		this.treeType = treeType;
 		return this;
 	}
 	

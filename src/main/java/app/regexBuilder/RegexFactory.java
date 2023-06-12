@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.Group.ChildrenType;
+import app.regexBuilder.Group.TreeType;
 import app.regexBuilder.Group.GroupType;
 
 public class RegexFactory {
@@ -14,14 +14,14 @@ public class RegexFactory {
 	 * Generates group with sequencial behavior (constraints to be respected following each other)
 	 */
 	public static Group sequenceGroup() {
-		return new Group(ChildrenType.Sequence, GroupType.None);
+		return new Group(TreeType.Sequence, GroupType.None);
 	}
 	
 	/**
 	 * Generates group with alternative behavior (options all to be evaluated)
 	 */
 	public static Group alternativeGroup() {
-		return new Group(ChildrenType.Alternative, GroupType.None);
+		return new Group(TreeType.Alternative, GroupType.None);
 	}
 	
 	/**
@@ -56,13 +56,13 @@ public class RegexFactory {
 	 * Creates regexBuilder with standard behavior (sequential, undefined group type)
 	 */
 	public static RegexBuilder regexBuilder() {
-		return new RegexBuilder(ChildrenType.Sequence, GroupType.None);
+		return new RegexBuilder(TreeType.Sequence, GroupType.None);
 	}
 	
 	/**
 	 * Creates regexBuilder with specific sequence or alternative behavior (undefined group type)
 	 */
-	public static RegexBuilder regexBuilder(ChildrenType childrenType) {
+	public static RegexBuilder regexBuilder(TreeType childrenType) {
 		return new RegexBuilder(childrenType, GroupType.None);
 	}
 	
@@ -70,13 +70,13 @@ public class RegexFactory {
 	 * Creates regexBuilder with generic sequential behavior and specific group type (capturing, non capturing, look ahead, look behind etc)
 	 */
 	public static RegexBuilder regexBuilder(GroupType groupType) {
-		return new RegexBuilder(ChildrenType.Sequence, groupType);
+		return new RegexBuilder(TreeType.Sequence, groupType);
 	}
 	
 	/**
 	 * Creates regexBuilder with generic sequential behavior and specific group type (capturing, non capturing, look ahead, look behind etc) and children type (sequential or alternative)
 	 */
-	public static RegexBuilder regexBuilder(ChildrenType childrenType, GroupType groupType) {
+	public static RegexBuilder regexBuilder(TreeType childrenType, GroupType groupType) {
 		return new RegexBuilder(childrenType, groupType);
 	}
 	
