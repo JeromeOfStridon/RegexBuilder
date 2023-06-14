@@ -46,20 +46,20 @@ public class RegexBuilder extends Group {
 			sb.append("^");
 		}
 		
-		if(anchorStart || anchorEnd) {
-			sb.append("(");
-		}
+//		if(anchorStart || anchorEnd) {
+//			sb.append("(");
+//		}
 		
 		String groupString = super.toString();
-		if(groupString.startsWith("(") && groupString.endsWith(")") && super.markedAsGroup()) {
+		if(groupString.startsWith("(") && groupString.endsWith(")") && super.markedAsGroup() && groupType == GroupType.None) {
 			groupString = groupString.substring(1, groupString.length()-1);
 		}
 		
 		sb.append(groupString);
 		
-		if(anchorStart || anchorEnd) {
-			sb.append(")");
-		}
+//		if(anchorStart || anchorEnd) {
+//			sb.append(")");
+//		}
 		
 		if(anchorEnd) {
 			sb.append("$");

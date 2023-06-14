@@ -28,12 +28,14 @@ public class RegexMatcher {
 	final Matcher matcher;
 	
 	private Boolean currentFind;
+	private final Map<Integer, String> groupPositionsMap;
 	
 	public RegexMatcher(RegexBuilder regexBuilder, String content, int flags) {
 		this.regexBuilder = regexBuilder;
 		this.content = content;
 		this.pattern = Pattern.compile(regexBuilder.toString(), flags);
-		this.matcher = pattern.matcher(content);	
+		this.matcher = pattern.matcher(content);
+		this.groupPositionsMap = regexBuilder.getGroupPositions();
 	}
 	
 	public RegexMatcher(RegexBuilder regexBuilder, String content) {
@@ -177,14 +179,18 @@ public class RegexMatcher {
 		
 	}
 
-
+	//TODO : document
 	public List<RegexMatch> getMatchs() {
-		Map<Integer, String> map = regexBuilder.getGroupPositions();
 		List<RegexMatch> matchs = new ArrayList<>();
 		for(int i = 0; i <= matcher.groupCount(); i++) {
-			matchs.add(new RegexMatch(this, matcher.start(i), matcher.end(i), matcher.group(i), map.get(i)));
+			matchs.add(getMatch(i));
 		}
 		return matchs;
+	}
+	
+	public RegexMatch getMatch(int i) {
+		RegexMatch regexMatch = new RegexMatch(this, matcher.start(i), matcher.end(i), matcher.group(i), groupPositionsMap.get(i));
+		return regexMatch;
 	}
 	
 }

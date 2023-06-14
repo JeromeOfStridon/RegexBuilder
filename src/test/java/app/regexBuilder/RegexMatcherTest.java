@@ -3,10 +3,12 @@ package app.regexBuilder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
+import app.regexBuilder.RegexMatcher.RegexMatch;
 
 
 
@@ -53,9 +55,32 @@ public class RegexMatcherTest {
 		assertEquals("test 13,37 regexer 1", rm.replace("separator", ","));
 		
 		assertEquals("13.37", rm.getMatchs().get(0).group);
-		assertEquals(5, rm.getMatchs().get(1).start);
-		assertEquals(8, rm.getMatchs().get(2).end);
+		assertEquals(5, rm.getMatchs().get(0).start);
+		assertEquals(5, rm.start(0));
+		assertEquals(10, rm.getMatchs().get(0).end);
+		assertEquals(10, rm.end(0));
 		
+		assertEquals("13", rm.getMatchs().get(1).group);
+		assertEquals("integer", rm.getMatchs().get(1).name);
+		assertEquals(5, rm.getMatchs().get(1).start);
+		assertEquals(5, rm.start(1));
+		assertEquals(7, rm.getMatchs().get(1).end);
+		assertEquals(7, rm.end(1));
+		
+		
+		assertEquals(".", rm.getMatchs().get(2).group);
+		assertEquals("separator", rm.getMatchs().get(2).name);
+		assertEquals(7, rm.getMatchs().get(2).start);
+		assertEquals(7, rm.start(2));
+		assertEquals(8, rm.getMatchs().get(2).end);
+		assertEquals(8, rm.end(2));
+		
+		assertEquals("37", rm.getMatchs().get(3).group);
+		assertEquals("decimal", rm.getMatchs().get(3).name);
+		assertEquals(8, rm.getMatchs().get(3).start);
+		assertEquals(8, rm.start(3));
+		assertEquals(10, rm.getMatchs().get(3).end);
+		assertEquals(10, rm.end(3));
 				
 	}
 	
@@ -121,6 +146,21 @@ public class RegexMatcherTest {
 		
 	}
 	
+	@Test
+	public void toStringTest() {
+	
+		RegexBuilder rb = RegexFactory.regexBuilder();
+		rb.unique("AA");
+		
+		RegexMatcher rm = new RegexMatcher(rb, "AA");
+		System.out.println(rm.toString());
+		rm.find();
+		assertTrue(rm.toString().startsWith("RegexMatcher("));
+		
+		RegexMatch regexMatch = rm.getMatch(0);
+		System.out.println(regexMatch.toString());
+		assertTrue(regexMatch.toString().startsWith("RegexMatcher.RegexMatch("));
+	}
 	
 
 }

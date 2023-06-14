@@ -114,7 +114,9 @@ public class RegexDateTimeLibrary {
 	public static RegexBuilder numericYear() {
 		RegexBuilder regex = RegexFactory.regexBuilder();
 
-		regex.unique(RegexFactory.alternativeGroup(List.of("1", "2"))).exactly(CharacterClass.Numeric, 3);
+		regex
+			.unique(RegexFactory.classMatch('1', '2'))
+			.exactly(CharacterClass.Numeric, 3);
 
 		return regex;
 
@@ -139,11 +141,11 @@ public class RegexDateTimeLibrary {
 		RegexBuilder regex = RegexFactory.regexBuilder();
 
 		regex
-			.unique(numericDay())
+			.unique(numericDay().setName("day"))
 			.unique("/")
-			.unique(numericMonth())
+			.unique(numericMonth().setName("month"))
 			.unique("/")
-			.unique(numericYear());
+			.unique(numericYear().setName("year"));
 
 		return regex;
 

@@ -32,21 +32,16 @@ public class LibraryTest {
 
 		RegexBuilder emailRegexer = RegexWebContentLibrary.email();
 		
-		assertEquals("[%a-zA-Z0-9+\\-_]+(\\.[%a-zA-Z0-9+\\-_]+)?@([%a-zA-Z0-9+\\-_]+\\.)+[a-zA-Z]{2,10}", emailRegexer.toString());
+		assertEquals("[a-zA-Z0-9%_\\-+]+(\\.[a-zA-Z0-9%_\\-+]+)?@([a-zA-Z0-9%_\\-+]+\\.)+[a-zA-Z]{2,10}", emailRegexer.toString());
 
 	}
 	
 	@Test
 	public void regularDate() {
 
-		String g1 = "(0[0-9]|[12][0-9]|3[01])/(0[0-9]|1[012])/[12][0-9]{3})";
-		String g2 = "(0?[1-9]|[1-2][0-9]|30|31)/(0?[1-9]|10|11|12)/(1|2)[0-9]{3}";
-
-
-
 		RegexBuilder regularDateRegexer = RegexDateTimeLibrary.regularDate();
 		
-		assertEquals("(0?[0-9]|[12][0-9]|3[01])/(0[0-9]|1[012])/[12][0-9]{3})", regularDateRegexer);
+		assertEquals("(0?[1-9]|[12][0-9]|30|31)/(0?[1-9]|10|11|12)/([12][0-9]{3})", regularDateRegexer.toString());
 		
 	}
 	

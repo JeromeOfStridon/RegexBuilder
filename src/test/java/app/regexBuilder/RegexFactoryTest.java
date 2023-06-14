@@ -28,7 +28,7 @@ public class RegexFactoryTest {
 			.anchorEnd(true)
 			.any("a");
 		
-		Assert.assertEquals("^(a*)$", test1.toString());
+		Assert.assertEquals("^a*$", test1.toString());
 		
 	}
 	
