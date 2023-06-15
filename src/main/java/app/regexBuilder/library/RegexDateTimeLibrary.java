@@ -7,7 +7,10 @@ import app.regexBuilder.Group;
 import app.regexBuilder.Group.TreeType;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.RegexFactory;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegexDateTimeLibrary {
 
 	

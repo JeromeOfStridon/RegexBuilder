@@ -24,7 +24,7 @@ public class Group extends Node {
 	
 	private Group _attachNode(Node content, Integer min, Integer max, boolean lazy) {
 		
-		content.times(min, max);
+		content.setQuantity(min, max);
 		content.lazy = lazy;
 		
 		if(content instanceof RegexBuilder) {
@@ -338,11 +338,14 @@ public class Group extends Node {
 		
 		
 		
-		if(treeType == TreeType.Alternative) {
+		if(treeType == TreeType.Sequence) {
+			result.append(nodes.stream().map(x -> x.toString()).collect(Collectors.joining()));
+		}
+		else if(treeType == TreeType.Alternative) {
 			result.append(nodes.stream().map(x -> x.toString()).collect(Collectors.joining("|")));
 		}
-		else if(treeType == TreeType.Sequence) {
-			result.append(nodes.stream().map(x -> x.toString()).collect(Collectors.joining()));
+		else {
+			return "";
 		}
 		
 		if(markedAsGroup()) {
@@ -442,7 +445,7 @@ public class Group extends Node {
 	 * @param treeType ChildrenTYpe to set for this group
 	 * @return self
 	 */
-	public Group setChildrenType(TreeType treeType) {
+	public Group setTreeType(TreeType treeType) {
 		this.treeType = treeType;
 		return this;
 	}

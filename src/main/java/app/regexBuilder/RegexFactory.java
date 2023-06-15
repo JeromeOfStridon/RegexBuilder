@@ -5,8 +5,11 @@ import java.util.List;
 
 import app.regexBuilder.ClassMatch.CharacterClass;
 import app.regexBuilder.Group.TreeType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import app.regexBuilder.Group.GroupType;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegexFactory {
 
 	
@@ -126,6 +129,16 @@ public class RegexFactory {
 	 */
 	public static StringMatch stringMatch(String string) {
 		return new StringMatch().add(string);
+	}
+
+	/**
+	 * Creates a RegexMatcher instance combining a RegexBuilder instance and content to be matched
+	 * @param regexBuilder regexBuilder to match against content
+	 * @param content content to be matched against
+	 * @return
+	 */
+	public static RegexMatcher regexMatcher(RegexBuilder regexBuilder, String content) {
+		return new RegexMatcher(regexBuilder, content);
 	}
 	
 }

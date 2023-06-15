@@ -2,9 +2,12 @@ package app.regexBuilder.library;
 
 import app.regexBuilder.ClassMatch;
 import app.regexBuilder.ClassMatch.CharacterClass;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import app.regexBuilder.RegexBuilder;
 import app.regexBuilder.RegexFactory;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegexWebContentLibrary {
 	
 	public static RegexBuilder email() {

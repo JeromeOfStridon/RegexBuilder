@@ -51,6 +51,26 @@ public class RegexMatcher {
 		return currentFind;
 	}
 	
+	
+	public RegexMatcher debug() {
+		
+		for(int i = 0; i < regexBuilder.nodes.size(); i++) {
+			RegexBuilder regexClone = regexBuilder.clone();
+			for(int j = 0; j < i; j++) {
+				regexClone.nodes.remove(regexClone.nodes.size() - 1);
+			}
+			RegexMatcher cloneMatcher = new RegexMatcher(regexClone, content);
+			
+			if(cloneMatcher.find()) {
+				log.debug("Matching regex test : "+regexClone.compile());
+				return cloneMatcher;
+			}
+		}
+		
+		return null;
+
+	}
+	
 	/**
 	 * Returns matched content for whole regex
 	 */
@@ -62,6 +82,17 @@ public class RegexMatcher {
 		return matcher.group();
 	}
 	
+	
+	/**
+	 * Returns matched content for whole regex
+	 */
+	public String group(int i) {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find anything yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
+		return matcher.group(i);
+	}
 	/**
 	 * Returns matched content for specific group
 	 */
@@ -94,45 +125,29 @@ public class RegexMatcher {
 		}
 		return Integer.parseInt(groupContent);
 	}
-	
-	public RegexMatcher debug() {
-		
-		for(int i = 0; i < regexBuilder.nodes.size(); i++) {
-			RegexBuilder regexClone = regexBuilder.clone();
-			for(int j = 0; j < i; j++) {
-				regexClone.nodes.remove(regexClone.nodes.size() - 1);
-			}
-			RegexMatcher cloneMatcher = new RegexMatcher(regexClone, content);
-			
-			if(cloneMatcher.find()) {
-				log.debug("Matching regex test : "+regexClone.compile());
-				return cloneMatcher;
-			}
-		}
-		
-		return null;
 
-	}
 	
-	public int start() {
+	public Integer start() {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
 		return matcher.start();
 	}
-	public int start(int i) {
+	public Integer start(int i) {
+		
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
 		return matcher.start(i);
 	}
 	
-	public int end() {
-		return matcher.end();
-	}
-	public int end(int i) {
-		return matcher.end(i);
-	}
-	
-	public int groupCount() {
-		return matcher.groupCount();
-	}
-	
 	public Integer start(String groupName) {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
 		try {
 			return matcher.start(regexBuilder.findGroupPosition(groupName));
 		}
@@ -141,7 +156,26 @@ public class RegexMatcher {
 		}
 	}
 	
+	public Integer end() {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
+		return matcher.end();
+	}
+	public Integer end(int i) {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
+		return matcher.end(i);
+	}
+	
 	public Integer end(String groupName) {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
 		try {
 			return matcher.end(regexBuilder.findGroupPosition(groupName));
 		}
@@ -149,6 +183,11 @@ public class RegexMatcher {
 			return null;
 		}
 	}
+	
+	public int groupCount() {
+		return matcher.groupCount();
+	}
+	
 	
 
 	public String replace(String groupName, String replacementString) {

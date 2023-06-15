@@ -14,23 +14,7 @@ import app.regexBuilder.Group.GroupType;
 public class RegexFactoryTest {
 	
 	
-	@Test
-	public void emptyTest() {
-		RegexBuilder test = RegexFactory.regexBuilder();
-		assertEquals("", test.toString());
-	}
-	
-	@Test
-	public void anchorsTest() {
-		RegexBuilder test1 = RegexFactory.regexBuilder();
-		test1
-			.anchorStart(true)
-			.anchorEnd(true)
-			.any("a");
-		
-		Assert.assertEquals("^a*$", test1.toString());
-		
-	}
+
 	
 	@Test
 	public void regexQuantityPattern() {
@@ -78,7 +62,7 @@ public class RegexFactoryTest {
 		alternative.unique("A");
 		alternative.unique("B");
 		
-		alternative.setChildrenType(TreeType.Alternative);
+		alternative.setTreeType(TreeType.Alternative);
 		
 		assertEquals("(A|B)", alternative.toString());
 

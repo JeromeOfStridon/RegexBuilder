@@ -1,6 +1,7 @@
 package app.regexBuilder;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import lombok.NoArgsConstructor;
 
@@ -13,34 +14,29 @@ public abstract class Node implements Serializable{
 	protected boolean lazy = false;
 	
 	public String renderSize() {
-		if(minSize == null) {
-			minSize = 0;
-		}
 		
-		if(minSize == 1 && maxSize != null && maxSize == 1) {
+		if(integerEquals(minSize, maxSize, 1)) {
 			return "";
 		}
-		if(minSize == 0 && maxSize != null && maxSize == 1) {
+		if(integerEquals(minSize, 0) && integerEquals(maxSize, 1)) {
 			return "?"+(lazy?"?":"");
 		}
-		if(minSize == 1 && maxSize == null) {
+		if(integerEquals(minSize, 1) && maxSize == null) {
 			return "+"+(lazy?"?":"");
 		}
-		if(minSize == 0 && maxSize == null) {
+		if((minSize == null || minSize == 0) && maxSize == null) {
 			return "*"+(lazy?"?":"");
 		}
-		if(minSize.equals(maxSize)) {
-			return "{"+minSize+"}"+(lazy?"?":"");
+		
+		if(integerEquals(minSize, maxSize)) {
+			return "{"+minSize+"}";
 		}
 		
 		return "{"+(minSize != 0 ? minSize : "")+","+(maxSize == null ? "": maxSize)+"}"+(lazy?"?":"");
 		
-		
 	}
 	
-	
-	
-	protected void times(Integer minSize, Integer maxSize) {
+	protected void setQuantity(Integer minSize, Integer maxSize) {
 		this.minSize = minSize;
 		this.maxSize = maxSize;
 	}
@@ -48,7 +44,17 @@ public abstract class Node implements Serializable{
 	public abstract String toString();
 
 
-
+	boolean integerEquals(Integer...integers) {
+		for(int i = 1; i < integers.length; i++) {
+			if(integers[0] == null && integers[i] != null) {
+				return false;
+			}
+			if(!integers[0].equals(integers[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 
 	

@@ -8,10 +8,6 @@ public class StringMatch extends Node {
 	
 	StringBuilder sb = new StringBuilder();
 	
-	public String get() {
-		return sb.toString();
-	}
-	
 	public StringMatch add(String str) {
 		sb.append(str);
 		return this;
