@@ -1,7 +1,8 @@
-package app.regexBuilder;
+package com.regexbuilder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ public class ClassMatch extends Node {
 	
 	/**
 	 * Sets the ClassMatch to be negative (excluding specified classes or characters), opposite to {@link #bePositive()}
+	 * @return self
 	 */
 	public ClassMatch beNegative() {
 		negative = true;
@@ -27,6 +29,7 @@ public class ClassMatch extends Node {
 	
 	/**
 	 * Sets the ClassMatch to be positive (including specified classes or characters), opposite to {@link #beNegative()}
+	 * @return self
 	 */
 	public ClassMatch bePositive() {
 		negative = false;
@@ -36,6 +39,7 @@ public class ClassMatch extends Node {
 	
 	/**
 	 * Add CharacterClass to current ClassMatch
+	 * @return self
 	 */
 	public ClassMatch add(CharacterClass cc) {
 		items.add(cc);
@@ -45,16 +49,16 @@ public class ClassMatch extends Node {
 
 	/**
 	 * Add Characters to current ClassMatch
+	 * @return self
 	 */
 	public ClassMatch add(Character... charArray) {
-		for(Character c : charArray) {
-			items.add(c);
-		}
+		items.add(Arrays.asList(charArray));
 		return this;
 	}
 	
 	/**
 	 * Add Character collection to current ClassMatch
+	 * @return self
 	 */
 	public ClassMatch addAll(Collection<Character> characterList) {
 		for(Character c : characterList) {
@@ -68,6 +72,7 @@ public class ClassMatch extends Node {
 	 * Add ClassRange to current ClassMatch
 	 * @param from character specifying range start
 	 * @param to character specifying range end
+	 * @return self
 	 */
 	public ClassMatch addRange(char from, char to) {
 		items.add(new ClassRange(from, to));
@@ -96,8 +101,8 @@ public class ClassMatch extends Node {
 		Linebreak("\\n");
 		
 		
-		public final List<CharacterClass> children;
-		public final String string;
+		final List<CharacterClass> children;
+		final String string;
 		
 		private CharacterClass(CharacterClass... cc) {
 			this.children = List.of(cc);
@@ -117,6 +122,7 @@ public class ClassMatch extends Node {
 
 	/**
 	 * Compiling current ClassMatch into regex string
+	 * @return string
 	 */
 	public String toString() {
 		
@@ -186,9 +192,6 @@ public class ClassMatch extends Node {
 		Character from;
 		Character to;
 	}
-
-
-
 
 	
 	

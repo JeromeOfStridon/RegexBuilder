@@ -1,12 +1,13 @@
-package app.regexBuilder.library;
+package com.regexbuilder.library;
 
 import java.util.List;
 
-import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.Group;
-import app.regexBuilder.Group.TreeType;
-import app.regexBuilder.RegexBuilder;
-import app.regexBuilder.RegexFactory;
+import com.regexbuilder.Group;
+import com.regexbuilder.RegexBuilder;
+import com.regexbuilder.RegexFactory;
+import com.regexbuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.Group.TreeType;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

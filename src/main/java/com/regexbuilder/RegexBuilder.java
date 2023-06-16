@@ -1,4 +1,4 @@
-package app.regexBuilder;
+package com.regexbuilder;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -10,13 +10,17 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import lombok.Getter;
+import lombok.Setter;
+
 // Factory for all kinds of match & groups
 public class RegexBuilder extends Group {
 
-	
-	
-	public boolean anchorStart = false;
-	public boolean anchorEnd = false;
+	@Getter @Setter
+	boolean anchorStart = false;
+
+	@Getter @Setter
+	boolean anchorEnd = false;
 
 	
 	// CONSTRUCTORS
@@ -24,14 +28,23 @@ public class RegexBuilder extends Group {
 		super(childrenType, groupType);
 	}
 	
-	// ANCHORS
-	public RegexBuilder anchorStart(boolean b) {
-		anchorStart = b;
+	/**
+	 * Setter for anchorStart returning current RegexBuilder instance
+	 * @param anchorStart should RegexBuilder have a start anchor or not
+	 * @return self
+	 */
+	public RegexBuilder anchorStart(boolean anchorStart) {
+		this.anchorStart = anchorStart;
 		return this;
 	}
 
-	public RegexBuilder anchorEnd(boolean b) {
-		anchorEnd = b;
+	/**
+	 * Setter for anchorEnd returning current RegexBuilder instance
+	 * @param anchorStart should RegexBuilder have a end anchor or not
+	 * @return current RegexBuilder instance
+	 */
+	public RegexBuilder anchorEnd(boolean anchorEnd) {
+		this.anchorEnd = anchorEnd;
 		return this;
 	}
 
@@ -46,20 +59,12 @@ public class RegexBuilder extends Group {
 			sb.append("^");
 		}
 		
-//		if(anchorStart || anchorEnd) {
-//			sb.append("(");
-//		}
-		
 		String groupString = super.toString();
-		if(groupString.startsWith("(") && groupString.endsWith(")") && super.markedAsGroup() && groupType == GroupType.None) {
+		if(groupString.startsWith("(") && groupString.endsWith(")") && super.markedAsGroup() && groupType == GroupType.Undefined) {
 			groupString = groupString.substring(1, groupString.length()-1);
 		}
 		
 		sb.append(groupString);
-		
-//		if(anchorStart || anchorEnd) {
-//			sb.append(")");
-//		}
 		
 		if(anchorEnd) {
 			sb.append("$");
@@ -79,6 +84,10 @@ public class RegexBuilder extends Group {
 		return null;
 	}
 	
+	/**
+	 * Creates a map with regex capturing groups and associated name if any
+	 * @return map of group ids and names
+	 */
 	public Map<Integer, String> getGroupPositions(){
 		Map<Integer, String> result = new LinkedHashMap<>();
 		List<Group> groups = getCapturingGroups();
@@ -98,13 +107,16 @@ public class RegexBuilder extends Group {
 	List<Group> getCapturingGroups(){
 		List<Group> groups = new ArrayList<>();
 		// As marked as group, Will be considered as a capturing group, so needs to be included
-		if(groupType == GroupType.None && markedAsGroup()) {
+		if(groupType == GroupType.Undefined && markedAsGroup()) {
 			groups.add(this);
 		}
 		groups.addAll(super.getCapturingGroups());
 		return groups;
 	}
-	
+	/**
+	 * Cast current RegexBuilder instance into Group
+	 * @return Group built out of current RegexBuilder instance
+	 */
 	public Group asGroup() {
 		Group group = new Group(this.treeType, this.groupType);
 		group.nodes = this.nodes;
@@ -113,12 +125,18 @@ public class RegexBuilder extends Group {
 		return group;
 	}
 	
-	
+	/**
+	 * Creates a regular Regex Pattern instance out of current RegexBuilder instance
+	 * @return Pattern instance
+	 */
 	public Pattern compile() {
 		return Pattern.compile(this.toString());
 	}
 	
-	
+	/**
+	 * Creates a clone of current RegexBuilder instance
+	 * @return cloned RegexBuilder instance
+	 */
 	public RegexBuilder clone() {
 		RegexBuilder cloned = SerializationUtils.clone(this);
 		return cloned;

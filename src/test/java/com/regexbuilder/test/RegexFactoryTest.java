@@ -1,13 +1,16 @@
-package app.regexBuilder;
+package com.regexbuilder.test;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.Group.TreeType;
-import app.regexBuilder.Group.GroupType;
+import com.regexbuilder.Group;
+import com.regexbuilder.RegexBuilder;
+import com.regexbuilder.RegexFactory;
+import com.regexbuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.Group.GroupType;
+import com.regexbuilder.Group.TreeType;
 
 
 

@@ -1,8 +1,9 @@
-package app.regexBuilder.library;
+package com.regexbuilder.library;
 
-import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.RegexBuilder;
-import app.regexBuilder.RegexFactory;
+import com.regexbuilder.RegexBuilder;
+import com.regexbuilder.RegexFactory;
+import com.regexbuilder.ClassMatch.CharacterClass;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

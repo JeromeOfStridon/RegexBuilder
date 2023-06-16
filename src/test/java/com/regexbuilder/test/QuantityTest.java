@@ -1,9 +1,11 @@
-package app.regexBuilder;
+package com.regexbuilder.test;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import app.regexBuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.RegexBuilder;
+import com.regexbuilder.RegexFactory;
+import com.regexbuilder.ClassMatch.CharacterClass;
 
 
 

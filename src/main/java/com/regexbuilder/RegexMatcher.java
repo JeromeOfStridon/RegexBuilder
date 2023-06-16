@@ -1,4 +1,4 @@
-package app.regexBuilder;
+package com.regexbuilder;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -30,7 +30,7 @@ public class RegexMatcher {
 	private Boolean currentFind;
 	private final Map<Integer, String> groupPositionsMap;
 	
-	public RegexMatcher(RegexBuilder regexBuilder, String content, int flags) {
+	RegexMatcher(RegexBuilder regexBuilder, String content, int flags) {
 		this.regexBuilder = regexBuilder;
 		this.content = content;
 		this.pattern = Pattern.compile(regexBuilder.toString(), flags);
@@ -38,7 +38,7 @@ public class RegexMatcher {
 		this.groupPositionsMap = regexBuilder.getGroupPositions();
 	}
 	
-	public RegexMatcher(RegexBuilder regexBuilder, String content) {
+	RegexMatcher(RegexBuilder regexBuilder, String content) {
 		this(regexBuilder, content, 0);
 	}
 	
@@ -51,7 +51,11 @@ public class RegexMatcher {
 		return currentFind;
 	}
 	
-	
+	/**
+	 * Testing current RegexMatcher step by step to match content, and returns RegexMatcher with longest working RegexBuilder
+	 * Use this feature during implementation to help you see what part of your Regex doesn't work.
+	 * @return RegexMatcher including best matching RegexBuilder
+	 */
 	public RegexMatcher debug() {
 		
 		for(int i = 0; i < regexBuilder.nodes.size(); i++) {
@@ -72,7 +76,8 @@ public class RegexMatcher {
 	}
 	
 	/**
-	 * Returns matched content for whole regex
+	 * Wraps matcher group method
+	 * @return matched content for whole regex
 	 */
 	public String group() {
 		if(currentFind == null) {
@@ -84,17 +89,20 @@ public class RegexMatcher {
 	
 	
 	/**
-	 * Returns matched content for whole regex
+	 * Wraps matcher group method
+	 * @return matched content for group with given index
 	 */
-	public String group(int i) {
+	public String group(int groupIndex) {
 		if(currentFind == null) {
 			log.error("Cannot get groups when matcher didn't find anything yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
 			return null;
 		}
-		return matcher.group(i);
+		return matcher.group(groupIndex);
 	}
+	
 	/**
-	 * Returns matched content for specific group
+	 * Wraps matcher group method with group called by its name as specified in RegexBuilder
+	 * @return matched content for group specified by its name
 	 */
 	public String group(String groupName) {
 		
@@ -110,6 +118,12 @@ public class RegexMatcher {
 		}
 	}
 	
+	
+	/**
+	 * Finds group by its name as specified in RegexBuilder, extracts matching content and parse it as float if possible
+	 * @param groupName name of group to be matched as specified in RegexBuilder
+	 * @return parsed matched content as float
+	 */
 	public Float groupAsFloat(String groupName) {
 		String groupContent = group(groupName);
 		if(groupContent == null) {
@@ -118,6 +132,11 @@ public class RegexMatcher {
 		return Float.parseFloat(groupContent);
 	}
 	
+	/**
+	 * Finds group by its name as specified in RegexBuilder, extracts matching content and parse it as integer if possible
+	 * @param groupName name of group to be matched as specified in RegexBuilder
+	 * @return parsed matched content as integer
+	 */
 	public Integer groupAsInteger(String groupName) {
 		String groupContent = group(groupName);
 		if(groupContent == null) {
@@ -210,7 +229,7 @@ public class RegexMatcher {
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class RegexMatch{
 		
-		@ToStringExclude final public RegexMatcher regexMatcher;
+		@ToStringExclude public final RegexMatcher regexMatcher;
 		public final int start;
 		public final int end;
 		public final String group;
@@ -218,7 +237,10 @@ public class RegexMatcher {
 		
 	}
 
-	//TODO : document
+	/**
+	 * Provides all RegexMatch for all current groups
+	 * @return list of RegexMatch
+	 */
 	public List<RegexMatch> getMatchs() {
 		List<RegexMatch> matchs = new ArrayList<>();
 		for(int i = 0; i <= matcher.groupCount(); i++) {
@@ -228,8 +250,7 @@ public class RegexMatcher {
 	}
 	
 	public RegexMatch getMatch(int i) {
-		RegexMatch regexMatch = new RegexMatch(this, matcher.start(i), matcher.end(i), matcher.group(i), groupPositionsMap.get(i));
-		return regexMatch;
+		return new RegexMatch(this, matcher.start(i), matcher.end(i), matcher.group(i), groupPositionsMap.get(i));
 	}
 	
 }

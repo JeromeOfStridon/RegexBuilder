@@ -1,11 +1,11 @@
-package app.regexBuilder;
+package com.regexbuilder;
 
 import java.io.Serializable;
-import java.util.Objects;
 
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public abstract class Node implements Serializable{
 	
 	protected Integer minSize = 1;
@@ -13,7 +13,7 @@ public abstract class Node implements Serializable{
 	
 	protected boolean lazy = false;
 	
-	public String renderSize() {
+	String renderSize() {
 		
 		if(integerEquals(minSize, maxSize, 1)) {
 			return "";
@@ -36,7 +36,12 @@ public abstract class Node implements Serializable{
 		
 	}
 	
-	protected void setQuantity(Integer minSize, Integer maxSize) {
+	/**
+	 * Sets quantity manually by defining minSize & maxSize
+	 * @param minSize
+	 * @param maxSize
+	 */
+	public void setQuantity(Integer minSize, Integer maxSize) {
 		this.minSize = minSize;
 		this.maxSize = maxSize;
 	}

@@ -1,14 +1,19 @@
-package app.regexBuilder;
+package com.regexbuilder.test;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import app.regexBuilder.library.RegexDateTimeLibrary;
-import app.regexBuilder.library.RegexMiscLibrary;
-import app.regexBuilder.library.RegexNumberLibrary;
-import app.regexBuilder.library.RegexWebContentLibrary;
+import com.regexbuilder.Group;
+import com.regexbuilder.RegexBuilder;
+import com.regexbuilder.RegexFactory;
+import com.regexbuilder.RegexMatcher;
+import com.regexbuilder.library.RegexDateTimeLibrary;
+import com.regexbuilder.library.RegexMiscLibrary;
+import com.regexbuilder.library.RegexNumberLibrary;
+import com.regexbuilder.library.RegexWebContentLibrary;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -58,16 +63,8 @@ public class LibraryTest {
 	public void fullWrittenDate_frTest() {
 		RegexBuilder rb = RegexDateTimeLibrary.fullWrittenDate_fr();
 		
-		RegexMatcher rm = new RegexMatcher(rb, "1 janvier 2021");
+		RegexMatcher rm = RegexFactory.regexMatcher(rb, "1 janvier 2021");
 		rm.find();
-		for(Group group : rb.getCapturingGroups()) {
-			log.debug("capturing : "+group.toString());
-		}
-		log.debug(rb.getGroupPositions().toString());
-		//log.debug(rm.groupsAsMap().toString());
-		log.debug(rb.toString());
-		log.debug(rm.debug().getRegexBuilder().toString());
-		
 		
 		assertEquals("2021", rm.group("year"));
 		assertEquals("janvier", rm.group("month"));
@@ -76,7 +73,7 @@ public class LibraryTest {
 	
 	@Test
 	public void fullWrittenDate_enTest() {
-		RegexMatcher rm = new RegexMatcher(RegexDateTimeLibrary.fullWrittenDate_en(), "Mar. 31th 2022");
+		RegexMatcher rm = RegexFactory.regexMatcher(RegexDateTimeLibrary.fullWrittenDate_en(), "Mar. 31th 2022");
 		rm.find();
 		assertEquals("2022", rm.group("year"));
 		assertEquals("Mar.", rm.group("month"));
@@ -85,7 +82,7 @@ public class LibraryTest {
 	
 	@Test
 	public void timestampTest() {
-		RegexMatcher rm = new RegexMatcher(RegexDateTimeLibrary.timestampRegex(), "2022-12-03T12:22:03.009Z");
+		RegexMatcher rm = RegexFactory.regexMatcher(RegexDateTimeLibrary.timestampRegex(), "2022-12-03T12:22:03.009Z");
 		
 		rm.find();
 		

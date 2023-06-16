@@ -1,4 +1,4 @@
-package app.regexBuilder;
+package com.regexbuilder.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,9 +7,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import app.regexBuilder.ClassMatch.CharacterClass;
-import app.regexBuilder.Group.TreeType;
-import app.regexBuilder.RegexMatcher.RegexMatch;
+import com.regexbuilder.RegexBuilder;
+import com.regexbuilder.RegexFactory;
+import com.regexbuilder.RegexMatcher;
+import com.regexbuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.Group.TreeType;
+import com.regexbuilder.RegexMatcher.RegexMatch;
 
 
 
@@ -27,7 +30,7 @@ public class RegexMatcherTest {
 			.unique(RegexFactory.alternativeGroup().unique(".").unique(",").setName("separator"))
 			.unique(RegexFactory.sequenceGroup().some(CharacterClass.Numeric).setName("decimal"));
 				
-		RegexMatcher rm = new RegexMatcher(rb, "test 13.37 regexer 1");
+		RegexMatcher rm = RegexFactory.regexMatcher(rb, "test 13.37 regexer 1");
 		
 		assertNull(rm.group());
 		assertNull(rm.group(1));
@@ -101,7 +104,7 @@ public class RegexMatcherTest {
 		
 		RegexBuilder rb = RegexFactory.regexBuilder();
 		
-		RegexMatcher rm = new RegexMatcher(rb, "");
+		RegexMatcher rm = RegexFactory.regexMatcher(rb, "");
 		
 		assertNull(rm.group());
 		rm.find();
@@ -118,13 +121,13 @@ public class RegexMatcherTest {
 			.some("b")
 			.some("c");
 		
-		RegexMatcher rm1 = new RegexMatcher(rb, "aaabbbbbddd");
+		RegexMatcher rm1 = RegexFactory.regexMatcher(rb, "aaabbbbbddd");
 		
 		RegexMatcher debugedRb = rm1.debug();
 		
 		assertEquals("a+b+", debugedRb.getRegexBuilder().toString());
 		
-		RegexMatcher rm2 = new RegexMatcher(rb, "eee");
+		RegexMatcher rm2 = RegexFactory.regexMatcher(rb, "eee");
 		assertNull(rm2.debug());
 		
 	}
@@ -136,7 +139,7 @@ public class RegexMatcherTest {
 			.unique(RegexFactory.sequenceGroup().setName("A").some(CharacterClass.Alphabetic))
 			.unique(RegexFactory.sequenceGroup().setName("1").some(CharacterClass.Numeric));
 		
-		RegexMatcher matcher = new RegexMatcher(rb, "A1");
+		RegexMatcher matcher = RegexFactory.regexMatcher(rb, "A1");
 		matcher.find();
 		
 		assertEquals("A", matcher.group("A"));
@@ -163,7 +166,7 @@ public class RegexMatcherTest {
 		RegexBuilder rb = RegexFactory.regexBuilder();
 		rb.unique("AA");
 		
-		RegexMatcher rm = new RegexMatcher(rb, "AA");
+		RegexMatcher rm = RegexFactory.regexMatcher(rb, "AA");
 		System.out.println(rm.toString());
 		rm.find();
 		assertTrue(rm.toString().startsWith("RegexMatcher("));
@@ -180,11 +183,11 @@ public class RegexMatcherTest {
 		RegexBuilder rb = RegexFactory.regexBuilder(TreeType.Alternative);
 		rb.unique("A").unique("B").unique("C").setQuantity(1, 2);
 		
-		RegexMatcher rm = new RegexMatcher(rb, "BA");
+		RegexMatcher rm = RegexFactory.regexMatcher(rb, "BA");
 		
 		rm.find();
 		
-		assertEquals("BA", rm.group(), "BA");
+		assertEquals("BA", rm.group());
 		assertEquals("A", rm.group(1));
 		
 	}
@@ -208,6 +211,8 @@ public class RegexMatcherTest {
 		
 		RegexMatcher rm = RegexFactory.regexMatcher(rb, "ABCABCABC");
 		rm.find();
+		
+		assertEquals("ABCABCABC", rm.group());
 		
 	}
 	

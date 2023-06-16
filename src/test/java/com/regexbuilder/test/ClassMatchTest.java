@@ -1,4 +1,4 @@
-package app.regexBuilder;
+package com.regexbuilder.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import app.regexBuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.ClassMatch;
+import com.regexbuilder.RegexFactory;
+import com.regexbuilder.ClassMatch.CharacterClass;
 
 
 

@@ -1,4 +1,4 @@
-package app.regexBuilder;
+package com.regexbuilder;
 
 import java.util.List;
 
