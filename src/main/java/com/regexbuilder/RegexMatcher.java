@@ -145,7 +145,10 @@ public class RegexMatcher {
 		return Integer.parseInt(groupContent);
 	}
 
-	
+	/**
+	 * Wraps matcher start method
+	 * @return the start index of current match
+	 */
 	public Integer start() {
 		if(currentFind == null) {
 			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
@@ -153,6 +156,11 @@ public class RegexMatcher {
 		}
 		return matcher.start();
 	}
+
+	/**
+	 * Wraps matcher start method
+	 * @return the start index of current match group
+	 */
 	public Integer start(int i) {
 		
 		if(currentFind == null) {
@@ -162,6 +170,10 @@ public class RegexMatcher {
 		return matcher.start(i);
 	}
 	
+	/**
+	 * Wraps matcher start method with group called by its name as specified in RegexBuilder
+	 * @return the start index of current match group specified by its name
+	 */
 	public Integer start(String groupName) {
 		if(currentFind == null) {
 			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
@@ -175,6 +187,11 @@ public class RegexMatcher {
 		}
 	}
 	
+	
+	/**
+	 * Wraps matcher end method
+	 * @return the end index of current match
+	 */
 	public Integer end() {
 		if(currentFind == null) {
 			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
@@ -182,6 +199,12 @@ public class RegexMatcher {
 		}
 		return matcher.end();
 	}
+	
+	
+	/**
+	 * Wraps matcher end method
+	 * @return the end index of current match group
+	 */
 	public Integer end(int i) {
 		if(currentFind == null) {
 			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
@@ -190,6 +213,10 @@ public class RegexMatcher {
 		return matcher.end(i);
 	}
 	
+	/**
+	 * Wraps matcher end method with group called by its name as specified in RegexBuilder
+	 * @return the end index of current match group specified by its name
+	 */
 	public Integer end(String groupName) {
 		if(currentFind == null) {
 			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
@@ -203,18 +230,35 @@ public class RegexMatcher {
 		}
 	}
 	
+	/**
+	 * Wraps matcher groupCount method
+	 * @return the number of capturing groups in matcher's pattern
+	 */
 	public int groupCount() {
 		return matcher.groupCount();
 	}
 	
 	
-
+	/**
+	 * finds group with specified name and replace its content with specified content
+	 * @param groupName group to be found
+	 * @param replacementString content to replace group content
+	 * @return complete RegexMatcher content with replaced content
+	 */
 	public String replace(String groupName, String replacementString) {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
 		Integer groupPosition = regexBuilder.findGroupPosition(groupName);
 		return content.substring(0, matcher.start(groupPosition))+replacementString+content.substring(matcher.end(groupPosition));
 	}
 
-	public Map<String, String> groupsAsMap() {
+	/**
+	 * Creates a key value map with group names specified in RegexBuilder as keys, and group contents as values
+	 * @return map with associated group names and content
+	 */
+	public Map<String, String> groupContentMap() {
 		Map<String, String> groupsAsMap = new LinkedHashMap<>();
 		for(Entry<Integer, String> entry : regexBuilder.getGroupPositions().entrySet()) {
 			if(matcher.group(entry.getKey()) != null) {
@@ -242,6 +286,10 @@ public class RegexMatcher {
 	 * @return list of RegexMatch
 	 */
 	public List<RegexMatch> getMatchs() {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
 		List<RegexMatch> matchs = new ArrayList<>();
 		for(int i = 0; i <= matcher.groupCount(); i++) {
 			matchs.add(getMatch(i));
@@ -249,8 +297,30 @@ public class RegexMatcher {
 		return matchs;
 	}
 	
-	public RegexMatch getMatch(int i) {
-		return new RegexMatch(this, matcher.start(i), matcher.end(i), matcher.group(i), groupPositionsMap.get(i));
+	/**
+	 * Provides RegexMatch for group with specified index
+	 * @param index
+	 */
+	public RegexMatch getMatch(int index) {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
+		return new RegexMatch(this, matcher.start(index), matcher.end(index), matcher.group(index), groupPositionsMap.get(index));
+	}
+	
+
+	/**
+	 * Provides RegexMatch for group with specified name
+	 * @param index
+	 */
+	public RegexMatch getMatch(String groupName) {
+		if(currentFind == null) {
+			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
+			return null;
+		}
+		Integer index = regexBuilder.findGroupPosition(groupName);
+		return new RegexMatch(this, matcher.start(index), matcher.end(index), matcher.group(index), groupPositionsMap.get(index));
 	}
 	
 }

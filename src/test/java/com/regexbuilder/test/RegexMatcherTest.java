@@ -41,6 +41,10 @@ public class RegexMatcherTest {
 		assertNull(rm.end());
 		assertNull(rm.end(1));
 		assertNull(rm.end("integer"));
+		assertNull(rm.getMatchs());
+		assertNull(rm.getMatch(0));
+		assertNull(rm.getMatch("integer"));
+		assertNull(rm.replace("integer", "0"));
 
 		
 		
@@ -57,7 +61,7 @@ public class RegexMatcherTest {
 		assertEquals((Integer) 13, rm.groupAsInteger("integer"));
 		assertEquals((Float) 37F, rm.groupAsFloat("decimal"));
 		
-		assertEquals(3, rm.groupsAsMap().size());
+		assertEquals(3, rm.groupContentMap().size());
 		
 		assertNull(rm.groupAsInteger("wrong name"));
 		assertNull(rm.groupAsFloat("wrong name"));
@@ -80,6 +84,7 @@ public class RegexMatcherTest {
 		assertEquals(5, (int) rm.start(1));
 		assertEquals(7, rm.getMatchs().get(1).end);
 		assertEquals(7, (int) rm.end(1));
+		assertEquals("13", rm.getMatch("integer").group);
 		
 		
 		assertEquals(".", rm.getMatchs().get(2).group);
@@ -88,6 +93,8 @@ public class RegexMatcherTest {
 		assertEquals(7, (int) rm.start(2));
 		assertEquals(8, rm.getMatchs().get(2).end);
 		assertEquals(8, (int) rm.end(2));
+		assertEquals(".", rm.getMatch("separator").group);
+
 		
 		assertEquals("37", rm.getMatchs().get(3).group);
 		assertEquals("decimal", rm.getMatchs().get(3).name);
@@ -95,6 +102,7 @@ public class RegexMatcherTest {
 		assertEquals(8, (int) rm.start(3));
 		assertEquals(10, rm.getMatchs().get(3).end);
 		assertEquals(10, (int) rm.end(3));
+		assertEquals("37", rm.getMatch("decimal").group);
 				
 	}
 	

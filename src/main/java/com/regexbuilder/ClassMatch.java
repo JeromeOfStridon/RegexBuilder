@@ -52,7 +52,10 @@ public class ClassMatch extends Node {
 	 * @return self
 	 */
 	public ClassMatch add(Character... charArray) {
-		items.add(Arrays.asList(charArray));
+//		for(Character character : charArray) {
+//			
+//		}
+		items.addAll(Arrays.asList(charArray));
 		return this;
 	}
 	

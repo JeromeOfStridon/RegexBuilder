@@ -1,15 +1,15 @@
 package com.regexbuilder.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import com.regexbuilder.RegexBuilder;
-import com.regexbuilder.RegexFactory;
-import com.regexbuilder.ClassMatch.CharacterClass;
 import com.regexbuilder.Group.GroupType;
 import com.regexbuilder.Group.TreeType;
+import com.regexbuilder.RegexBuilder;
+import com.regexbuilder.RegexFactory;
 
 
 
@@ -23,13 +23,25 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void anchorsTest() {
-		RegexBuilder test1 = RegexFactory.regexBuilder();
-		test1
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+		regexBuilder
 			.anchorStart(true)
 			.anchorEnd(true)
 			.any("a");
 		
-		Assert.assertEquals("^a*$", test1.toString());
+		assertEquals("^a*$", regexBuilder.toString());
+		assertTrue(regexBuilder.isAnchorStart());
+		assertTrue(regexBuilder.isAnchorEnd());
+		
+		regexBuilder.setAnchorStart(false);
+		assertFalse(regexBuilder.isAnchorStart());
+		assertTrue(regexBuilder.isAnchorEnd());
+		
+		
+		regexBuilder.setAnchorEnd(false);
+		assertFalse(regexBuilder.isAnchorStart());
+		assertFalse(regexBuilder.isAnchorEnd());
+		
 		
 	}
 	
