@@ -1,37 +1,56 @@
-# Regex Builder
+# RegexBuilder
 
-Regex Builder is a framework helping developers to create regex programmatically, making this tedious task easier and more collaboratively.
-Framework also provides Regex Matcher, extension of regular matcher,  working with Regex Builder and exploiting all the power nt with regex created with RegexBuilder !
-
-Example :
+RegexBuilder is a framework helping developers to create regex programmatically, making this tedious task easier and more collaborative.
+Framework comes along with RegexMatcher, extension of regular Matcher, but designed to match content against RegexBuilder and take full advantage of RegexBuilder features.
 
 
 
 ## Quickstart :
 ### 0. Foreword
 
-Creating this framework we tried to follow simple directions: 
+This framework has been created to ease developers life, it tries to follow basic principles you should keep in mind to take best advantage of it:
 
 ** Intuitive ** 
 
 Don't waist your time looking for all framework capacities, one single entry point : RegexFactory static class.
-RegexFactory.sequenceGroup() RegexBuilder.classMatch() etc.
+`RegexFactory.sequenceGroup()`, `RegexFactory.classMatch()`, `RegexFactory.regexMatcher()` etc.
 If it's not here, it just doesn't exist at all !
 
-`RegexBuilder regexBuilder = RegexFactory.regexBuilder();`
+Sample : 
 
-** Fluent **
+```
+RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+System.out.println(regexBuilder.toString());
+```
+
+** Verbose **
 
 Concepts of regex are sometimes hard to get as they are using symbols (*, ?, +, |) you don't want to remember, let's use words instead !
 
-`regexBuilder.unique("Hello");`
+Sample:
+
+```
+RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+regexBuilder.unique("Hello");
+
+System.out.println(regexBuilder.toString());
+```
 
 
 ** Easy coding **
 
 The whole framework has been thought as a builder, start adding parts and just keep adding other parts to it !
 
-`regexBuilder.unique(CharacterClass.Space).unique("World ").some("!");`
+```
+RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+regexBuilder
+	.anchorStart(true)
+	.unique(CharacterClass.Space)
+	.unique("World ")
+	.some("!");
+
+System.out.println(regexBuilder.toString());
+```
 
 
 
@@ -40,15 +59,28 @@ The whole framework has been thought as a builder, start adding parts and just k
 Common regex are a nightmare to write, and a hell to read. Regular regex doesn't allow comments, and that's for the worst.
 Fortunately, Regex Builder is made for you to code it, and code comes with comments right ? 
 Please be gentle, code your regex, comment your regex, if not for you for your readers, that's the least you can do !
-`regexBuilder.unique(".") // expecting phrase to end with dot`
+
+Sample:
+
+```
+RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+regexBuilder.unique("."); // expecting phrase to end with dot
+
+System.out.println(regexBuilder.toString());
+```
 
 
 ** DRY (Don't repeat yourself) **
 
-Create regex using object oriented programming, using composition of objects that can be used in several regex, or objects called multiple times in the same regex !
+When building a complex regex, you may face the case of reusing several identical pieces. 
+RegexBuilder framework has been designed to work with composition, for example in such situation you could easily create one group per piece, and then use these group several times in your RegexBuilder.
 
+```
 RegexBuilder sentence
 
+```
+
+Same applies to ClassMatch.
 
 ### 1. RegexBuilder
 
@@ -103,27 +135,40 @@ RegexBuilder is made for you to create regex, RegexMatcher is made for you to ma
 
 `RegexMatcher regexMatcher = new RegexMatcher(regexBuilder, "Hello world !");`
 
+Regular Matcher class methods have been wrapped in RegexMatcher :
+- `RegexMatcher::groupCount()`
+- `RegexMatcher::group()`
+- `RegexMatcher::group(int groupId)`
+- `RegexMatcher::start()`
+- `RegexMatcher::start(int groupId)`
+- `RegexMatcher::end()`
+- `RegexMatcher::end(int groupId)`
 
-##### 3.1. Group names
+
+
+##### 3.1. Groups
 
 Groups declared with names in RegexBuilder can be called directly in RegexMatcher
-`regexMatcher.group("Greeting");`
+`RegexMatcher::group(String groupName);`
 
-You can also use `start` and `end` methods that would give you the same result as classic Matcher.
+Several methods of original Matcher object are wrapped and overriden to accept group name as parameter instead of group index :
+- `RegexMatcher::group(String groupName)`
+- `RegexMatcher::start(String groupName)`
+- `RegexMatcher::end(String groupName)`
 
-##### 3.2. Replace
-
-Looks for group and replace it with specified content
-
-
-##### 3.3. RegexMatch
+Complementary features have been added to be used with group names !
+- Getting mapped content group names and matched content :  `RegexMatcher::groupContentMap()`
+- Replacing content by its group name : `RegexMatcher::replace(String groupName, String replacementString`
 
 
+##### 3.2. RegexMatch
+When having extensive usage of matchers, `start()`, `end()` and `group()` may force you to store  
 
-### 4. Library
+
+### 4. Library & Samples
 Framework is shipped with RegexBuilder templates you can already use in your regex, as such, or as parts. Make good use of it !
 
-Example : 
+Sample : 
 
 ```
 RegexBuilder hhMMClock = RegexFactory.regexBuilder();
@@ -146,10 +191,24 @@ hhMMClock
 	.unique(CharacterClass.Numeric);
 ```
 
-### 5. Advanced options
+### 5. Advanced features
 
 ** Anchors **
 
+Regular regex can specify to have starting and ending anchors (specifying if regex match should start at first content character and end at the last content character)
+Such parameters can be activated on RegexBuilder with `RegexBuilder::anchorStart(boolean anchorStart)` and `RegexBuilder::anchorEnd(boolean anchorEnd)`.
+
+** Manual Matching **
+
+If you don't want to use RegexMatcher to match content against your RegexBuilder, you may use :
+
+- `String RegexBuilder::toString()` to get regular regex out 
+- `Pattern RegexBuilder::compile()` to compile your RegexBuilder into a Pattern
+
+** Recycle **
+
+We strongly encourage you to embed RegexBuilder in other RegexBuilder, to do so you shall convert your `RegexBuilder` to a `Group` using `Group RegexBuiler::asGroup()`
+Doing so will result of losing RegexBuilder specific properties : `anchorStart` and `anchorEnd`.
 
 
 
@@ -157,20 +216,5 @@ hhMMClock
 The source code is licensed under the MIT license, which you can find in the MIT-LICENSE.txt file.
 
 
-### 6. TO CLEAN
-- Regex as code :
-	you can comment your code to explain the way you created the regex rule by rule
-	readable methods enabling you to read instead of decode the regex
 
-- Intuitive : 
-	beXXX sets the configuration of each object
-	any, unique, some, between, exactly, optional, none ?
-- Regex optimizer included :
-	Created to try to simplify your regex as much as possible
-
-
-- think about using beXXX => 
-	- beNegativeLookaheadGroup
-	- beSequential / beAlternative
-	- beCapturing(capturingGroupName)
 	

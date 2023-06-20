@@ -9,10 +9,10 @@ import com.regexbuilder.Group;
 import com.regexbuilder.RegexBuilder;
 import com.regexbuilder.RegexFactory;
 import com.regexbuilder.RegexMatcher;
-import com.regexbuilder.library.RegexDateTimeLibrary;
-import com.regexbuilder.library.RegexMiscLibrary;
-import com.regexbuilder.library.RegexNumberLibrary;
-import com.regexbuilder.library.RegexWebContentLibrary;
+import com.regexbuilder.samples.RegexDateTimeLibrary;
+import com.regexbuilder.samples.RegexMiscLibrary;
+import com.regexbuilder.samples.RegexNumberLibrary;
+import com.regexbuilder.samples.RegexWebContentLibrary;
 
 import lombok.extern.slf4j.Slf4j;
 

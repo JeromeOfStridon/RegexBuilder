@@ -1,4 +1,4 @@
-package com.regexbuilder.library;
+package com.regexbuilder.samples;
 
 import java.util.List;
 

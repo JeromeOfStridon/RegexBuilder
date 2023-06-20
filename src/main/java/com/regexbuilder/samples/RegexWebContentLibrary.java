@@ -1,4 +1,4 @@
-package com.regexbuilder.library;
+package com.regexbuilder.samples;
 
 import com.regexbuilder.ClassMatch;
 import com.regexbuilder.RegexBuilder;
@@ -12,14 +12,13 @@ import lombok.NoArgsConstructor;
 public class RegexWebContentLibrary {
 	
 	public static RegexBuilder email() {
-		RegexBuilder regex = RegexFactory.regexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		
-
 		ClassMatch acceptedChars = new ClassMatch()
 				.add(CharacterClass.Alphanumeric)
 				.add('%', '_', '-', '+');
 		
-		regex
+		regexBuilder
 			.some(acceptedChars)
 			.optional(RegexFactory.sequenceGroup()
 					.unique(".")
@@ -30,15 +29,15 @@ public class RegexWebContentLibrary {
 					.unique("."))
 			.between(CharacterClass.Alphabetic, 2, 10);
 		
-		return regex;
+		return regexBuilder;
 	}
 	
 	
 	public static RegexBuilder htmlEntity() {
 		
-		RegexBuilder rb = RegexFactory.regexBuilder();
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		
-		rb
+		regexBuilder
 			.unique("&")
 			.any("amp;")
 			.unique(RegexFactory.alternativeGroup()
@@ -52,7 +51,7 @@ public class RegexWebContentLibrary {
 					)
 			.unique(";");
 							
-		return rb;
+		return regexBuilder;
 		
 	}
 	
