@@ -1,4 +1,4 @@
-package com.regexbuilder.samples;
+package com.regexbuilder.sample;
 
 import com.regexbuilder.ClassMatch;
 import com.regexbuilder.RegexBuilder;
@@ -9,7 +9,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RegexWebContentLibrary {
+public class WebContentSamples {
 	
 	public static RegexBuilder email() {
 		RegexBuilder regexBuilder = RegexFactory.regexBuilder();

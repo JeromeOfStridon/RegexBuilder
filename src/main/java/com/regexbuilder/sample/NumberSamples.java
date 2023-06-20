@@ -1,4 +1,4 @@
-package com.regexbuilder.samples;
+package com.regexbuilder.sample;
 
 import com.regexbuilder.RegexBuilder;
 import com.regexbuilder.RegexFactory;
@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RegexNumberLibrary {
+public class NumberSamples {
 	
 	public static RegexBuilder floatNumber() {
 		

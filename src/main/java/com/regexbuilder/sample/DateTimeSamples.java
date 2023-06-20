@@ -1,4 +1,4 @@
-package com.regexbuilder.samples;
+package com.regexbuilder.sample;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RegexDateTimeLibrary {
+public class DateTimeSamples {
 
 	
 	public static RegexBuilder fullWrittenDate_en() {
