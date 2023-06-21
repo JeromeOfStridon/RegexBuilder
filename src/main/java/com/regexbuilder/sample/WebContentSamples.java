@@ -55,5 +55,15 @@ public class WebContentSamples {
 		
 	}
 	
+	public static RegexBuilder IPv4() {
+		Group ipGroup = RegexFactory.alternativeGroup()
+			.unique(RegexFactory.sequenceGroup()
+				.optional(RegexFactory.classMatch('0', '1'))
+				
+			)
+			.unique();
+			
+	}
+	
 	
 }
