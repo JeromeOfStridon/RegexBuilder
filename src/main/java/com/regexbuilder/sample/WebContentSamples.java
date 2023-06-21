@@ -1,9 +1,10 @@
 package com.regexbuilder.sample;
 
 import com.regexbuilder.ClassMatch;
+import com.regexbuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.Group;
 import com.regexbuilder.RegexBuilder;
 import com.regexbuilder.RegexFactory;
-import com.regexbuilder.ClassMatch.CharacterClass;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -55,14 +56,20 @@ public class WebContentSamples {
 		
 	}
 	
-	public static RegexBuilder IPv4() {
+	public static RegexBuilder ipV4() {
+		
 		Group ipGroup = RegexFactory.alternativeGroup()
-			.unique(RegexFactory.sequenceGroup()
-				.optional(RegexFactory.classMatch('0', '1'))
-				
-			)
-			.unique();
+			.unique(RegexFactory.sequenceGroup().unique("25").unique(RegexFactory.classMatchRange('0', '5')))
+			.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '4')).unique(CharacterClass.Numeric))
+			.unique(RegexFactory.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric));
 			
+		
+		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+		
+		regexBuilder.unique(ipGroup).unique(".").unique(ipGroup).unique(".").unique(ipGroup).unique(".").unique(ipGroup);
+		
+		return regexBuilder;
+		
 	}
 	
 	

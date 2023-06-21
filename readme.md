@@ -165,7 +165,7 @@ Complementary features have been added to be used with group names !
 When having extensive usage of matchers, `start()`, `end()` and `group()` may force you to store  
 
 
-### 4. Library & Samples
+### 4. Samples
 Framework is shipped with RegexBuilder templates you can already use in your regex, as such, or as parts. Make good use of it !
 
 Sample : 
