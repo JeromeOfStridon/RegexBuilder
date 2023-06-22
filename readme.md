@@ -263,19 +263,19 @@ regexBuilder
 
 ### 5. Advanced features
 
-** Anchors **
+#### 5.1. Anchors
 
 Regular regex can specify to have starting and ending anchors (specifying if regex match should start at first content character and end at the last content character)
 Such parameters can be activated on RegexBuilder with `RegexBuilder::anchorStart(boolean anchorStart)` and `RegexBuilder::anchorEnd(boolean anchorEnd)`.
 
-** Manual Matching **
+#### 5.2. Manual Matching
 
 If you don't want to use RegexMatcher to match content against your RegexBuilder, you may use :
 
 - `String RegexBuilder::toString()` to get regular regex out 
 - `Pattern RegexBuilder::compile()` to compile your RegexBuilder into a Pattern
 
-** Recycle **
+#### 5.3. Recycle
 
 We strongly encourage you to embed RegexBuilder in other RegexBuilder, to do so you shall convert your `RegexBuilder` to a `Group` using `Group RegexBuiler::asGroup()`
 Doing so will result of losing RegexBuilder specific properties : `anchorStart` and `anchorEnd`.
