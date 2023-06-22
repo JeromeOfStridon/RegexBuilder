@@ -225,11 +225,16 @@ Complementary features have been added to be used with group names !
 
 
 ##### 3.2. RegexMatch
-When having extensive usage of matchers, `start()`, `end()` and `group()` may not be very handy as you'll need to store information in your own structures. This framework provides you with RegexMatch structure, containing result of `start`, `end`, `group` method results, and if specified the group name.
+When having extensive usage of matchers, `start()`, `end()` and `group()` may not be very handy as you'll need to store information in your own structures. This framework provides you with RegexMatch structure, containing result of `start`, `end`, `group` method results for a specific group, and group name if specified.
+
+RegexMatch can be retrieved with these methods :
+- `List<RegexMatch> RegexMatcher::getMatchs()` to get all RegexMatch instances
+- `RegexMatch RegexMatcher::getMatch(int index)` to get RegexMatch for group with specific index
+- `RegexMatch RegexMatcher::getMatch(String groupName)` to get RegexMatch for group with specific name
 
 
 ### 4. Samples
-Framework is shipped with RegexBuilder templates you can already use in your regex, as such, or as parts. Make good use of it !
+Framework is shipped with RegexBuilder samples you can study and use in your own regex, as such, or as parts. Make good use of it !
 
 Sample : HH:MM clock
 
