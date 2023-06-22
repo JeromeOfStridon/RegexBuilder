@@ -37,9 +37,9 @@ System.out.println(regexBuilder.toString());
 ```
 
 
-** Easy coding **
+** Fluent interface **
 
-The whole framework has been thought as a builder, start adding parts and just keep adding other parts to it !
+Fluent interface, also known as method chaining or method cascading, is a design pattern making each method return the instance it belongs to, so that you can keep on calling instance methods.
 
 ```
 RegexBuilder regexBuilder = RegexFactory.regexBuilder();
@@ -65,8 +65,6 @@ Sample:
 ```
 RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 regexBuilder.unique("."); // expecting phrase to end with dot
-
-System.out.println(regexBuilder.toString());
 ```
 
 
@@ -75,8 +73,19 @@ System.out.println(regexBuilder.toString());
 When building a complex regex, you may face the case of reusing several identical pieces. 
 RegexBuilder framework has been designed to work with composition, for example in such situation you could easily create one group per piece, and then use these group several times in your RegexBuilder.
 
+Sample : ip v4 regex
+
 ```
-RegexBuilder sentence
+	
+RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+
+Group byteGroup = RegexFactory.alternativeGroup()
+	.unique(RegexFactory.sequenceGroup().unique("25").unique(RegexFactory.classMatchRange('0', '5'))) // 250 to 255
+	.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
+	.unique(RegexFactory.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric)); // 0 to 199
+
+regexBuilder.unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
+
 
 ```
 
@@ -103,7 +112,7 @@ For each group you should define how much you want of it in your final expressio
 - some : 1 or as many as you want
 - any : 0 or as many as you want
 - between : choose your limits
-- exactly : you should have get it this far right ?
+- exactly : you should have get it by now right ?
 
 
 ##### 2.1.2. Sequential / Alternative
@@ -168,11 +177,11 @@ When having extensive usage of matchers, `start()`, `end()` and `group()` may fo
 ### 4. Samples
 Framework is shipped with RegexBuilder templates you can already use in your regex, as such, or as parts. Make good use of it !
 
-Sample : 
+Sample : HH:MM clock
 
 ```
-RegexBuilder hhMMClock = RegexFactory.regexBuilder();
-hhMMClock
+RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+regexBuilder
 	// Hours
 	.unique(
 			RegexFactory.alternativeGroup()

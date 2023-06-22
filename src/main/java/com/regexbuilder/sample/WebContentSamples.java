@@ -58,15 +58,14 @@ public class WebContentSamples {
 	
 	public static RegexBuilder ipV4() {
 		
-		Group ipGroup = RegexFactory.alternativeGroup()
-			.unique(RegexFactory.sequenceGroup().unique("25").unique(RegexFactory.classMatchRange('0', '5')))
-			.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '4')).unique(CharacterClass.Numeric))
-			.unique(RegexFactory.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric));
-			
-		
 		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		
-		regexBuilder.unique(ipGroup).unique(".").unique(ipGroup).unique(".").unique(ipGroup).unique(".").unique(ipGroup);
+		Group byteGroup = RegexFactory.alternativeGroup()
+			.unique(RegexFactory.sequenceGroup().unique("25").unique(RegexFactory.classMatchRange('0', '5'))) // 250 to 255
+			.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
+			.unique(RegexFactory.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric)); // 0 to 199
+		
+		regexBuilder.unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
 		
 		return regexBuilder;
 		
