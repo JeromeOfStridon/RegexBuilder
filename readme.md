@@ -26,7 +26,7 @@ StringMatch stringMatch = RegexFactory.stringMatch("test");
 RegexMatcher regexMatcher = RegexFactory.regexMatcher(regexBuilder, "test");
 ```
 
-** Verbose **
+#### Verbose
 
 Concepts of regex are sometimes hard to get as they are using symbols (*, ?, +, |) you don't want to remember, let's use words instead !
 
@@ -43,7 +43,7 @@ regexBuilder.some("!");
 
 > ^Hello World\s*!+
 
-** Fluent interface **
+#### Fluent interface
 
 Fluent interface, also known as method chaining or method cascading, is a design pattern making each method return the instance it belongs to, so that you can keep on calling instance methods.
 
@@ -60,7 +60,7 @@ regexBuilder
 > ^Hello World\s*!+
 
 
-** Collaborative **
+#### Collaborative
 
 Common regex are a nightmare to write, and a hell to read. Regular regex doesn't allow comments, and that's for the worst.
 Fortunately, Regex Builder is made for you to code it, and code comes with comments right ? 
@@ -78,7 +78,7 @@ regexBuilder
 ```
 
 
-** DRY (Don't repeat yourself) **
+#### DRY (Don't repeat yourself)
 
 When building a complex regex, you may face the case of reusing several identical pieces. 
 RegexBuilder framework has been designed to work with composition, for example in such situation you could easily create one group per piece, and then use these group several times in your RegexBuilder.
@@ -164,7 +164,7 @@ These groups will enable your regex to check content before of after the match y
 - `RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookBehind);`
 - `RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookAhead);`
 - `RegexFactory.sequenceGroup().setGroupType(GroupType.NegativeLookBehind);`
-- `RegexFactory.sequenceGroup().setGroupType(GroupType.NegativeLookAhead);
+- `RegexFactory.sequenceGroup().setGroupType(GroupType.NegativeLookAhead);`
 		
 
 
@@ -243,7 +243,7 @@ RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 regexBuilder
 	// Hours
 	.unique(
-			RegexFactory.alternativeGroup()
+		RegexFactory.alternativeGroup()
 			.unique(RegexFactory.sequenceGroup()
 				.unique(RegexFactory.classMatch('0','1'))
 				.unique(CharacterClass.Numeric))
