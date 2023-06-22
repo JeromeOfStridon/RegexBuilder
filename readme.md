@@ -5,7 +5,6 @@ Framework comes along with RegexMatcher, extension of regular Matcher, but desig
 
 
 
-## Quickstart :
 ### 0. Foreword
 
 This framework has been created to ease developers life, it tries to follow basic principles you should keep in mind to take best advantage of it:
@@ -20,7 +19,11 @@ Sample :
 
 ```
 RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-System.out.println(regexBuilder.toString());
+Group sequenceGroup = RegexFactory.sequenceGroup();
+Group alternativeGroup = RegexFactory.alternativeGroup();
+ClassMatch classMatch = RegexFactory.classMatch(CharacterClass.Alphabetic);
+StringMatch stringMatch = RegexFactory.stringMatch("test");
+RegexMatcher regexMatcher = RegexFactory.regexMatcher(regexBuilder, "test");
 ```
 
 ** Verbose **
@@ -31,11 +34,14 @@ Sample:
 
 ```
 RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-regexBuilder.unique("Hello");
+regexBuilder.anchorStart(true);
+regexBuilder.unique("Hello World");
+regexBuilder.any(CharacterClass.Space);
+regexBuilder.some("!");
 
-System.out.println(regexBuilder.toString());
 ```
 
+> ^Hello World\s*!+
 
 ** Fluent interface **
 
@@ -45,13 +51,13 @@ Fluent interface, also known as method chaining or method cascading, is a design
 RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 regexBuilder
 	.anchorStart(true)
-	.unique(CharacterClass.Space)
-	.unique("World ")
+	.unique("Hello World")
+	.any(CharacterClass.Space)
 	.some("!");
 
-System.out.println(regexBuilder.toString());
 ```
 
+> ^Hello World\s*!+
 
 
 ** Collaborative **
@@ -64,7 +70,11 @@ Sample:
 
 ```
 RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-regexBuilder.unique("."); // expecting phrase to end with dot
+regexBuilder
+	.anchorStart(true) // ensure match starts at beginning of line
+	.unique("Hello World") // only one accepted
+	.any(CharacterClass.Space) // no constraint on number of spaces
+	.some("!"); // multiple accepted
 ```
 
 
@@ -82,12 +92,14 @@ RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 Group byteGroup = RegexFactory.alternativeGroup()
 	.unique(RegexFactory.sequenceGroup().unique("25").unique(RegexFactory.classMatchRange('0', '5'))) // 250 to 255
 	.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
-	.unique(RegexFactory.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric)); // 0 to 199
+	.unique(RegexFactory.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).unique(CharacterClass.Numeric)); // 0 to 199
 
 regexBuilder.unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
 
 
 ```
+> (25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])
+
 
 Same applies to ClassMatch.
 
@@ -114,29 +126,71 @@ For each group you should define how much you want of it in your final expressio
 - between : choose your limits
 - exactly : you should have get it by now right ?
 
+```
+RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+regexBuilder
+	.anchorStart(true)
+	.unique("Hello World")
+	.any(CharacterClass.Space)
+	.some("!");
+
+```
+
 
 ##### 2.1.2. Sequential / Alternative
 
-Groups can have two different directions to be seen : as pieces to be followed one by one (sequence), or as pieces to be seen as options compared to other (alternative)
+Groups can have two different directions to be seen : as pieces to be followed one by one (sequence), or as pieces to be seen as options compared to other (alternative).
+
+Samples:
+- `RegexFactory.sequenceGroup()`
+- `RegexFactory.alternativeGroup()`
+
 
 ##### 2.1.3. Capturing / Non Capturing
 
 Regex offers you to extract pieces of content to be matched, also called as captures, define if your group is a capturing one or not.
 If you are to create capturing groups, please consider giving it a name ! you will then be able to call the matched content by its name instead of calculating its position within your whole regex !
 
+Samples :
+- `RegexFactory.sequenceGroup().setGroupType(GroupType.Capturing);`
+- `RegexFactory.sequenceGroup().setName("target"); // automatically implies setting GroupType to Capturing`
+- `RegexFactory.sequenceGroup().setGroupType(GroupType.NonCapturing);`
+
+
 ##### 2.1.4. Look Ahead / Look Behind
 
 These groups will enable your regex to check content before of after the match you want to get.
 
+- `RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookBehind);`
+- `RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookAhead);`
+- `RegexFactory.sequenceGroup().setGroupType(GroupType.NegativeLookBehind);`
+- `RegexFactory.sequenceGroup().setGroupType(GroupType.NegativeLookAhead);
+		
 
 
 ** Groups can have different shapes such as following : **
 
 #### 2.2. ClassMatch Group
+
 Kind of group enabling you to match a range of characters defined in generic way (numeric, uppercase letters, lowercase letters, mixed, or specific character range)
 
-##### 2.2. StringMatch Group
+```
+ClassMatch classMatch = RegexFactory.classMatch(CharacterClass.Numeric)
+	.add('+', '-')
+	.addRange('a', 'f');
+```
+> [0-9+\-a-f]
+
+#### 2.3. StringMatch Group
 Simple way of saying "I want to match that sequence of characters"
+
+```
+StringMatch stringMatch = RegexFactory.stringMatch("Hello")
+	.add(" ")
+	.add("World !");
+```
+> Hello World !
+
 
 ### 3. RegexMatcher
 
@@ -171,7 +225,7 @@ Complementary features have been added to be used with group names !
 
 
 ##### 3.2. RegexMatch
-When having extensive usage of matchers, `start()`, `end()` and `group()` may force you to store  
+When having extensive usage of matchers, `start()`, `end()` and `group()` may not be very handy as you'll need to store information in your own structures. This framework provides you with RegexMatch structure, containing result of `start`, `end`, `group` method results, and if specified the group name.
 
 
 ### 4. Samples
@@ -200,6 +254,8 @@ regexBuilder
 	.unique(CharacterClass.Numeric);
 ```
 
+> ([01][0-9]|2[0-3]):[0-5][0-9]
+
 ### 5. Advanced features
 
 ** Anchors **
@@ -221,7 +277,7 @@ Doing so will result of losing RegexBuilder specific properties : `anchorStart` 
 
 
 
-### 5. License
+### 6. License
 The source code is licensed under the MIT license, which you can find in the MIT-LICENSE.txt file.
 
 

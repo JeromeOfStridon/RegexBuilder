@@ -129,15 +129,23 @@ public class DateTimeSamples {
 	public static RegexBuilder clockHHMM() {
 		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
 		regexBuilder
+			// Hours
 			.unique(
 					RegexFactory.alternativeGroup()
-					.unique(RegexFactory.sequenceGroup().unique(RegexFactory.classMatch('0','1')).unique(CharacterClass.Numeric))
-					.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '3')))
+					.unique(RegexFactory.sequenceGroup()
+						.unique(RegexFactory.classMatch('0','1'))
+						.unique(CharacterClass.Numeric))
+					.unique(RegexFactory.sequenceGroup()
+						.unique("2")
+						.unique(RegexFactory.classMatchRange('0', '3'))
+						)
 				)
+			// Separator
 			.unique(":")
+			// Minutes
 			.unique(RegexFactory.classMatchRange('0', '5'))
 			.unique(CharacterClass.Numeric);
-			
+		
 		return regexBuilder;
 	}
 

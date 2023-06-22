@@ -4,18 +4,28 @@ import java.util.List;
 
 public class StringMatch extends Node {
 	
-	public final static List<Character> escapedChars = List.of('\\','{', '}', '?', '*', '+', '[', ']', '.', '"');
+	final static List<Character> escapedChars = List.of('\\','{', '}', '?', '*', '+', '[', ']', '.', '"');
 	
-	StringBuilder sb = new StringBuilder();
+	StringBuilder stringBuilder = new StringBuilder();
 	
-	public StringMatch add(String str) {
-		sb.append(str);
+	
+	/**
+	 * appends string to content of current StringMatch
+	 * @param string
+	 * @return
+	 */
+	public StringMatch add(String string) {
+		stringBuilder.append(string);
 		return this;
 	}
 	
+	/**
+	 * Compiling current StringMatch into regex string
+	 * @return string
+	 */
 	public String toString() {
 
-		String escapedString = sb.toString();
+		String escapedString = stringBuilder.toString();
 		
 		for(Character c : escapedChars) {
 			escapedString = escapedString.replace(c+"", "\\"+c);
@@ -30,9 +40,18 @@ public class StringMatch extends Node {
 		
 	}
 	
-	public boolean markedAsGroup() {
-		return sb.toString().length() > 1 && !renderSize().isEmpty();
+	boolean markedAsGroup() {
+		return stringBuilder.toString().length() > 1 && !renderSize().isEmpty();
 	}
 	
+	/**
+	 * Sets quantity manually by defining minSize & maxSize
+	 * @param minSize
+	 * @param maxSize
+	 */
+	public StringMatch setQuantity(Integer minSize, Integer maxSize) {
+		super.setQuantity(minSize, maxSize);
+		return this;
+	}
 	
 }

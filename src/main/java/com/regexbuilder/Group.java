@@ -479,4 +479,14 @@ public class Group extends Node {
 		return this;
 	}
 	
+	/**
+	 * Sets quantity manually by defining minSize & maxSize
+	 * @param minSize
+	 * @param maxSize
+	 */
+	public Group setQuantity(Integer minSize, Integer maxSize) {
+		super.setQuantity(minSize, maxSize);
+		return this;
+	}
+	
 }

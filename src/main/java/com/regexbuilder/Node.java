@@ -36,14 +36,10 @@ public abstract class Node implements Serializable{
 		
 	}
 	
-	/**
-	 * Sets quantity manually by defining minSize & maxSize
-	 * @param minSize
-	 * @param maxSize
-	 */
-	public void setQuantity(Integer minSize, Integer maxSize) {
+	Node setQuantity(Integer minSize, Integer maxSize) {
 		this.minSize = minSize;
 		this.maxSize = maxSize;
+		return this;
 	}
 
 	public abstract String toString();

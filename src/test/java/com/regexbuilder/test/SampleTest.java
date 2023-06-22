@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.regexbuilder.Group;
 import com.regexbuilder.RegexBuilder;
 import com.regexbuilder.RegexFactory;
 import com.regexbuilder.RegexMatcher;
@@ -17,7 +16,7 @@ import com.regexbuilder.sample.WebContentSamples;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LibraryTest {
+public class SampleTest {
 	
 	@Test
 	public void intInclusionBreak() {
@@ -99,10 +98,7 @@ public class LibraryTest {
 	
 	@Test
 	public void htmlEntityTest() {
-		
-		assertEquals("&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});", WebContentSamples.htmlEntity().toString());
-		String actul="&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});";
-	
+		assertEquals("&(amp;)*([a-zA-Z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});", WebContentSamples.htmlEntity().toString());	
 	}
 
 	
@@ -111,6 +107,11 @@ public class LibraryTest {
 		assertEquals("#[0-9a-fA-F]{6}", MiscSamples.colorHexCode().toString());
 	}
 	
-	
+	@Test
+	public void ipv4Test() {
+		assertEquals("(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9]?)", WebContentSamples.ipV4().toString());
+	}
+
+
 
 }

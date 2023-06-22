@@ -190,6 +190,16 @@ public class ClassMatch extends Node {
 		return result;
 	}
 	
+	/**
+	 * Sets quantity manually by defining minSize & maxSize
+	 * @param minSize
+	 * @param maxSize
+	 */
+	public ClassMatch setQuantity(Integer minSize, Integer maxSize) {
+		super.setQuantity(minSize, maxSize);
+		return this;
+	}
+	
 	@AllArgsConstructor
 	private static class ClassRange implements Serializable{
 		Character from;
