@@ -140,5 +140,9 @@ public class RegexFactory {
 	public static RegexMatcher regexMatcher(RegexBuilder regexBuilder, String content) {
 		return new RegexMatcher(regexBuilder, content);
 	}
+
+	public static RegexMatcher regexMatcher(RegexBuilder regexBuilder, String content, int flags) {
+		return new RegexMatcher(regexBuilder, content, flags);
+	}
 	
 }
