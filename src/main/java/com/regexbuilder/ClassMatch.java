@@ -108,7 +108,7 @@ public class ClassMatch extends Node {
 		final String string;
 		
 		private CharacterClass(CharacterClass... cc) {
-			this.children = List.of(cc);
+			this.children = Arrays.asList(cc);
 			this.string = null;
 		}
 		
@@ -133,13 +133,13 @@ public class ClassMatch extends Node {
 		for(Object item : items) {
 			// Any overrides any other option
 			if(CharacterClass.Any.equals(item)) {
-				finalClasses = List.of(".");
+				finalClasses = Arrays.asList(".");
 				negative = false;
-				items = new LinkedHashSet<>(Set.of(item));
+				items = new LinkedHashSet<>(Arrays.asList(item));
 				break;
 			}
 			else if(item instanceof CharacterClass) {
-				List<CharacterClass> ccs = toBaseClasses(List.of((CharacterClass) item));
+				List<CharacterClass> ccs = toBaseClasses(Arrays.asList((CharacterClass) item));
 				finalClasses.addAll(ccs.stream().map(x -> x.string).collect(Collectors.toList()));
 			}
 			else if(item instanceof ClassRange) {
@@ -149,7 +149,7 @@ public class ClassMatch extends Node {
 			else if(item instanceof Character) {
 				Character c = (Character) item;
 				// escape "-" as this could be understood as a range character symbol
-				if(List.of('-', '\\', '"').contains(c)){
+				if(Arrays.asList('-', '\\', '"').contains(c)){
 					finalClasses.add("\\"+c);
 				}
 				else {
