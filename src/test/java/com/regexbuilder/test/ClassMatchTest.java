@@ -2,6 +2,7 @@ package com.regexbuilder.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -32,7 +33,7 @@ public class ClassMatchTest {
 		
 		assertEquals("[A-Z$€]", cm.toString());
 		
-		cm.addAll(List.of('0','1','2','3'));
+		cm.addAll(Arrays.asList('0','1','2','3'));
 		
 		assertEquals("[A-Z$€0123]", cm.toString());
 		
@@ -64,7 +65,7 @@ public class ClassMatchTest {
 	
 	@Test
 	public void collectionClassMatchTest() {
-		ClassMatch cm = RegexFactory.classMatch(List.of('a', 'b', 'c'));
+		ClassMatch cm = RegexFactory.classMatch(Arrays.asList('a', 'b', 'c'));
 		assertEquals("[abc]", cm.toString());		
 	}
 	

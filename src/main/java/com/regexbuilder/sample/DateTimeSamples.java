@@ -1,5 +1,6 @@
 package com.regexbuilder.sample;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.regexbuilder.Group;
@@ -19,7 +20,7 @@ public class DateTimeSamples {
 		
 		Group monthGroup = RegexFactory.alternativeGroup().setName("month");
 		
-		List<String> monthList = List.of("January", "February", "March", "April", "May", "June", "Jul", "August", "September", "October", "November", "December");
+		List<String> monthList = Arrays.asList("January", "February", "March", "April", "May", "June", "Jul", "August", "September", "October", "November", "December");
 		for(String month : monthList) {
 			monthGroup.unique(
 				RegexFactory.sequenceGroup()
@@ -66,7 +67,7 @@ public class DateTimeSamples {
 		regexBuilder
 			.unique(numericDay().setName("Day"))
 			.unique(CharacterClass.Space)
-			.unique(RegexFactory.alternativeGroup(List.of("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).setName("month"))
+			.unique(RegexFactory.alternativeGroup(Arrays.asList("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).setName("month"))
 			.some(CharacterClass.Space)
 			.optional(numericYear().setName("year"));
 

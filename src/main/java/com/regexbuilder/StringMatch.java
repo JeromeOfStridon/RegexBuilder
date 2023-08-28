@@ -1,10 +1,11 @@
 package com.regexbuilder;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class StringMatch extends Node {
 	
-	final static List<Character> escapedChars = List.of('\\','{', '}', '?', '*', '+', '[', ']', '.', '"');
+	final static List<Character> escapedChars = Arrays.asList('\\','{', '}', '?', '*', '+', '[', ']', '.', '"');
 	
 	StringBuilder stringBuilder = new StringBuilder();
 	
