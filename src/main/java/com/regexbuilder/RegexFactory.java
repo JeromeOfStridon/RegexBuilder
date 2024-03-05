@@ -140,5 +140,17 @@ public class RegexFactory {
 	public static RegexMatcher regexMatcher(RegexBuilder regexBuilder, String content) {
 		return new RegexMatcher(regexBuilder, content);
 	}
+
+	/**
+	 * Creates a RegexMatcher instance combining a RegexBuilder instance and content to be matched
+	 * @param regexBuilder regexBuilder to match against content
+	 * @param content content to be matched against
+	 * @param flags flags for configuration
+	 */
+	public static RegexMatcher regexMatcher(RegexBuilder logPattern, String content, int flags) {
+		return new RegexMatcher(logPattern, content, flags);
+	}
+	
+	
 	
 }
