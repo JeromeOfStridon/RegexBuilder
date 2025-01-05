@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -197,6 +196,11 @@ public class ClassMatch extends Node {
 	 */
 	public ClassMatch setQuantity(Integer minSize, Integer maxSize) {
 		super.setQuantity(minSize, maxSize);
+		return this;
+	}
+	
+	public ClassMatch setLazy(boolean lazy) {
+		super.setLazy(lazy);
 		return this;
 	}
 	

@@ -41,6 +41,11 @@ public abstract class Node implements Serializable{
 		this.maxSize = maxSize;
 		return this;
 	}
+	
+	Node setLazy(boolean lazy) {
+		this.lazy = lazy;
+		return this;
+	}
 
 	public abstract String toString();
 

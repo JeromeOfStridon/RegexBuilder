@@ -10,7 +10,7 @@
 	<version>0.1-alpha-1</version>
 
 	<properties>
-	    <java.version>14</java.version>
+	    <java.version>8</java.version>
 	</properties>
 
 	<dependencies>

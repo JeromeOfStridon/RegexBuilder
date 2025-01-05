@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.regexbuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.Group;
 import com.regexbuilder.Group.GroupType;
 import com.regexbuilder.Group.TreeType;
 import com.regexbuilder.RegexBuilder;
@@ -67,6 +69,21 @@ public class RegexBuilderTest {
 		rb.unique("A").exactly("B", 2);
 		
 		assertEquals("(?:A|B{2})", rb.toString());
+	}
+	
+	@Test
+	public void testRegexBuilderMultiGroup() {
+
+		Group group = RegexFactory.sequenceGroup()
+				.unique(CharacterClass.Alphabetic);
+		
+		RegexBuilder rb = RegexFactory.regexBuilder(TreeType.Sequence);
+		
+		rb.exactly(group, 3);
+		rb.unique("-");
+		rb.exactly(group, 2);
+		
+		assertEquals("[a-zA-Z]{3}-[a-zA-Z]{2}", rb.toString());  
 	}
 	
 
