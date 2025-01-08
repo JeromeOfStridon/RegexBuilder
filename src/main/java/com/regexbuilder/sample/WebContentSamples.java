@@ -3,8 +3,8 @@ package com.regexbuilder.sample;
 import com.regexbuilder.ClassMatch;
 import com.regexbuilder.ClassMatch.CharacterClass;
 import com.regexbuilder.Group;
+import com.regexbuilder.Regex;
 import com.regexbuilder.RegexBuilder;
-import com.regexbuilder.RegexFactory;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class WebContentSamples {
 	
-	public static RegexBuilder email() {
-		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+	public static Regex email() {
+		Regex regexBuilder = RegexBuilder.regex();
 		
 		ClassMatch acceptedChars = new ClassMatch()
 				.add(CharacterClass.Alphanumeric)
@@ -21,11 +21,11 @@ public class WebContentSamples {
 		
 		regexBuilder
 			.some(acceptedChars)
-			.optional(RegexFactory.sequenceGroup()
+			.optional(RegexBuilder.sequenceGroup()
 					.unique(".")
 					.some(acceptedChars))
 			.unique("@")
-			.some(RegexFactory.sequenceGroup()
+			.some(RegexBuilder.sequenceGroup()
 					.some(acceptedChars)
 					.unique("."))
 			.between(CharacterClass.Alphabetic, 2, 10);
@@ -34,19 +34,19 @@ public class WebContentSamples {
 	}
 	
 	
-	public static RegexBuilder htmlEntity() {
+	public static Regex htmlEntity() {
 		
-		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+		Regex regexBuilder = RegexBuilder.regex();
 		
 		regexBuilder
 			.unique("&")
 			.any("amp;")
-			.unique(RegexFactory.alternativeGroup()
+			.unique(RegexBuilder.alternativeGroup()
 					.some(CharacterClass.Alphanumeric)
-					.unique(RegexFactory.sequenceGroup()
+					.unique(RegexBuilder.sequenceGroup()
 							.unique("#")
 							.between(CharacterClass.Numeric, 1, 6))
-					.unique(RegexFactory.sequenceGroup()
+					.unique(RegexBuilder.sequenceGroup()
 							.unique("#x")
 							.between(CharacterClass.Alphanumeric_Hexa, 1, 6))
 					)
@@ -56,14 +56,14 @@ public class WebContentSamples {
 		
 	}
 	
-	public static RegexBuilder ipV4() {
+	public static Regex ipV4() {
 		
-		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+		Regex regexBuilder = RegexBuilder.regex();
 		
-		Group byteGroup = RegexFactory.alternativeGroup()
-			.unique(RegexFactory.sequenceGroup().unique("25").unique(RegexFactory.classMatchRange('0', '5'))) // 250 to 255
-			.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
-			.unique(RegexFactory.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric)); // 0 to 199
+		Group byteGroup = RegexBuilder.alternativeGroup()
+			.unique(RegexBuilder.sequenceGroup().unique("25").unique(RegexBuilder.classMatchRange('0', '5'))) // 250 to 255
+			.unique(RegexBuilder.sequenceGroup().unique("2").unique(RegexBuilder.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
+			.unique(RegexBuilder.sequenceGroup().optional(RegexBuilder.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric)); // 0 to 199
 		
 		regexBuilder.unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
 		

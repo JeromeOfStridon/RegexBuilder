@@ -38,8 +38,8 @@ public class Group extends Node {
 	
 	private Group add(Node content) {
 		
-		if(content instanceof RegexBuilder) {
-			nodes.add(((RegexBuilder) content).asGroup());
+		if(content instanceof Regex) {
+			nodes.add(((Regex) content).asGroup());
 		}
 		else {
 			nodes.add(content);

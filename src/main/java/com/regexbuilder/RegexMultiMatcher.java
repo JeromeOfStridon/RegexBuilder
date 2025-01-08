@@ -16,12 +16,12 @@ import lombok.Data;
 
 public class RegexMultiMatcher {
 	
-	final Map<RegexBuilder, Pattern> patterns = new LinkedHashMap<>();
+	final Map<Regex, Pattern> patterns = new LinkedHashMap<>();
 	
 	
-	public RegexMultiMatcher(List<RegexBuilder> regexBuilders) {
-		for(RegexBuilder regexBuilder : regexBuilders) {
-			patterns.put(regexBuilder, regexBuilder.compile());
+	public RegexMultiMatcher(List<Regex> regexList) {
+		for(Regex regex : regexList) {
+			patterns.put(regex, regex.compile());
 		}
 	}
 	
@@ -29,7 +29,7 @@ public class RegexMultiMatcher {
 		
 		List<RegexMatcherGroup> groups = new ArrayList<>();
 		
-		for(Entry<RegexBuilder, Pattern> entry : patterns.entrySet()) {
+		for(Entry<Regex, Pattern> entry : patterns.entrySet()) {
 			
 			Matcher matcher = entry.getValue().matcher(content);
 			while(matcher.find()) {
@@ -37,7 +37,7 @@ public class RegexMultiMatcher {
 						.start(matcher.start())
 						.end(matcher.end())
 						.group(matcher.group())
-						.regexBuilder(entry.getKey())
+						.regex(entry.getKey())
 						.build());
 			}
 			
@@ -74,7 +74,7 @@ public class RegexMultiMatcher {
 		public int start;
 		public int end;
 		public String group;
-		public RegexBuilder regexBuilder;
+		public Regex regex;
 		
 		public int length() {
 			return end-start;

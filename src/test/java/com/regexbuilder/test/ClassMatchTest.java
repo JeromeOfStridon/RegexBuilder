@@ -7,8 +7,8 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import com.regexbuilder.ClassMatch;
-import com.regexbuilder.RegexFactory;
 import com.regexbuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.RegexBuilder;
 
 
 
@@ -17,7 +17,7 @@ public class ClassMatchTest {
 	
 	@Test
 	public void genericTest() {
-		ClassMatch cm = RegexFactory
+		ClassMatch cm = RegexBuilder
 				.classMatch(CharacterClass.AlphabeticUpper)
 				.add('$')
 				.add('€');
@@ -41,7 +41,7 @@ public class ClassMatchTest {
 	@Test
 	public void singleClassMatchTest() {
 		
-		ClassMatch cm = RegexFactory.classMatch('a');
+		ClassMatch cm = RegexBuilder.classMatch('a');
 		
 		assertEquals("a", cm.toString());
 		
@@ -50,7 +50,7 @@ public class ClassMatchTest {
 	
 	@Test
 	public void rangeClassMatchTest() {
-		ClassMatch cm = RegexFactory.classMatch(CharacterClass.Numeric).addRange('A', 'F');
+		ClassMatch cm = RegexBuilder.classMatch(CharacterClass.Numeric).addRange('A', 'F');
 		
 		assertEquals("[0-9A-F]", cm.toString());
 		
@@ -58,13 +58,13 @@ public class ClassMatchTest {
 	
 	@Test
 	public void arrayClassMatchTest() {
-		ClassMatch cm = RegexFactory.classMatch('a', 'b', 'c');
+		ClassMatch cm = RegexBuilder.classMatch('a', 'b', 'c');
 		assertEquals("[abc]", cm.toString());
 	}
 	
 	@Test
 	public void collectionClassMatchTest() {
-		ClassMatch cm = RegexFactory.classMatch(Arrays.asList('a', 'b', 'c'));
+		ClassMatch cm = RegexBuilder.classMatch(Arrays.asList('a', 'b', 'c'));
 		assertEquals("[abc]", cm.toString());		
 	}
 	

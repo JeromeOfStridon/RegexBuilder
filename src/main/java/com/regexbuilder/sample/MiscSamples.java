@@ -1,7 +1,7 @@
 package com.regexbuilder.sample;
 
+import com.regexbuilder.Regex;
 import com.regexbuilder.RegexBuilder;
-import com.regexbuilder.RegexFactory;
 import com.regexbuilder.ClassMatch.CharacterClass;
 
 import lombok.AccessLevel;
@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MiscSamples {
 	
-	public static RegexBuilder colorHexCode() {
-		RegexBuilder regex = RegexFactory.regexBuilder();
+	public static Regex colorHexCode() {
+		Regex regex = RegexBuilder.regex();
 			
 			regex
 			.unique("#")

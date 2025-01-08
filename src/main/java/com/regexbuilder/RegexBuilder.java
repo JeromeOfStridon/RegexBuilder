@@ -1,146 +1,148 @@
 package com.regexbuilder;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.SerializationUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.regexbuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.Group.GroupType;
+import com.regexbuilder.Group.TreeType;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-// Factory for all kinds of match & groups
-public class RegexBuilder extends Group {
-
-	@Getter @Setter
-	boolean anchorStart = false;
-
-	@Getter @Setter
-	boolean anchorEnd = false;
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class RegexBuilder {
 
 	
-	// CONSTRUCTORS
-	protected RegexBuilder(TreeType childrenType, GroupType groupType) {
-		super(childrenType, groupType);
+	/**
+	 * Generates group with sequencial behavior (constraints to be respected following each other)
+	 */
+	public static Group sequenceGroup() {
+		return new Group(TreeType.Sequence, GroupType.Undefined);
 	}
 	
 	/**
-	 * Setter for anchorStart returning current RegexBuilder instance
-	 * @param anchorStart should RegexBuilder have a start anchor or not
-	 * @return self
+	 * Generates group with alternative behavior (options all to be evaluated)
 	 */
-	public RegexBuilder anchorStart(boolean anchorStart) {
-		this.anchorStart = anchorStart;
-		return this;
-	}
-
-	/**
-	 * Setter for anchorEnd returning current RegexBuilder instance
-	 * @param anchorStart should RegexBuilder have a end anchor or not
-	 * @return current RegexBuilder instance
-	 */
-	public RegexBuilder anchorEnd(boolean anchorEnd) {
-		this.anchorEnd = anchorEnd;
-		return this;
-	}
-
-
-	/**
-	 * Compiling current RegexBuilder into regex string
-	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if(anchorStart) {
-			sb.append("^");
-		}
-		
-		String groupString = super.toString();
-		if(groupString.startsWith("(") && groupString.endsWith(")") && super.markedAsGroup() && groupType == GroupType.Undefined) {
-			groupString = groupString.substring(1, groupString.length()-1);
-		}
-		
-		sb.append(groupString);
-		
-		if(anchorEnd) {
-			sb.append("$");
-		}
-		return sb.toString();
-	}
-
-
-
-	public Integer findGroupPosition(String groupName) {
-		Map<Integer, String> map = getGroupPositions();
-		for(Entry<Integer, String> entry : map.entrySet()) {
-			if(StringUtils.equals(groupName, entry.getValue())) {
-				return entry.getKey();
-			}
-		}
-		return null;
+	public static Group alternativeGroup() {
+		return new Group(TreeType.Alternative, GroupType.Undefined);
 	}
 	
 	/**
-	 * Creates a map with regex capturing groups and associated name if any
-	 * @return map of group ids and names
+	 * Generates group with alternative behavior (options all to be evaluated)
+	 * Shortcut for creating group with multiple strings to be considered as options
+	 * @param alternatives list of string to be considered as alternatives
 	 */
-	public Map<Integer, String> getGroupPositions(){
-		Map<Integer, String> result = new LinkedHashMap<>();
-		List<Group> groups = getCapturingGroups();
-		for(int i = 0; i < groups.size(); i++) {
-			if(groups.get(i) == null) {
-				continue;
-			}
-			if(groups.get(i).groupName != null) {
-				// Offset of 1 because group(0) is the general one
-				result.put(i + 1, groups.get(i).groupName);
-			}
+	public static Group alternativeGroup(Collection<String> alternatives) {
+		Group group = alternativeGroup();
+		for(String alternative : alternatives) {
+			group.nodes.add(new StringMatch().add(alternative));
 		}
-		return result;
-	}
-	
-	@Override
-	List<Group> getCapturingGroups(){
-		List<Group> groups = new ArrayList<>();
-		// As marked as group, Will be considered as a capturing group, so needs to be included
-		if(groupType == GroupType.Undefined && markedAsGroup()) {
-			groups.add(this);
-		}
-		groups.addAll(super.getCapturingGroups());
-		return groups;
-	}
-	/**
-	 * Cast current RegexBuilder instance into Group
-	 * @return Group built out of current RegexBuilder instance
-	 */
-	public Group asGroup() {
-		Group group = new Group(this.treeType, this.groupType);
-		group.nodes = this.nodes;
-		group.groupName = this.groupName;
-		
 		return group;
 	}
 	
 	/**
-	 * Creates a regular Regex Pattern instance out of current RegexBuilder instance
-	 * @return Pattern instance
+	 * Generates group with alternative behavior (options all to be evaluated)
+	 * Shortcut for creating group with multiple strings to be considered as options
+	 * @param alternatives strings to be considered as alternatives
 	 */
-	public Pattern compile() {
-		return Pattern.compile(this.toString());
+	public static Group alternativeGroup(String... alternatives) {
+		Group group = alternativeGroup();
+		for(String alternative : alternatives) {
+			group.nodes.add(new StringMatch().add(alternative));
+		}
+		return group;
+	}
+	
+	
+	
+	/**
+	 * Creates regexBuilder with standard behavior (sequential, undefined group type)
+	 */
+	public static Regex regex() {
+		return new Regex(TreeType.Sequence, GroupType.Undefined);
 	}
 	
 	/**
-	 * Creates a clone of current RegexBuilder instance
-	 * @return cloned RegexBuilder instance
+	 * Creates regexBuilder with specific TreeType (sequence or alternative) 
 	 */
-	public RegexBuilder clone() {
-		RegexBuilder cloned = SerializationUtils.clone(this);
-		return cloned;
+	public static Regex regex(TreeType childrenType) {
+		return new Regex(childrenType, GroupType.Undefined);
+	}
+	
+	/**
+	 * Creates regexBuilder with generic sequential behavior and specific group type (capturing, non capturing, look ahead, look behind, undefined etc)
+	 */
+	public static Regex regex(GroupType groupType) {
+		return new Regex(TreeType.Sequence, groupType);
+	}
+	
+	/**
+	 * Creates regexBuilder with specified TreeType (sequential or alternative) and specified GroupType  (capturing, non capturing, look ahead, look behind etc) and children type (sequential or alternative)
+	 */
+	public static Regex regex(TreeType childrenType, GroupType groupType) {
+		return new Regex(childrenType, groupType);
+	}
+	
+	/**
+	 * Creates a new ClassMatch containing specific CharacterClass instances
+	 */
+	public static ClassMatch classMatch(CharacterClass... charClass) {
+		ClassMatch classMatch = new ClassMatch();
+		for(CharacterClass characterClass : charClass) {
+			classMatch.add(characterClass);
+		}
+		return classMatch;
+	}
+	
+	/**
+	 * Creates a new ClassMatch containing specific characters
+	 */
+	public static ClassMatch classMatch(Character... character) {
+		ClassMatch classMatch = new ClassMatch();
+		classMatch.add(character);
+		return classMatch;
 	}
 
+	
+	/**
+	 * Creates a new ClassMatch containing specific characters (as a collection)
+	 */
+	public static ClassMatch classMatch(List<Character> characters) {
+		ClassMatch classMatch = new ClassMatch();
+		for(Character character : characters) {
+			classMatch.add(character);
+		}
+		return classMatch;
+	}
+	
+	/**
+	 * Creates a new ClassMatch with character range
+	 */
+	public static ClassMatch classMatchRange(char from, char to) {
+		ClassMatch classMatch = new ClassMatch();
+		classMatch.addRange(from, to);
+		return classMatch;
+	}
+	
+	/**
+	 * Creates a new StringMatch with specific string
+	 */
+	public static StringMatch stringMatch(String string) {
+		return new StringMatch().add(string);
+	}
+
+	/**
+	 * Creates a RegexMatcher instance combining a RegexBuilder instance and content to be matched
+	 * @param regex regexBuilder to match against content
+	 * @param content content to be matched against
+	 */
+	public static RegexMatcher regexMatcher(Regex regex, String content) {
+		return new RegexMatcher(regex, content);
+	}
+
+	public static RegexMatcher regexMatcher(Regex regexBuilder, String content, int flags) {
+		return new RegexMatcher(regexBuilder, content, flags);
+	}
 	
 }

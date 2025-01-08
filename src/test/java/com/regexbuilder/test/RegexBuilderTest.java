@@ -10,8 +10,8 @@ import com.regexbuilder.ClassMatch.CharacterClass;
 import com.regexbuilder.Group;
 import com.regexbuilder.Group.GroupType;
 import com.regexbuilder.Group.TreeType;
+import com.regexbuilder.Regex;
 import com.regexbuilder.RegexBuilder;
-import com.regexbuilder.RegexFactory;
 
 
 
@@ -19,13 +19,13 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void emptyTest() {
-		RegexBuilder test = RegexFactory.regexBuilder();
+		Regex test = RegexBuilder.regex();
 		assertEquals("", test.toString());
 	}
 	
 	@Test
 	public void anchorsTest() {
-		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+		Regex regexBuilder = RegexBuilder.regex();
 		regexBuilder
 			.anchorStart(true)
 			.anchorEnd(true)
@@ -49,7 +49,7 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void testRegexBuilderTreeTypeConstructor() {
-		RegexBuilder rb = RegexFactory.regexBuilder(TreeType.Alternative);
+		Regex rb = RegexBuilder.regex(TreeType.Alternative);
 		rb.unique("A").exactly("B", 2);
 		
 		assertEquals("A|B{2}", rb.toString());
@@ -57,7 +57,7 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void testRegexBuilderGroupTypeConstructor() {
-		RegexBuilder rb = RegexFactory.regexBuilder(GroupType.NonCapturing);
+		Regex rb = RegexBuilder.regex(GroupType.NonCapturing);
 		rb.unique("A").exactly("B", 2);
 		
 		assertEquals("(?:AB{2})", rb.toString());
@@ -65,7 +65,7 @@ public class RegexBuilderTest {
 	
 	@Test
 	public void testRegexBuilderTreeTypeGroupTypeConstructor() {
-		RegexBuilder rb = RegexFactory.regexBuilder(TreeType.Alternative, GroupType.NonCapturing);
+		Regex rb = RegexBuilder.regex(TreeType.Alternative, GroupType.NonCapturing);
 		rb.unique("A").exactly("B", 2);
 		
 		assertEquals("(?:A|B{2})", rb.toString());
@@ -74,10 +74,10 @@ public class RegexBuilderTest {
 	@Test
 	public void testRegexBuilderMultiGroup() {
 
-		Group group = RegexFactory.sequenceGroup()
+		Group group = RegexBuilder.sequenceGroup()
 				.unique(CharacterClass.Alphabetic);
 		
-		RegexBuilder rb = RegexFactory.regexBuilder(TreeType.Sequence);
+		Regex rb = RegexBuilder.regex(TreeType.Sequence);
 		
 		rb.exactly(group, 3);
 		rb.unique("-");

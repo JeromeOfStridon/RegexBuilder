@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.regexbuilder.Regex;
 import com.regexbuilder.RegexBuilder;
-import com.regexbuilder.RegexFactory;
 import com.regexbuilder.RegexMatcher;
 import com.regexbuilder.sample.DateTimeSamples;
 import com.regexbuilder.sample.MiscSamples;
@@ -21,7 +21,7 @@ public class SampleTest {
 	@Test
 	public void intInclusionBreak() {
 		
-		RegexBuilder rb = RegexFactory.regexBuilder();
+		Regex rb = RegexBuilder.regex();
 		
 		rb
 			.unique(NumberSamples.intNumber())
@@ -34,7 +34,7 @@ public class SampleTest {
 	@Test
 	public void emailTest() {
 
-		RegexBuilder emailRegexer = WebContentSamples.email();
+		Regex emailRegexer = WebContentSamples.email();
 		
 		assertEquals("[a-zA-Z0-9%_\\-+]+(\\.[a-zA-Z0-9%_\\-+]+)?@([a-zA-Z0-9%_\\-+]+\\.)+[a-zA-Z]{2,10}", emailRegexer.toString());
 
@@ -43,7 +43,7 @@ public class SampleTest {
 	@Test
 	public void regularDate() {
 
-		RegexBuilder regularDateRegexer = DateTimeSamples.regularDate();
+		Regex regularDateRegexer = DateTimeSamples.regularDate();
 		
 		assertEquals("(0?[1-9]|[12][0-9]|30|31)/(0?[1-9]|10|11|12)/([12][0-9]{3})", regularDateRegexer.toString());
 		
@@ -52,7 +52,7 @@ public class SampleTest {
 	@Test
 	public void clockHHMMTest() {
 		
-		RegexBuilder clockRegexer = DateTimeSamples.clockHHMM();
+		Regex clockRegexer = DateTimeSamples.clockHHMM();
 		
 		assertEquals("([01][0-9]|2[0-3]):[0-5][0-9]", clockRegexer.toString());
 		
@@ -60,9 +60,9 @@ public class SampleTest {
 	
 	@Test
 	public void fullWrittenDate_frTest() {
-		RegexBuilder rb = DateTimeSamples.fullWrittenDate_fr();
+		Regex rb = DateTimeSamples.fullWrittenDate_fr();
 		
-		RegexMatcher rm = RegexFactory.regexMatcher(rb, "1 janvier 2021");
+		RegexMatcher rm = RegexBuilder.regexMatcher(rb, "1 janvier 2021");
 		rm.find();
 		
 		assertEquals("2021", rm.group("year"));
@@ -72,7 +72,7 @@ public class SampleTest {
 	
 	@Test
 	public void fullWrittenDate_enTest() {
-		RegexMatcher rm = RegexFactory.regexMatcher(DateTimeSamples.fullWrittenDate_en(), "Mar. 31th 2022");
+		RegexMatcher rm = RegexBuilder.regexMatcher(DateTimeSamples.fullWrittenDate_en(), "Mar. 31th 2022");
 		rm.find();
 		assertEquals("2022", rm.group("year"));
 		assertEquals("Mar.", rm.group("month"));
@@ -81,7 +81,7 @@ public class SampleTest {
 	
 	@Test
 	public void timestampTest() {
-		RegexMatcher rm = RegexFactory.regexMatcher(DateTimeSamples.timestampRegex(), "2022-12-03T12:22:03.009Z");
+		RegexMatcher rm = RegexBuilder.regexMatcher(DateTimeSamples.timestampRegex(), "2022-12-03T12:22:03.009Z");
 		
 		rm.find();
 		

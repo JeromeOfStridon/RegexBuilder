@@ -11,19 +11,19 @@ This framework has been created to ease developers life, it tries to follow basi
 
 ** Intuitive ** 
 
-Don't waist your time looking for all framework capacities, one single entry point : RegexFactory static class.
-`RegexFactory.sequenceGroup()`, `RegexFactory.classMatch()`, `RegexFactory.regexMatcher()` etc.
+Don't waist your time looking for all framework capacities, one single entry point : RegexBuilder static class.
+`RegexBuilder.sequenceGroup()`, `RegexBuilder.classMatch()`, `RegexBuilder.regexMatcher()` etc.
 If it's not here, it just doesn't exist at all !
 
 Sample : 
 
 ```
-RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-Group sequenceGroup = RegexFactory.sequenceGroup();
-Group alternativeGroup = RegexFactory.alternativeGroup();
-ClassMatch classMatch = RegexFactory.classMatch(CharacterClass.Alphabetic);
-StringMatch stringMatch = RegexFactory.stringMatch("test");
-RegexMatcher regexMatcher = RegexFactory.regexMatcher(regexBuilder, "test");
+Regex regexBuilder = RegexBuilder.regexBuilder();
+Group sequenceGroup = RegexBuilder.sequenceGroup();
+Group alternativeGroup = RegexBuilder.alternativeGroup();
+ClassMatch classMatch = RegexBuilder.classMatch(CharacterClass.Alphabetic);
+StringMatch stringMatch = RegexBuilder.stringMatch("test");
+RegexMatcher regexMatcher = RegexBuilder.regexMatcher(regexBuilder, "test");
 ```
 
 #### Verbose
@@ -33,11 +33,11 @@ Concepts of regex are sometimes hard to get as they are using symbols (*, ?, +, 
 Sample:
 
 ```
-RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-regexBuilder.anchorStart(true);
-regexBuilder.unique("Hello World");
-regexBuilder.any(CharacterClass.Space);
-regexBuilder.some("!");
+Regex regex = RegexBuilder.regex();
+Regex.anchorStart(true);
+Regex.unique("Hello World");
+Regex.any(CharacterClass.Space);
+Regex.some("!");
 
 ```
 
@@ -48,8 +48,8 @@ regexBuilder.some("!");
 Fluent interface, also known as method chaining or method cascading, is a design pattern making each method return the instance it belongs to, so that you can keep on calling instance methods.
 
 ```
-RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-regexBuilder
+Regex regex = RegexBuilder.regex();
+regex
 	.anchorStart(true)
 	.unique("Hello World")
 	.any(CharacterClass.Space)
@@ -69,8 +69,8 @@ Please be gentle, code your regex, comment your regex, if not for you for your r
 Sample:
 
 ```
-RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-regexBuilder
+Regex regex = RegexBuilder.regex();
+regex
 	.anchorStart(true) // ensure match starts at beginning of line
 	.unique("Hello World") // only one accepted
 	.any(CharacterClass.Space) // no constraint on number of spaces
@@ -87,14 +87,14 @@ Sample : ip v4 regex
 
 ```
 	
-RegexBuilder regexBuilder = RegexFactory.regexBuilder();
+Regex regex = RegexBuilder.regex();
 
-Group byteGroup = RegexFactory.alternativeGroup()
-	.unique(RegexFactory.sequenceGroup().unique("25").unique(RegexFactory.classMatchRange('0', '5'))) // 250 to 255
-	.unique(RegexFactory.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
-	.unique(RegexFactory.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).unique(CharacterClass.Numeric)); // 0 to 199
+Group byteGroup = RegexBuilder.alternativeGroup()
+	.unique(RegexBuilder.sequenceGroup().unique("25").unique(RegexBuilder.classMatchRange('0', '5'))) // 250 to 255
+	.unique(RegexBuilder.sequenceGroup().unique("2").unique(RegexFactory.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
+	.unique(RegexBuilder.sequenceGroup().optional(RegexFactory.classMatch('0','1')).optional(CharacterClass.Numeric).unique(CharacterClass.Numeric)); // 0 to 199
 
-regexBuilder.unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
+regex.unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
 
 
 ```
@@ -103,9 +103,9 @@ regexBuilder.unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(
 
 Same applies to ClassMatch.
 
-### 1. RegexBuilder
+### 1. Regex
 
-RegexBuilder is the root and delivery of your work, it will embed all parts of your regex such as groups, string match, class match etc
+Regex is the root and delivery of your work, it will embed all parts of your regex such as groups, string match, class match etc
 
 
 ### 2. Groups
@@ -127,8 +127,8 @@ For each group you should define how much you want of it in your final expressio
 - exactly : you should have get it by now right ?
 
 ```
-RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-regexBuilder
+Regex regex = RegexBuilder.regex();
+regex
 	.anchorStart(true)
 	.unique("Hello World")
 	.any(CharacterClass.Space)
@@ -142,8 +142,8 @@ regexBuilder
 Groups can have two different directions to be seen : as pieces to be followed one by one (sequence), or as pieces to be seen as options compared to other (alternative).
 
 Samples:
-- `RegexFactory.sequenceGroup()`
-- `RegexFactory.alternativeGroup()`
+- `RegexBuilder.sequenceGroup()`
+- `RegexBuilder.alternativeGroup()`
 
 
 ##### 2.1.3. Capturing / Non Capturing
@@ -152,19 +152,19 @@ Regex offers you to extract pieces of content to be matched, also called as capt
 If you are to create capturing groups, please consider giving it a name ! you will then be able to call the matched content by its name instead of calculating its position within your whole regex !
 
 Samples :
-- `RegexFactory.sequenceGroup().setGroupType(GroupType.Capturing);`
-- `RegexFactory.sequenceGroup().setName("target"); // automatically implies setting GroupType to Capturing`
-- `RegexFactory.sequenceGroup().setGroupType(GroupType.NonCapturing);`
+- `RegexBuilder.sequenceGroup().setGroupType(GroupType.Capturing);`
+- `RegexBuilder.sequenceGroup().setName("target"); // automatically implies setting GroupType to Capturing`
+- `RegexBuilder.sequenceGroup().setGroupType(GroupType.NonCapturing);`
 
 
 ##### 2.1.4. Look Ahead / Look Behind
 
 These groups will enable your regex to check content before of after the match you want to get.
 
-- `RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookBehind);`
-- `RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookAhead);`
-- `RegexFactory.sequenceGroup().setGroupType(GroupType.NegativeLookBehind);`
-- `RegexFactory.sequenceGroup().setGroupType(GroupType.NegativeLookAhead);`
+- `RegexBuilder.sequenceGroup().setGroupType(GroupType.PositiveLookBehind);`
+- `RegexBuilder.sequenceGroup().setGroupType(GroupType.PositiveLookAhead);`
+- `RegexBuilder.sequenceGroup().setGroupType(GroupType.NegativeLookBehind);`
+- `RegexBuilder.sequenceGroup().setGroupType(GroupType.NegativeLookAhead);`
 		
 
 
@@ -239,23 +239,23 @@ Framework is shipped with RegexBuilder samples you can study and use in your own
 Sample : HH:MM clock
 
 ```
-RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-regexBuilder
+Regex regex = RegexBuilder.regex();
+regex
 	// Hours
 	.unique(
-		RegexFactory.alternativeGroup()
-			.unique(RegexFactory.sequenceGroup()
-				.unique(RegexFactory.classMatch('0','1'))
+		RegexBuilder.alternativeGroup()
+			.unique(RegexBuilder.sequenceGroup()
+				.unique(RegexBuilder.classMatch('0','1'))
 				.unique(CharacterClass.Numeric))
-			.unique(RegexFactory.sequenceGroup()
+			.unique(RegexBuilder.sequenceGroup()
 				.unique("2")
-				.unique(RegexFactory.classMatchRange('0', '3'))
+				.unique(RegexBuilder.classMatchRange('0', '3'))
 				)
 		)
 	// Separator
 	.unique(":")
 	// Minutes
-	.unique(RegexFactory.classMatchRange('0', '5'))
+	.unique(RegexBuilder.classMatchRange('0', '5'))
 	.unique(CharacterClass.Numeric);
 ```
 
@@ -272,12 +272,12 @@ Such parameters can be activated on RegexBuilder with `RegexBuilder::anchorStart
 
 If you don't want to use RegexMatcher to match content against your RegexBuilder, you may use :
 
-- `String RegexBuilder::toString()` to get regular regex out 
-- `Pattern RegexBuilder::compile()` to compile your RegexBuilder into a Pattern
+- `String Regex::toString()` to get regular regex out 
+- `Pattern Regex::compile()` to compile your RegexBuilder into a Pattern
 
 #### 5.3. Recycle
 
-We strongly encourage you to embed RegexBuilder in other RegexBuilder, to do so you shall convert your `RegexBuilder` to a `Group` using `Group RegexBuiler::asGroup()`
+We strongly encourage you to embed Regex in other Regex, to do so you shall convert your `Regex` to a `Group` using `Group Regex::asGroup()`
 Doing so will result of losing RegexBuilder specific properties : `anchorStart` and `anchorEnd`.
 
 

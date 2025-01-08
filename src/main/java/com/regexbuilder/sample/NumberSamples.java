@@ -1,7 +1,7 @@
 package com.regexbuilder.sample;
 
+import com.regexbuilder.Regex;
 import com.regexbuilder.RegexBuilder;
-import com.regexbuilder.RegexFactory;
 import com.regexbuilder.ClassMatch.CharacterClass;
 
 import lombok.AccessLevel;
@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NumberSamples {
 	
-	public static RegexBuilder floatNumber() {
+	public static Regex floatNumber() {
 		
-		RegexBuilder rb = RegexFactory.regexBuilder();
+		Regex rb = RegexBuilder.regex();
 		rb
 			.some(CharacterClass.Numeric)
 			.unique(".")
@@ -21,9 +21,9 @@ public class NumberSamples {
 		
 	}
 	
-	public static RegexBuilder intNumber() {
+	public static Regex intNumber() {
 		
-		RegexBuilder rb = RegexFactory.regexBuilder();
+		Regex rb = RegexBuilder.regex();
 		rb.some(CharacterClass.Numeric);
 		return rb;
 		

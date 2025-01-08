@@ -6,8 +6,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.regexbuilder.Group;
+import com.regexbuilder.Regex;
 import com.regexbuilder.RegexBuilder;
-import com.regexbuilder.RegexFactory;
 import com.regexbuilder.ClassMatch.CharacterClass;
 import com.regexbuilder.Group.GroupType;
 import com.regexbuilder.Group.TreeType;
@@ -22,12 +22,12 @@ public class RegexFactoryTest {
 	@Test
 	public void regexQuantityPattern() {
 		
-		RegexBuilder quantityPattern = RegexFactory.regexBuilder();
+		Regex quantityPattern = RegexBuilder.regex();
 		quantityPattern
 			.unique("{")
-			.optional(RegexFactory.sequenceGroup().setName("minSize").some(CharacterClass.Numeric))
+			.optional(RegexBuilder.sequenceGroup().setName("minSize").some(CharacterClass.Numeric))
 			.unique(",")
-			.optional(RegexFactory.sequenceGroup().setName("maxSize").some(CharacterClass.Numeric))
+			.optional(RegexBuilder.sequenceGroup().setName("maxSize").some(CharacterClass.Numeric))
 			.unique("}");
 		
 		Assert.assertEquals("\\{([0-9]+)?,([0-9]+)?\\}", quantityPattern.toString());
@@ -37,8 +37,8 @@ public class RegexFactoryTest {
 	
 	@Test
 	public void alternativeGroupTest() {
-		RegexBuilder regexBuilder = RegexFactory.regexBuilder();
-		regexBuilder.unique(RegexFactory.alternativeGroup("abc", "def", "ghi"));
+		Regex regexBuilder = RegexBuilder.regex();
+		regexBuilder.unique(RegexBuilder.alternativeGroup("abc", "def", "ghi"));
 		
 		assertEquals("(abc|def|ghi)", regexBuilder.toString());
 	}
@@ -47,9 +47,9 @@ public class RegexFactoryTest {
 	
 	@Test
 	public void multipleLookAhead() {
-		RegexBuilder rb = RegexFactory.regexBuilder();
+		Regex rb = RegexBuilder.regex();
 		rb
-			.unique(RegexFactory.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
+			.unique(RegexBuilder.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
 			.some(CharacterClass.AlphabeticUpper);
 
 		Assert.assertEquals("(?=abc)[A-Z]+", rb.toString());
@@ -60,7 +60,7 @@ public class RegexFactoryTest {
 	
 	@Test
 	public void manualAlternativeGroup() {
-		Group alternative = RegexFactory.sequenceGroup();
+		Group alternative = RegexBuilder.sequenceGroup();
 
 		alternative.unique("A");
 		alternative.unique("B");

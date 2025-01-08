@@ -161,7 +161,7 @@ public class ClassMatch extends Node {
 			
 		// If only one character, turn it into a string match
 		if(finalClasses.size() == 1 && !negative && items.iterator().next() instanceof Character) {
-			StringMatch stringMatch = RegexFactory.stringMatch(finalClasses.get(0));
+			StringMatch stringMatch = RegexBuilder.stringMatch(finalClasses.get(0));
 			return stringMatch.toString()+renderSize();
 		}
 		if(finalClasses.size() == 1 && !negative && items.iterator().next() instanceof CharacterClass && ((CharacterClass) items.iterator().next()).isSingleCharacter()) {

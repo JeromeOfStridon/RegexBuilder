@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RegexMatcher {
 	
 	@Getter
-	final RegexBuilder regexBuilder;
+	final Regex regex;
 	final String content;
 	final Pattern pattern;
 	final Matcher matcher;
@@ -29,16 +29,16 @@ public class RegexMatcher {
 	private Boolean currentFind;
 	private final Map<Integer, String> groupPositionsMap;
 	
-	RegexMatcher(RegexBuilder regexBuilder, String content, int flags) {
-		this.regexBuilder = regexBuilder;
+	RegexMatcher(Regex regex, String content, int flags) {
+		this.regex = regex;
 		this.content = content;
-		this.pattern = Pattern.compile(regexBuilder.toString(), flags);
+		this.pattern = Pattern.compile(regex.toString(), flags);
 		this.matcher = pattern.matcher(content);
-		this.groupPositionsMap = regexBuilder.getGroupPositions();
+		this.groupPositionsMap = regex.getGroupPositions();
 	}
 	
-	RegexMatcher(RegexBuilder regexBuilder, String content) {
-		this(regexBuilder, content, 0);
+	RegexMatcher(Regex regex, String content) {
+		this(regex, content, 0);
 	}
 	
 	/**
@@ -57,8 +57,8 @@ public class RegexMatcher {
 	 */
 	public RegexMatcher debug() {
 		
-		for(int i = 0; i < regexBuilder.nodes.size(); i++) {
-			RegexBuilder regexClone = regexBuilder.clone();
+		for(int i = 0; i < regex.nodes.size(); i++) {
+			Regex regexClone = regex.clone();
 			for(int j = 0; j < i; j++) {
 				regexClone.nodes.remove(regexClone.nodes.size() - 1);
 			}
@@ -110,7 +110,7 @@ public class RegexMatcher {
 			return null;
 		}
 		try {
-			return matcher.group(regexBuilder.findGroupPosition(groupName));
+			return matcher.group(regex.findGroupPosition(groupName));
 		}
 		catch(Exception e) {
 			return null;
@@ -179,7 +179,7 @@ public class RegexMatcher {
 			return null;
 		}
 		try {
-			return matcher.start(regexBuilder.findGroupPosition(groupName));
+			return matcher.start(regex.findGroupPosition(groupName));
 		}
 		catch(Exception e) {
 			return null;
@@ -222,7 +222,7 @@ public class RegexMatcher {
 			return null;
 		}
 		try {
-			return matcher.end(regexBuilder.findGroupPosition(groupName));
+			return matcher.end(regex.findGroupPosition(groupName));
 		}
 		catch(Exception e) {
 			return null;
@@ -249,7 +249,7 @@ public class RegexMatcher {
 			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
 			return null;
 		}
-		Integer groupPosition = regexBuilder.findGroupPosition(groupName);
+		Integer groupPosition = regex.findGroupPosition(groupName);
 		return content.substring(0, matcher.start(groupPosition))+replacementString+content.substring(matcher.end(groupPosition));
 	}
 
@@ -259,7 +259,7 @@ public class RegexMatcher {
 	 */
 	public Map<String, String> groupContentMap() {
 		Map<String, String> groupsAsMap = new LinkedHashMap<>();
-		for(Entry<Integer, String> entry : regexBuilder.getGroupPositions().entrySet()) {
+		for(Entry<Integer, String> entry : regex.getGroupPositions().entrySet()) {
 			if(matcher.group(entry.getKey()) != null) {
 				groupsAsMap.put(entry.getValue(), matcher.group(entry.getKey()));
 			}
@@ -318,7 +318,7 @@ public class RegexMatcher {
 			log.error("Cannot get groups when matcher didn't find yet, check the find() method first !\n    content = "+content+"\n    pattern = "+pattern);
 			return null;
 		}
-		Integer index = regexBuilder.findGroupPosition(groupName);
+		Integer index = regex.findGroupPosition(groupName);
 		return new RegexMatch(this, matcher.start(index), matcher.end(index), matcher.group(index), groupPositionsMap.get(index));
 	}
 	
