@@ -13,13 +13,12 @@ import lombok.NoArgsConstructor;
 public class WebContentSamples {
 	
 	public static Regex email() {
-		Regex regexBuilder = RegexBuilder.regex();
-		
+				
 		ClassMatch acceptedChars = new ClassMatch()
 				.add(CharacterClass.Alphanumeric)
 				.add('%', '_', '-', '+');
 		
-		regexBuilder
+		Regex regex = RegexBuilder.regex()
 			.some(acceptedChars)
 			.optional(RegexBuilder.sequenceGroup()
 					.unique(".")
@@ -30,15 +29,13 @@ public class WebContentSamples {
 					.unique("."))
 			.between(CharacterClass.Alphabetic, 2, 10);
 		
-		return regexBuilder;
+		return regex;
 	}
 	
 	
 	public static Regex htmlEntity() {
 		
-		Regex regexBuilder = RegexBuilder.regex();
-		
-		regexBuilder
+		return RegexBuilder.regex()
 			.unique("&")
 			.any("amp;")
 			.unique(RegexBuilder.alternativeGroup()
@@ -52,22 +49,33 @@ public class WebContentSamples {
 					)
 			.unique(";");
 							
-		return regexBuilder;
+		
 		
 	}
 	
 	public static Regex ipV4() {
 		
-		Regex regexBuilder = RegexBuilder.regex();
 		
 		Group byteGroup = RegexBuilder.alternativeGroup()
 			.unique(RegexBuilder.sequenceGroup().unique("25").unique(RegexBuilder.classMatchRange('0', '5'))) // 250 to 255
 			.unique(RegexBuilder.sequenceGroup().unique("2").unique(RegexBuilder.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
 			.unique(RegexBuilder.sequenceGroup().optional(RegexBuilder.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric)); // 0 to 199
 		
-		regexBuilder.unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
+		return RegexBuilder.regex().unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
 		
-		return regexBuilder;
+		
+	}
+	
+	public static Regex ipV6() {
+		
+		
+		Group byteGroup = RegexBuilder.alternativeGroup()
+			.unique(RegexBuilder.sequenceGroup().unique("25").unique(RegexBuilder.classMatchRange('0', '5'))) // 250 to 255
+			.unique(RegexBuilder.sequenceGroup().unique("2").unique(RegexBuilder.classMatchRange('0', '4')).unique(CharacterClass.Numeric)) // 200 to 249
+			.unique(RegexBuilder.sequenceGroup().optional(RegexBuilder.classMatch('0','1')).optional(CharacterClass.Numeric).optional(CharacterClass.Numeric)); // 0 to 199
+		
+		return RegexBuilder.regex().unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup).unique(".").unique(byteGroup);
+		
 		
 	}
 	

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class StringMatch extends Node {
 	
-	final static List<Character> escapedChars = Arrays.asList('\\','{', '}', '?', '*', '+', '[', ']', '.', '"');
+	final static List<Character> escapedChars = Arrays.asList('\\','{', '}', '?', '*', '+', '[', ']', '.', '"', '(', ')');
 	
 	StringBuilder stringBuilder = new StringBuilder();
 	

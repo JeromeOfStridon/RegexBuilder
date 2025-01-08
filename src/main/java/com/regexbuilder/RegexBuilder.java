@@ -57,32 +57,40 @@ public class RegexBuilder {
 	
 	
 	/**
-	 * Creates regexBuilder with standard behavior (sequential, undefined group type)
+	 * Creates regex with standard behavior (sequential, undefined group type)
 	 */
 	public static Regex regex() {
 		return new Regex(TreeType.Sequence, GroupType.Undefined);
 	}
 	
 	/**
-	 * Creates regexBuilder with specific TreeType (sequence or alternative) 
+	 * Creates regex with specific TreeType (sequence or alternative) 
 	 */
 	public static Regex regex(TreeType childrenType) {
 		return new Regex(childrenType, GroupType.Undefined);
 	}
 	
 	/**
-	 * Creates regexBuilder with generic sequential behavior and specific group type (capturing, non capturing, look ahead, look behind, undefined etc)
+	 * Creates regex with generic sequential behavior and specific group type (capturing, non capturing, look ahead, look behind, undefined etc)
 	 */
 	public static Regex regex(GroupType groupType) {
 		return new Regex(TreeType.Sequence, groupType);
 	}
 	
 	/**
-	 * Creates regexBuilder with specified TreeType (sequential or alternative) and specified GroupType  (capturing, non capturing, look ahead, look behind etc) and children type (sequential or alternative)
+	 * Creates regex with specified TreeType (sequential or alternative) and specified GroupType  (capturing, non capturing, look ahead, look behind etc) and children type (sequential or alternative)
 	 */
 	public static Regex regex(TreeType childrenType, GroupType groupType) {
 		return new Regex(childrenType, groupType);
 	}
+	
+	/**
+	 * Creates a new empty ClassMatch instance
+	 */
+	public static ClassMatch classMatch() {
+		return new ClassMatch();
+	}
+
 	
 	/**
 	 * Creates a new ClassMatch containing specific CharacterClass instances
@@ -134,15 +142,15 @@ public class RegexBuilder {
 
 	/**
 	 * Creates a RegexMatcher instance combining a RegexBuilder instance and content to be matched
-	 * @param regex regexBuilder to match against content
+	 * @param regex regex to match against content
 	 * @param content content to be matched against
 	 */
 	public static RegexMatcher regexMatcher(Regex regex, String content) {
 		return new RegexMatcher(regex, content);
 	}
 
-	public static RegexMatcher regexMatcher(Regex regexBuilder, String content, int flags) {
-		return new RegexMatcher(regexBuilder, content, flags);
+	public static RegexMatcher regexMatcher(Regex regex, String content, int flags) {
+		return new RegexMatcher(regex, content, flags);
 	}
 	
 }

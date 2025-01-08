@@ -9,47 +9,46 @@ Framework comes along with RegexMatcher, extension of regular Matcher, but desig
 
 This framework has been created to ease developers life, it tries to follow basic principles you should keep in mind to take best advantage of it:
 
-** Intuitive ** 
+** Intuitive **
 
 Don't waist your time looking for all framework capacities, one single entry point : RegexBuilder static class.
-`RegexBuilder.sequenceGroup()`, `RegexBuilder.classMatch()`, `RegexBuilder.regexMatcher()` etc.
+`RegexBuilder.regex()`, `RegexBuilder.sequenceGroup()`, `RegexBuilder.classMatch()`, `RegexBuilder.regexMatcher()` etc.
 If it's not here, it just doesn't exist at all !
 
 Sample : 
 
 ```
-Regex regexBuilder = RegexBuilder.regexBuilder();
+Regex regex = RegexBuilder.regex();
 Group sequenceGroup = RegexBuilder.sequenceGroup();
 Group alternativeGroup = RegexBuilder.alternativeGroup();
 ClassMatch classMatch = RegexBuilder.classMatch(CharacterClass.Alphabetic);
 StringMatch stringMatch = RegexBuilder.stringMatch("test");
-RegexMatcher regexMatcher = RegexBuilder.regexMatcher(regexBuilder, "test");
+RegexMatcher regexMatcher = RegexBuilder.regexMatcher(regex, "test");
 ```
 
-#### Verbose
+** Verbose **
 
 Concepts of regex are sometimes hard to get as they are using symbols (*, ?, +, |) you don't want to remember, let's use words instead !
 
 Sample:
 
 ```
-Regex regex = RegexBuilder.regex();
-Regex.anchorStart(true);
-Regex.unique("Hello World");
-Regex.any(CharacterClass.Space);
-Regex.some("!");
+Regex regex = RegexBuilder.regex()
+	.anchorStart(true)
+	.unique("Hello World")
+	.any(CharacterClass.Space)
+	.some("!");
 
 ```
 
 > ^Hello World\s*!+
 
-#### Fluent interface
+** Fluent interface **
 
 Fluent interface, also known as method chaining or method cascading, is a design pattern making each method return the instance it belongs to, so that you can keep on calling instance methods.
 
 ```
-Regex regex = RegexBuilder.regex();
-regex
+Regex regex = RegexBuilder.regex()
 	.anchorStart(true)
 	.unique("Hello World")
 	.any(CharacterClass.Space)
@@ -60,7 +59,7 @@ regex
 > ^Hello World\s*!+
 
 
-#### Collaborative
+** Collaborative **
 
 Common regex are a nightmare to write, and a hell to read. Regular regex doesn't allow comments, and that's for the worst.
 Fortunately, Regex Builder is made for you to code it, and code comes with comments right ? 
@@ -69,8 +68,7 @@ Please be gentle, code your regex, comment your regex, if not for you for your r
 Sample:
 
 ```
-Regex regex = RegexBuilder.regex();
-regex
+Regex regex = RegexBuilder.regex()
 	.anchorStart(true) // ensure match starts at beginning of line
 	.unique("Hello World") // only one accepted
 	.any(CharacterClass.Space) // no constraint on number of spaces
@@ -78,7 +76,7 @@ regex
 ```
 
 
-#### DRY (Don't repeat yourself)
+** DRY (Don't repeat yourself) **
 
 When building a complex regex, you may face the case of reusing several identical pieces. 
 RegexBuilder framework has been designed to work with composition, for example in such situation you could easily create one group per piece, and then use these group several times in your RegexBuilder.
@@ -127,8 +125,7 @@ For each group you should define how much you want of it in your final expressio
 - exactly : you should have get it by now right ?
 
 ```
-Regex regex = RegexBuilder.regex();
-regex
+Regex regex = RegexBuilder.regex()
 	.anchorStart(true)
 	.unique("Hello World")
 	.any(CharacterClass.Space)
@@ -196,7 +193,7 @@ StringMatch stringMatch = RegexFactory.stringMatch("Hello")
 
 RegexBuilder is made for you to create regex, RegexMatcher is made for you to match content 
 
-`RegexMatcher regexMatcher = new RegexMatcher(regexBuilder, "Hello world !");`
+`RegexMatcher regexMatcher = new RegexMatcher(regex, "Hello world !");`
 
 Regular Matcher class methods have been wrapped in RegexMatcher :
 - `RegexMatcher::groupCount()`
@@ -239,8 +236,7 @@ Framework is shipped with RegexBuilder samples you can study and use in your own
 Sample : HH:MM clock
 
 ```
-Regex regex = RegexBuilder.regex();
-regex
+Regex regex = RegexBuilder.regex()
 	// Hours
 	.unique(
 		RegexBuilder.alternativeGroup()
@@ -283,7 +279,7 @@ Doing so will result of losing RegexBuilder specific properties : `anchorStart` 
 
 
 ### 6. License
-The source code is licensed under the MIT license, which you can find in the MIT-LICENSE.txt file.
+The source code is licensed under the MIT license, which you can find in the MIT-License.txt file.
 
 
 

@@ -48,37 +48,32 @@ public class DateTimeSamples {
 		
 		
 		
-		Regex regexBuilder = RegexBuilder.regex();
-		regexBuilder.unique(monthGroup);
-		regexBuilder.unique(CharacterClass.Space);
-		regexBuilder.unique(dayGroup);
-		regexBuilder.unique(CharacterClass.Space);
-		regexBuilder.unique(numericYear().setName("year"));
+		Regex regex = RegexBuilder.regex()
+				.unique(monthGroup)
+				.unique(CharacterClass.Whitespace)
+				.unique(dayGroup)
+				.unique(CharacterClass.Whitespace)
+				.unique(numericYear().setName("year"));
 		
 		
-		return regexBuilder;
+		return regex;
 	}
 	
 
 	
 	public static Regex fullWrittenDate_fr() {
-		Regex regexBuilder = RegexBuilder.regex();
-
-		regexBuilder
+		return RegexBuilder.regex()
 			.unique(numericDay().setName("Day"))
-			.unique(CharacterClass.Space)
+			.unique(CharacterClass.Whitespace)
 			.unique(RegexBuilder.alternativeGroup(Arrays.asList("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "décembre")).setName("month"))
-			.some(CharacterClass.Space)
+			.some(CharacterClass.Whitespace)
 			.optional(numericYear().setName("year"));
 
-		return regexBuilder;
 	}
 	
 	public static Regex numericDay() {
 		
-		Regex regexBuilder = RegexBuilder.regex(TreeType.Alternative);
-
-		regexBuilder
+		return RegexBuilder.regex(TreeType.Alternative)
 		
 			// case 1 to 9 or 01 to 09
 			.unique(RegexBuilder.sequenceGroup()
@@ -95,15 +90,13 @@ public class DateTimeSamples {
 			// case 31
 			.unique("31");
 		
-		return regexBuilder;
+		
 		
 	}
 	
 	public static Regex numericMonth() {
 		
-		Regex regexBuilder = RegexBuilder.regex(TreeType.Alternative);
-		
-		regexBuilder
+		return RegexBuilder.regex(TreeType.Alternative)
 			// case 1 to 9, 01 to 09
 			.unique(RegexBuilder.sequenceGroup()
 				.optional("0")
@@ -113,23 +106,18 @@ public class DateTimeSamples {
 			.unique("11")
 			.unique("12");
 		
-		return regexBuilder;
+		
 	}
 
 	public static Regex numericYear() {
-		Regex regexBuilder = RegexBuilder.regex();
-
-		regexBuilder
+		return RegexBuilder.regex()
 			.unique(RegexBuilder.classMatch('1', '2'))
 			.exactly(CharacterClass.Numeric, 3);
-
-		return regexBuilder;
 
 	}
 
 	public static Regex clockHHMM() {
-		Regex regexBuilder = RegexBuilder.regex();
-		regexBuilder
+		return RegexBuilder.regex()
 			// Hours
 			.unique(
 					RegexBuilder.alternativeGroup()
@@ -147,7 +135,7 @@ public class DateTimeSamples {
 			.unique(RegexBuilder.classMatchRange('0', '5'))
 			.unique(CharacterClass.Numeric);
 		
-		return regexBuilder;
+		 
 	}
 
 	public static Regex regularDate() {

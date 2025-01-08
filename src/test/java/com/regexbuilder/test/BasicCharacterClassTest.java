@@ -15,11 +15,10 @@ public class BasicCharacterClassTest {
 	@Test
 	public void testLineBreak() {
 		
-		Regex rb = RegexBuilder.regex();
+		Regex regex = RegexBuilder.regex()
+				.unique(CharacterClass.Linebreak);
 		
-		rb.unique(CharacterClass.Linebreak);
-		
-		Assert.assertEquals("\\n", rb.toString());
+		Assert.assertEquals("\\n", regex.toString());
 		
 		
 		
@@ -28,11 +27,10 @@ public class BasicCharacterClassTest {
 	@Test
 	public void testAny() {
 		
-		Regex rb = RegexBuilder.regex();
+		Regex regex = RegexBuilder.regex()
+				.some(CharacterClass.Any);
 		
-		rb.some(CharacterClass.Any);
-		
-		Assert.assertEquals(".+", rb.toString());
+		Assert.assertEquals(".+", regex.toString());
 		
 	}
 

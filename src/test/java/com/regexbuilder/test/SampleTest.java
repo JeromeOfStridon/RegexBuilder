@@ -21,13 +21,11 @@ public class SampleTest {
 	@Test
 	public void intInclusionBreak() {
 		
-		Regex rb = RegexBuilder.regex();
-		
-		rb
-			.unique(NumberSamples.intNumber())
-			.unique(NumberSamples.floatNumber());
+		Regex regex = RegexBuilder.regex()
+				.unique(NumberSamples.intNumber())
+				.unique(NumberSamples.floatNumber());
 
-		Assert.assertEquals("[0-9]+[0-9]+\\.[0-9]+", rb.toString());
+		Assert.assertEquals("[0-9]+[0-9]+\\.[0-9]+", regex.toString());
 		
 	}
 	

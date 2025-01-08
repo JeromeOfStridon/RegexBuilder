@@ -95,12 +95,15 @@ public class ClassMatch extends Node {
 		Alphanumeric_Hexa("0-9a-fA-F"),
 		
 		// Shorthands
-		Space("\\s"),
-		NonSpace("\\S"),
+		Digit("\\d"),
+		NonDigit("\\D"),
+		Whitespace("\\s"),
+		NonWhitespace("\\S"),
 		Word("\\w"), // equivalent to [a-zA-Z0-9_]
 		NonWord("\\W"),
 		Tab("\\t"),
-		Linebreak("\\n");
+		Linebreak("\\n"),
+		CarriageReturn("\\r");
 		
 		
 		final List<CharacterClass> children;

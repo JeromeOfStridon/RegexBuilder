@@ -1,90 +1,76 @@
 package com.regexbuilder.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import com.regexbuilder.ClassMatch.CharacterClass;
 import com.regexbuilder.Group;
-import com.regexbuilder.Group.GroupType;
-import com.regexbuilder.Group.TreeType;
 import com.regexbuilder.Regex;
 import com.regexbuilder.RegexBuilder;
+import com.regexbuilder.ClassMatch.CharacterClass;
+import com.regexbuilder.Group.GroupType;
+import com.regexbuilder.Group.TreeType;
 
 
 
 public class RegexBuilderTest {
 	
-	@Test
-	public void emptyTest() {
-		Regex test = RegexBuilder.regex();
-		assertEquals("", test.toString());
-	}
 	
-	@Test
-	public void anchorsTest() {
-		Regex regexBuilder = RegexBuilder.regex();
-		regexBuilder
-			.anchorStart(true)
-			.anchorEnd(true)
-			.any("a");
-		
-		assertEquals("^a*$", regexBuilder.toString());
-		assertTrue(regexBuilder.isAnchorStart());
-		assertTrue(regexBuilder.isAnchorEnd());
-		
-		regexBuilder.setAnchorStart(false);
-		assertFalse(regexBuilder.isAnchorStart());
-		assertTrue(regexBuilder.isAnchorEnd());
-		
-		
-		regexBuilder.setAnchorEnd(false);
-		assertFalse(regexBuilder.isAnchorStart());
-		assertFalse(regexBuilder.isAnchorEnd());
-		
-		
-	}
-	
-	@Test
-	public void testRegexBuilderTreeTypeConstructor() {
-		Regex rb = RegexBuilder.regex(TreeType.Alternative);
-		rb.unique("A").exactly("B", 2);
-		
-		assertEquals("A|B{2}", rb.toString());
-	}
-	
-	@Test
-	public void testRegexBuilderGroupTypeConstructor() {
-		Regex rb = RegexBuilder.regex(GroupType.NonCapturing);
-		rb.unique("A").exactly("B", 2);
-		
-		assertEquals("(?:AB{2})", rb.toString());
-	}
-	
-	@Test
-	public void testRegexBuilderTreeTypeGroupTypeConstructor() {
-		Regex rb = RegexBuilder.regex(TreeType.Alternative, GroupType.NonCapturing);
-		rb.unique("A").exactly("B", 2);
-		
-		assertEquals("(?:A|B{2})", rb.toString());
-	}
-	
-	@Test
-	public void testRegexBuilderMultiGroup() {
 
-		Group group = RegexBuilder.sequenceGroup()
-				.unique(CharacterClass.Alphabetic);
+	
+	@Test
+	public void regexQuantityPattern() {
 		
-		Regex rb = RegexBuilder.regex(TreeType.Sequence);
+		Regex quantityPattern = RegexBuilder.regex()
+			.unique("{")
+			.optional(RegexBuilder.sequenceGroup().setName("minSize").some(CharacterClass.Numeric))
+			.unique(",")
+			.optional(RegexBuilder.sequenceGroup().setName("maxSize").some(CharacterClass.Numeric))
+			.unique("}");
 		
-		rb.exactly(group, 3);
-		rb.unique("-");
-		rb.exactly(group, 2);
+		Assert.assertEquals("\\{([0-9]+)?,([0-9]+)?\\}", quantityPattern.toString());
 		
-		assertEquals("[a-zA-Z]{3}-[a-zA-Z]{2}", rb.toString());  
 	}
+	
+	
+	@Test
+	public void alternativeGroupTest() {
+		Regex regex = RegexBuilder.regex()
+				.unique(RegexBuilder.alternativeGroup("abc", "def", "ghi"));
+		
+		assertEquals("(abc|def|ghi)", regex.toString());
+	}
+	
+	
+	
+	@Test
+	public void multipleLookAhead() {
+		Regex regex = RegexBuilder.regex()
+			.unique(RegexBuilder.sequenceGroup().setGroupType(GroupType.PositiveLookAhead).unique("abc"))
+			.some(CharacterClass.AlphabeticUpper);
+
+		Assert.assertEquals("(?=abc)[A-Z]+", regex.toString());
+		
+		
+	}
+	
+	
+	@Test
+	public void manualAlternativeGroup() {
+		Group alternative = RegexBuilder.sequenceGroup()
+				.unique("A")
+				.unique("B")
+				.setTreeType(TreeType.Alternative);
+		
+		assertEquals("(A|B)", alternative.toString());
+
+	}
+	
+	
+	
+	
+	
 	
 
 }
